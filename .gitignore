@@ -26,8 +26,9 @@ hs_err_pid*
 .mvn
 .settings
 
-src/main/resources/static/bower_components/
+src/main/resources/static/bower/
 
+node
 node_modules
 logs
 target

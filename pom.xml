@@ -25,6 +25,9 @@
         <thymeleaf.version>3.0.10.RELEASE</thymeleaf.version>
         <thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>
         <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
+        <frontend.plugin.version>1.6</frontend.plugin.version>
+        <nodejs.version>v11.4.0</nodejs.version>
+        <npm.version>6.4.1</npm.version>
     </properties>
 
     <dependencies>
@@ -126,10 +129,23 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>${frontend.plugin.version}</version>
                 <executions>
 
                     <execution>
@@ -139,8 +155,8 @@
                         </goals>
                         <configuration>
                             <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
-                            <nodeVersion>v10.14.2</nodeVersion>
-                            <npmVersion>6.4.1</npmVersion>
+                            <nodeVersion>${nodejs.version}</nodeVersion>
+                            <npmVersion>${npm.version}</npmVersion>
                         </configuration>
                     </execution>
 
@@ -149,6 +165,10 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
+
+                        <!-- optional: default phase is "generate-resources" -->
+                        <phase>generate-resources</phase>
+
                         <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
                             <!-- optional: The default argument is actually
@@ -160,12 +180,12 @@
                     </execution>
 
                     <execution>
-                        <id>npm run build</id>
+                        <id>npm run</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run</arguments>
                         </configuration>
                     </execution>
 
