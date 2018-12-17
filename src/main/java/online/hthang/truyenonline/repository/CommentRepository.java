@@ -30,5 +30,5 @@ public interface CommentRepository extends JpaRepository< Comment, Long > {
      * @param status
      * @return List<CommentSummary>
      */
-    List<CommentSummary> findAllByStory_sIDAndComStatus(Long sID, Integer status);
+    List<CommentSummary> findAllByStory_sIDAndComStatusOrderByCreateDateDesc(Long sID, Integer status);
 }

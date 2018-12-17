@@ -24,7 +24,7 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comID", unique = true, nullable = false)
     private Long comID;
-    @Column(name = "content", columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createDate", length = 19)

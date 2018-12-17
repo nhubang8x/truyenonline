@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List< CommentSummary > getAllCommentOfStory(Long sID) {
         return commentRepository
-                .findAllByStory_sIDAndComStatus(sID, ConstantsUtils.STATUS_ACTIVED);
+                .findAllByStory_sIDAndComStatusOrderByCreateDateDesc(sID, ConstantsUtils.STATUS_ACTIVED);
     }
 
     /**

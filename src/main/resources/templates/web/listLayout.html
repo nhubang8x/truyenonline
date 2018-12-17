@@ -149,13 +149,12 @@
             <form name="frmContact" id="frmContact" method="post" ng-submit="addComment()" novalidate>
                 <div class="form row">
                     <div class="form-group col-md-10 comment-text">
-                        <textarea name="commentText" id="commentText" ng-model="commentText" class="form-control"
-                                  required
-                                  placeholder="Vui lòng bình luận bằng tiếng việt có dấu. Spam, chửi bậy, đưa link web khác sẽ bị ban nick">
+                        <textarea ui-tinymce="tinymceOptions" ng-model="commentText" class="form-control">
                         </textarea>
                     </div>
                     <div class="form-group col-md-2">
                         <button type="submit"
+                                ng-click=""
                                 class="btn btn-truyen btn-lg btn-block "
                                 name="btnComment" id="btnComment"><span
                                 class="fas fa-check"
@@ -176,7 +175,7 @@
                                 src="{{item.user.uavatar?item.user.uavatar:noImage}}"></a><br
                                 style="clear:both"></div>
                         <div class="post-comments">
-                            <p>{{item.content}}
+                            <p ng-bind-html="item.content"></p>
                             <p class="meta-2">
                                 <a ng-href="/member/{{item.user.uid}}"><abbr title="Thành viên">{{item.user.udname?item.user.udname:item.user.uname}}</abbr></a>
                                 <small> ·

@@ -51,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.headers().frameOptions().sameOrigin();
+
         // Các trang không yêu cầu login
         http.authorizeRequests()
                 .antMatchers(SecurityUtils.PERMIT_ALL_LINK).permitAll();

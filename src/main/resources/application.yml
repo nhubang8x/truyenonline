@@ -22,8 +22,8 @@ logging:
       springframework:
         web: debug
   pattern:
-    console: '%d{yy-MM-dd HH:mm} %5p %t %c{2}:%L - %m%n'
-    file: '%d{dd/MM/yyyy HH:mm:ss.SSS} %-5level [%thread] %logger{115} - %msg%n'
+    console: ' %red(%d{dd/MM/yy HH:mm:ss}) %highlight(%-5level) [%blue(%t)] %yellow(%C{15}): %msg%n%throwable'
+    file: '%d{dd/MM/yyyy HH:mm:ss} %-5level [%thread] %logger{115} - %msg%n'
 
 spring:
   datasource:
