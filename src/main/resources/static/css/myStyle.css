@@ -3328,7 +3328,7 @@ section .section-title {
 }
 
 .section-detail-info .truyen-detail-info-block .info .list .item-value > a:hover {
-    color: #6b9876
+    color: #007bff
 }
 
 .section-detail-info .truyen-detail-info-block .info .list .categories {
@@ -3386,15 +3386,15 @@ section .section-title {
 }
 
 .section-detail-info .truyen-detail-info-block .info .item-value .story-com {
-    background-color: #004c97;
-    border: solid 1px #ffffff;
+    background-color: #d4edda;
+    border: solid 1px #c3e6cb;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
     border-radius: 100px;
     display: block;
     line-height: 32px;
     padding: 0 18px;
-    color: #ffffff;
+    color: #15572;
     -webkit-transition: .2s ease-in-out;
     -o-transition: .2s ease-in-out;
     -moz-transition: .2s ease-in-out;

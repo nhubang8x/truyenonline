@@ -171,11 +171,11 @@
                     <li id="comment_1313433" class="clearfix" ng-repeat="item in listComment">
                         <div style="float:left;width:40px;height:80px;"><a
                                 ng-href="/member/{{item.user.uid}}"><img
-                                class="avatar" alt="{{item.user.udname?item.user.udname:item.user.uname}}"
-                                src="{{item.user.uavatar?item.user.uavatar:noImage}}"></a><br
+                                class="avatar" alt="{{item.user.udname != null ? item.user.udname : item.user.uname}}"
+                                src="{{item.user.uavatar? item.user.uavatar : noImage}}"></a><br
                                 style="clear:both"></div>
                         <div class="post-comments">
-                            <p ng-bind-html="item.content"></p>
+                            <p ng-bind-html="item.content" read-more></p>
                             <p class="meta-2">
                                 <a ng-href="/member/{{item.user.uid}}"><abbr title="Thành viên">{{item.user.udname?item.user.udname:item.user.uname}}</abbr></a>
                                 <small> ·

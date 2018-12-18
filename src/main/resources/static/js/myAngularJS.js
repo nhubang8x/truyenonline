@@ -1,15 +1,15 @@
 angular.module("ngApp", [])
     .controller("myVipChapter", ['$compile', '$http', '$scope', function ($compile, $http, $scope) {
         $scope.chapterVip = function (chID) {
-            var data = new FormData();
+            const data = new FormData();
             data.append('chID', chID);
-            var url = window.location.origin + '/api/chapterVip';
-            var config = {
+            const url = window.location.origin + '/api/chapterVip';
+            const config = {
                 headers: {
                     'Content-Type': undefined
                 },
                 transformResponse: function (data, headers, status) {
-                    var ret = {messageError: data, status: status};
+                    const ret = {messageError: data, status: status};
                     return ret;
                 }
             };
@@ -52,12 +52,12 @@ angular.module('ngApp', ['ui.tinymce', 'ngSanitize'])
             if (size === undefined) {
                 size = 1;
             }
-            var data = new FormData();
+            const data = new FormData();
             data.append('sID', $scope.sid);
             data.append('pagenumber', pagenumber);
             data.append('size', size);
-            var url = window.location.origin + '/api/chapterOfStory';
-            var config = {
+            const url = window.location.origin + '/api/chapterOfStory';
+            const config = {
                 headers: {
                     'Content-Type': undefined
                 }
@@ -66,10 +66,10 @@ angular.module('ngApp', ['ui.tinymce', 'ngSanitize'])
                 $scope.listChapter = response.data.content;
                 $scope.totalPages = response.data.totalPages;
                 $scope.currentPage = response.data.number + 1;
-                var startPage = Math.max(1, $scope.currentPage - 2);
-                var endPage = Math.min(startPage + 4, $scope.totalPages);
-                var pages = [];
-                for (var i = startPage; i <= endPage; i++) {
+                const startPage = Math.max(1, $scope.currentPage - 2);
+                const endPage = Math.min(startPage + 4, $scope.totalPages);
+                const pages = [];
+                for (let i = startPage; i <= endPage; i++) {
                     pages.push(i);
                 }
                 $scope.page = pages;
@@ -84,12 +84,12 @@ angular.module('ngApp', ['ui.tinymce', 'ngSanitize'])
             if (size === undefined) {
                 size = 1;
             }
-            var data = new FormData();
+            const data = new FormData();
             data.append('sID', $scope.sid);
             data.append('pagenumber', pagenumber);
             data.append('size', size);
-            var url = window.location.origin + '/api/commentOfStory';
-            var config = {
+            const url = window.location.origin + '/api/commentOfStory';
+            const config = {
                 headers: {
                     'Content-Type': undefined
                 }
@@ -99,10 +99,10 @@ angular.module('ngApp', ['ui.tinymce', 'ngSanitize'])
                 $scope.listComment = response.data.content;
                 $scope.totalCommentPages = response.data.totalPages;
                 $scope.currentCommentPage = response.data.number + 1;
-                var startPage = Math.max(1, $scope.currentCommentPage - 2);
-                var endPage = Math.min(startPage + 4, $scope.totalCommentPages);
-                var pages = [];
-                for (var i = startPage; i <= endPage; i++) {
+                const startPage = Math.max(1, $scope.currentCommentPage - 2);
+                const endPage = Math.min(startPage + 4, $scope.totalCommentPages);
+                const pages = [];
+                for (let i = startPage; i <= endPage; i++) {
                     pages.push(i);
                 }
                 $scope.pageComment = pages;
@@ -111,16 +111,16 @@ angular.module('ngApp', ['ui.tinymce', 'ngSanitize'])
 
         $scope.addComment = function () {
             if ($scope.commentText.trim().length !== 0) {
-                var data = new FormData();
+                const data = new FormData();
                 data.append('sID', $scope.sid);
                 data.append('commentText', encryptText($scope.commentText));
-                var url = window.location.origin + '/api/add/commentOfStory';
-                var config = {
+                const url = window.location.origin + '/api/add/commentOfStory';
+                const config = {
                     headers: {
                         'Content-Type': undefined
                     },
                     transformResponse: function (data, headers, status) {
-                        var ret = {messageError: data, status: status};
+                        const ret = {messageError: data, status: status};
                         return ret;
                     }
                 };
@@ -150,18 +150,18 @@ angular.module('ngApp', ['ui.tinymce', 'ngSanitize'])
             image_description: false,
             file_picker_types: 'image',
             file_picker_callback: function (cb, value, meta) {
-                var input = document.createElement('input');
+                const input = document.createElement('input');
                 input.setAttribute('type', 'file');
                 input.setAttribute('accept', 'image/*');
                 input.onchange = function () {
-                    var file = this.files[0];
-                    var reader = new FileReader();
+                    const file = this.files[0];
+                    const reader = new FileReader();
 
                     reader.onload = function () {
-                        var id = 'blobid' + (new Date()).getTime();
-                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                        var base64 = reader.result.split(',')[1];
-                        var blobInfo = blobCache.create(id, file, base64);
+                        const id = 'blobid' + (new Date()).getTime();
+                        const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                        const base64 = reader.result.split(',')[1];
+                        const blobInfo = blobCache.create(id, file, base64);
                         blobCache.add(blobInfo);
                         cb(blobInfo.blobUri(), {title: file.name});
                     };

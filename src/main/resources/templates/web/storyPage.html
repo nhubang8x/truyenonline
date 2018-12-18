@@ -66,28 +66,35 @@
                                                 <span class="story-go text-center" th:if="${story.sStatus==1}">
                                                     Đang ra
                                                 </span>
-                                                <a class="story-status text-center" th:if="${story.sStatus==2}">
+                                                <span class="story-com text-center" th:if="${story.sStatus==2}">
                                                     Hoàn Thành
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="item d-block d-sm-none" th:if="${readChapter ne null}">
+                                            <div class="item-label"> Đã đọc:</div>
+                                            <div class="item-value">
+                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${readChapter.chID}}"
+                                                   th:text="'Chương ' + ${readChapter.chNumber} + ': ' + ${readChapter.chName}">
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="item d-block d-sm-none">
-                                            <div class="item-label"> Đã đọc:</div>
-                                            <div class="item-value"><a
-                                                    href="https://truyen.com/van-kiem-thanh-de/chuong-517/">Chương
-                                                518: Kiếm Ý</a></div>
-                                        </div>
-                                        <div class="item d-block d-sm-none">
                                             <div class="item-label"> Mới nhất:</div>
-                                            <div class="item-value"><a
-                                                    href="https://truyen.com/van-kiem-thanh-de/chuong-1093/"><span
-                                                    class="text-info">Chương 1108: Một cái quyết định</span></a>
+                                            <div class="item-value" th:if="${story.getchNew() ne null}">
+                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong/'+${story.getchNew().chID}}">
+                                                    <span class="text-info"
+                                                          th:text="'Chương ' + ${story.getchNew().chNumber} + ': ' + ${story.getchNew().chName}"></span>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="buttons">
-                                        <a href="https://truyen.com/van-kiem-thanh-de/chuong-517/"
-                                           class="btn btn-truyen">Đọc tiếp</a>
+                                        <a th:if="${readChapter ne null}" class="btn btn-truyen"
+                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${readChapter.chID}}">Đọc
+                                            tiếp</a>
+                                        <a th:if="${(readChapter eq null) && (story.getchHead() ne null)}" class="btn btn-truyen"
+                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${story.getchHead().getChID()}}">Đọc Từ Đầu</a>
                                         <a href="javascript:void(0)" onclick="registRecentReadingStory(20569,1)"
                                            class="btn btn-truyen-white" id="btnregistRecentReadingStory">Theo
                                             dõi</a>
@@ -107,7 +114,8 @@
                                             <span id="myrate" itemprop="ratingValue"
                                                   th:text="${#numbers.formatDecimal(story.sRating, 0, T(Math).round(story.sRating) == story.sRating ? 0 : 1,'POINT')}"></span>
                                         </div>
-                                        <div class="basic" th:data-average="${story.sRating}" th:data-id="${story.sID}">
+                                        <div th:class="${rating?'basic jDisabled':'basic'}"
+                                             th:data-average="${story.sRating}" th:data-id="${story.sID}">
                                         </div>
                                     </div>
                                 </div>

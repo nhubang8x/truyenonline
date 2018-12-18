@@ -1,6 +1,8 @@
 package online.hthang.truyenonline.controller.web;
 
+import online.hthang.truyenonline.entity.Chapter;
 import online.hthang.truyenonline.entity.MyUserDetails;
+import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.exception.NotFoundException;
 import online.hthang.truyenonline.projections.ChapterOfStory;
@@ -46,20 +48,18 @@ public class StoryController {
     private final CategoryService categoryService;
     private final StoryService storyService;
     private final SratingService sratingService;
-    private final ChapterService chapterService;
-    private final CommentService commentService;
+    private final UfavoritesService ufavoritesService;
 
     @Autowired
     public StoryController(InformationService informationService,
                            CategoryService categoryService,
                            StoryService storyService,
-                           SratingService sratingService, ChapterService chapterService, CommentService commentService) {
+                           SratingService sratingService, UfavoritesService ufavoritesService) {
         this.informationService = informationService;
         this.categoryService = categoryService;
         this.storyService = storyService;
         this.sratingService = sratingService;
-        this.chapterService = chapterService;
-        this.commentService = commentService;
+        this.ufavoritesService = ufavoritesService;
     }
 
     private void getMenuAndInfo(Model model,
@@ -93,6 +93,8 @@ public class StoryController {
         getMenuAndInfo(model, story.getvnName());
 
         checkConverter(model, user, story);
+
+        getChapterReadByUser(user, story.getsID(), model);
 
         return "web/storyPage";
     }
@@ -171,7 +173,13 @@ public class StoryController {
                 .getListStoryOfConverter(story.getuID(), ConstantsListUtils.LIST_STORY_DISPLAY);
 
         model.addAttribute("storyConverter", list);
-
     }
 
+    private void getChapterReadByUser(User user, Long sID, Model model) {
+        Chapter chapter = null;
+        if (user != null) {
+            chapter = ufavoritesService.getChapterReadNewByUser(user.getUID(), sID);
+        }
+        model.addAttribute("readChapter", chapter);
+    }
 }

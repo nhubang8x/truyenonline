@@ -137,5 +137,4 @@ public class MemberController {
         model.addAttribute("currentIndex", current);
         return "web/listLayout :: memberStory";
     }
-
 }

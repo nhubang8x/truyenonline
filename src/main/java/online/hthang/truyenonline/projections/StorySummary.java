@@ -22,17 +22,21 @@ public interface StorySummary {
 
     String getsAuthor();
 
-
+    //Lấy Thông Tin
     String getsInfo();
 
+    //Lấy Điểm đánh giá
     Float getsRating();
 
+    //Lấy ID Converter
     @Value("#{target.sConverter.uID}")
     Long getuID();
 
+    //Lấy Chapter Đầu Tiên
     @Value("#{@myComponent.getChapterHead(target.sID)}")
     ChapterSummary getchHead();
 
+    //Lấy Chapter Mới Nhất
     @Value("#{@myComponent.getNewChapter(target.sID)}")
     ChapterSummary getchNew();
 

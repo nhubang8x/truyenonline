@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author Huy Thang
@@ -70,5 +71,17 @@ public class UfavoritesServiceImpl implements UfavoritesService {
         System.out.println("Save UFavorite");
     }
 
-
+    /**
+     * Lấy Chapter Mới đọc
+     *
+     * @param uID
+     * @param sID
+     * @return Ufavorites
+     */
+    @Override
+    public Chapter getChapterReadNewByUser(Long uID, Long sID) {
+        Optional< Ufavorites > ufavorites = ufavoritesRepository
+                .findTopByUser_uIDAndChapter_Story_sIDOrderByDateViewDesc(uID, sID);
+        return ufavorites.map(Ufavorites::getChapter).orElse(null);
+    }
 }

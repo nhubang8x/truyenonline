@@ -44,4 +44,14 @@ public interface UfavoritesService {
      * @return void
      */
     void saveUfavorite(Chapter chapter, User user, String LocationIP, Integer uView);
+
+    /**
+     * Lấy Chapter Mới đọc
+     *
+     * @param uID
+     * @param sID
+     *
+     * @return Ufavorites
+     */
+    Chapter getChapterReadNewByUser(Long uID, Long sID);
 }
