@@ -20,7 +20,7 @@ public interface StoryService {
      * @param size
      * @return Page<NewStory>
      */
-    Page<NewStory> getStoryNew(int page, int size);
+    Page< NewStory > getStoryNew(int page, int size);
 
     /**
      * Lấy List Truyện Vip Mới Cập Nhật
@@ -29,7 +29,7 @@ public interface StoryService {
      * @param size
      * @return Page<NewStory>
      */
-    Page<NewStory> getVipStoryNew(int page, int size);
+    Page< NewStory > getVipStoryNew(int page, int size);
 
     /**
      * Lấy List Truyện Mới Cập Nhật theo Category
@@ -39,7 +39,7 @@ public interface StoryService {
      * @param size
      * @return Page<NewStory>
      */
-    Page<NewStory> getStoryNewByCID(Integer cID, int page, int size);
+    Page< NewStory > getStoryNewByCID(Integer cID, int page, int size);
 
     /**
      * Lấy List Truyện Mới Cập Nhật theo Category
@@ -51,7 +51,7 @@ public interface StoryService {
      * @param startDate
      * @return Page<TopStory>
      */
-    Page<TopStory> getTopStoryByCID(Date startDate, Date endDate, Integer cID, int page, int size);
+    Page< TopStory > getTopStoryByCID(Date startDate, Date endDate, Integer cID, int page, int size);
 
     /**
      * Lấy List Truyện Top View Trong Khoảng
@@ -62,7 +62,7 @@ public interface StoryService {
      * @param size
      * @return Page<TopStory>
      */
-    Page<TopStory> getTopStory(Date startDate, Date endDate, int page, int size);
+    Page< TopStory > getTopStory(Date startDate, Date endDate, int page, int size);
 
     /**
      * Lấy List Truyện Vip Top Deal Trong Khoảng
@@ -73,7 +73,7 @@ public interface StoryService {
      * @param size
      * @return Page<TopStory>
      */
-    Page<TopStory> getTopStoryVip(Date startDate, Date endDate, int page, int size);
+    Page< TopStory > getTopStoryVip(Date startDate, Date endDate, int page, int size);
 
     /**
      * Lấy List Truyện Hoàn Thành Top View Trong Khoảng
@@ -84,14 +84,14 @@ public interface StoryService {
      * @param size
      * @return Page<TopStory>
      */
-    Page<TopStory> getTopStoryComplete(Date startDate, Date endDate, int page, int size);
+    Page< TopStory > getTopStoryComplete(Date startDate, Date endDate, int page, int size);
 
     /**
      * Lấy Top 10 Truyện Mới hoàn thành
      *
      * @return List<Story>
      */
-    List<Story> getNewStoryCompleted();
+    List< Story > getNewStoryCompleted();
 
     /**
      * Lấy Page Truyện Hoàn Thành
@@ -100,7 +100,7 @@ public interface StoryService {
      * @param size
      * @return Page<NewStory>
      */
-    Page<NewStory> getStoryCompletedByPage(int page, int size);
+    Page< NewStory > getStoryCompletedByPage(int page, int size);
 
     /**
      * Lấy List Truyện Theo searchName
@@ -108,7 +108,7 @@ public interface StoryService {
      * @param searchName
      * @return Page<SearchStory>
      */
-    List<SearchStory> getSearch(String searchName);
+    List< SearchStory > getSearch(String searchName);
 
     /**
      * Kiểm tra Tồn Tại Truyện Theo
@@ -133,7 +133,7 @@ public interface StoryService {
      * @param size
      * @return Page<NewStory>
      */
-    Page<NewStory> searchStoryByPage(String search, int page, int size);
+    Page< NewStory > searchStoryByPage(String search, int page, int size);
 
     /**
      * Lấy Truyện Theo
@@ -142,7 +142,7 @@ public interface StoryService {
      * @param listStatus
      * @return Page<NewStory>
      */
-    Optional<StorySummary> getStoryBySIDAndStatus(Long sID, List<Integer> listStatus);
+    Optional< StorySummary > getStoryBySIDAndStatus(Long sID, List< Integer > listStatus);
 
     /**
      * Lấy Danh Sách Truyện Đăng Của Converter
@@ -151,7 +151,7 @@ public interface StoryService {
      * @param listStatus
      * @return List<TopStory>
      */
-    List<SearchStory> getListStoryOfConverter(Long uID, List<Integer> listStatus);
+    List< SearchStory > getListStoryOfConverter(Long uID, List< Integer > listStatus);
 
     /**
      * Lấy Danh Sách Truyện Theo Converter
@@ -160,7 +160,7 @@ public interface StoryService {
      * @param listStatus
      * @return Page<MemberStorySummary>
      */
-    Page<MemberStorySummary> getStoryByConverter(List<Integer> listStatus, Long uID, int page, int size);
+    Page< MemberStorySummary > getStoryByConverter(List< Integer > listStatus, Long uID, int page, int size);
 
     /**
      * Đếm số truyện đăng bởi uID
@@ -169,7 +169,7 @@ public interface StoryService {
      * @param listStatus
      * @return Long
      */
-    Long countStoryByUser(Long uID, List<Integer> listStatus);
+    Long countStoryByUser(Long uID, List< Integer > listStatus);
 
     /**
      * Lấy Truyện Theo
@@ -177,5 +177,14 @@ public interface StoryService {
      * @param sID
      * @return Page<Story>
      */
-    Optional<Story> searchStoryBySID(Long sID);
+    Optional< Story > searchStoryBySID(Long sID);
+
+    /**
+     * Lấy Top 3 Truyện Mới Đăng Của Converter
+     *
+     * @param uID
+     * @param listStatus
+     * @return List<NewStory>
+     */
+    List< SearchStory > getTop3StoryOfConverter(Long uID, List< Integer > listStatus);
 }

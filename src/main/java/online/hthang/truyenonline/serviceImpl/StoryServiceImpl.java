@@ -41,11 +41,11 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<NewStory>
      */
     @Override
-    public Page<NewStory> getStoryNew(int page, int size) {
-        List<Integer> listStatus = new ArrayList<>();
+    public Page< NewStory > getStoryNew(int page, int size) {
+        List< Integer > listStatus = new ArrayList<>();
         listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
         listStatus.add(ConstantsUtils.STORY_STATUS_GOING_ON);
-        List<Integer> listChStatus = new ArrayList<>();
+        List< Integer > listChStatus = new ArrayList<>();
         listChStatus.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
         listChStatus.add(ConstantsUtils.CHAPTER_ACTIVED);
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -61,7 +61,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<NewStory>
      */
     @Override
-    public Page<NewStory> getVipStoryNew(int page, int size) {
+    public Page< NewStory > getVipStoryNew(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getVipStoryNew(ConstantsListUtils.LIST_CHAPTER_DISPLAY,
@@ -77,7 +77,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<NewStory>
      */
     @Override
-    public Page<NewStory> getStoryNewByCID(Integer cID, int page, int size) {
+    public Page< NewStory > getStoryNewByCID(Integer cID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getStoryNewByCategory(ConstantsListUtils.LIST_CHAPTER_DISPLAY, cID,
@@ -95,7 +95,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<TopStory>
      */
     @Override
-    public Page<TopStory> getTopStoryByCID(Date startDate, Date endDate, Integer cID, int page, int size) {
+    public Page< TopStory > getTopStoryByCID(Date startDate, Date endDate, Integer cID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository.getTopStoryByCategory(cID, ConstantsListUtils.LIST_STORY_DISPLAY,
                 startDate, endDate, pageable);
@@ -111,7 +111,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<TopStory>
      */
     @Override
-    public Page<TopStory> getTopStory(Date startDate, Date endDate, int page, int size) {
+    public Page< TopStory > getTopStory(Date startDate, Date endDate, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getTopStory(ConstantsListUtils.LIST_STORY_DISPLAY, startDate,
@@ -128,7 +128,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<TopStory>
      */
     @Override
-    public Page<TopStory> getTopStoryVip(Date startDate, Date endDate, int page, int size) {
+    public Page< TopStory > getTopStoryVip(Date startDate, Date endDate, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getTopStoryVip(startDate, endDate, ConstantsUtils.STATUS_ACTIVED,
@@ -145,8 +145,8 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<TopStory>
      */
     @Override
-    public Page<TopStory> getTopStoryComplete(Date startDate, Date endDate, int page, int size) {
-        List<Integer> listStatus = new ArrayList<>();
+    public Page< TopStory > getTopStoryComplete(Date startDate, Date endDate, int page, int size) {
+        List< Integer > listStatus = new ArrayList<>();
         listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
@@ -159,7 +159,7 @@ public class StoryServiceImpl implements StoryService {
      * @return List<Story>
      */
     @Override
-    public List<Story> getNewStoryCompleted() {
+    public List< Story > getNewStoryCompleted() {
         return storyRepository
                 .findTop10BySStatus(ConstantsUtils.STORY_STATUS_COMPLETED);
     }
@@ -172,7 +172,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<NewStory>
      */
     @Override
-    public Page<NewStory> getStoryCompletedByPage(int page, int size) {
+    public Page< NewStory > getStoryCompletedByPage(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "sUpdate");
         return storyRepository
                 .getPageStoryComplete(ConstantsListUtils.LIST_CHAPTER_DISPLAY, ConstantsUtils.STORY_STATUS_COMPLETED, pageable);
@@ -185,7 +185,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<SearchStory>
      */
     @Override
-    public List<SearchStory> getSearch(String searchName) {
+    public List< SearchStory > getSearch(String searchName) {
         return storyRepository
                 .findTop10ByvnNameContainingAndSStatusNot(searchName,
                         ConstantsUtils.STORY_STATUS_HIDDEN);
@@ -222,7 +222,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<NewStory>
      */
     @Override
-    public Page<NewStory> searchStoryByPage(String search, int page, int size) {
+    public Page< NewStory > searchStoryByPage(String search, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getSearchStory(ConstantsListUtils.LIST_CHAPTER_DISPLAY, search,
@@ -237,7 +237,7 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<NewStory>
      */
     @Override
-    public Optional<StorySummary> getStoryBySIDAndStatus(Long sID, List<Integer> listStatus) {
+    public Optional< StorySummary > getStoryBySIDAndStatus(Long sID, List< Integer > listStatus) {
         return storyRepository.findBysIDAndSStatusIn(sID, listStatus);
     }
 
@@ -249,16 +249,16 @@ public class StoryServiceImpl implements StoryService {
      * @return List<SearchStory>
      */
     @Override
-    public List<SearchStory> getListStoryOfConverter(Long uID, List<Integer> listStatus) {
+    public List< SearchStory > getListStoryOfConverter(Long uID, List< Integer > listStatus) {
         return storyRepository
                 .findTop5BySConverter_uIDAndSStatusInOrderByCreateDate(uID, listStatus);
     }
 
     @Override
-    public Page<MemberStorySummary> getStoryByConverter(List<Integer> listStatus, Long uID, int page, int size) {
+    public Page< MemberStorySummary > getStoryByConverter(List< Integer > listStatus, Long uID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
-                .findBySConverter_uIDAndSStatusInOrderByCreateDateDesc(uID,listStatus, pageable);
+                .findBySConverter_uIDAndSStatusInOrderByCreateDateDesc(uID, listStatus, pageable);
     }
 
     /**
@@ -269,8 +269,8 @@ public class StoryServiceImpl implements StoryService {
      * @return Long
      */
     @Override
-    public Long countStoryByUser(Long uID, List<Integer> listStatus) {
-        return storyRepository.countBySConverter_uIDAndSStatusIn(uID,listStatus);
+    public Long countStoryByUser(Long uID, List< Integer > listStatus) {
+        return storyRepository.countBySConverter_uIDAndSStatusIn(uID, listStatus);
     }
 
     /**
@@ -282,5 +282,17 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public Optional< Story > searchStoryBySID(Long sID) {
         return storyRepository.findById(sID);
+    }
+
+    /**
+     * Lấy Top 3 Truyện Mới Đăng Của Converter
+     *
+     * @param uID
+     * @param listStatus
+     * @return List<SearchStory>
+     */
+    @Override
+    public List< SearchStory > getTop3StoryOfConverter(Long uID, List< Integer > listStatus) {
+        return storyRepository.findTop3BySConverter_uIDAndSStatusInOrderByCreateDateDesc(uID, listStatus);
     }
 }

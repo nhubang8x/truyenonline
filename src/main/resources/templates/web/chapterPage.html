@@ -4,8 +4,20 @@
 <head>
     <title th:text="${title}"></title>
     <th:block th:include="web/layout :: head"></th:block>
+    <!--TinyMCE plugins-->
+    <script type="text/javascript" th:src="@{/bower/tinymce/tinymce.js}"></script>
+    <!--Angular JS-->
+    <script th:src="@{/bower/angular/angular.min.js}"></script>
+    <!--Angular Sanitize JS-->
+    <script th:src="@{/bower/angular-sanitize/angular-sanitize.min.js}"></script>
+    <!-- Angular UI TinyMCE -->
+    <script type="text/javascript" th:src="@{/bower/angular-ui-tinymce/src/tinymce.js}"></script>
+    <!--My AngularJS Controller-->
+    <script th:src="@{/js/controller/homeChapterController.js}"></script>
+    <!--Home AngularJS Service-->
+    <script th:src="@{/js/service/HomeService.js}"></script>
 </head>
-<body class="page-read" ng-app="ngApp">
+<body class="page-read" ng-app="ngApp" ng-controller="chapterCtrl" th:ng-init="|init(${chapter.story.sID})|">
 <th:block th:include="web/layout :: loading"></th:block>
 <section class="page-wrapper">
     <th:block th:include="web/layout :: navbar"></th:block>
@@ -23,7 +35,7 @@
                            th:text="${chapter.story.vnName}"></a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page"
-                        th:text=" 'Chương' + ${chapter.chNumber} + ': ' + ${chapter.chName}">
+                        th:text=" 'Chương ' + ${chapter.chNumber} + ': ' + ${chapter.chName}">
                     </li>
                 </ol>
             </div>
@@ -90,7 +102,7 @@
                     <div class="truyen-read-content" data-font-family="'Palatino Linotype', sans-serif"
                          style="width: 100%">
                         <div class="header">
-                            <h2 class="title" th:text="'Chương' + ${chapter.chNumber} + ': ' + ${chapter.chName}"></h2>
+                            <h2 class="title" th:text="'Chương ' + ${chapter.chNumber} + ': ' + ${chapter.chName}"></h2>
                         </div>
                         <div class="content" id="js-truyen-content"
                              style="font-size: 26px; line-height: 140%; font-family: 'Palatino Linotype', sans-serif; word-wrap: break-word;">
@@ -98,7 +110,7 @@
                                 <h3 class="text-danger text-center">Đây là chương truyện mất phí,bạn cần trả <strong
                                         th:text="${chapter.price}"></strong> đậu để
                                     xem, nếu đồng ý hãy ấn vào nút <strong>MUA</strong> bên dưới. </h3>
-                                <p class="text-center" ng-controller="myVipChapter">
+                                <p class="text-center">
                                     <button class="btn btn-primary"
                                             th:ng-click="|chapterVip('${chapter.chID}')|">
                                         MUA
@@ -113,7 +125,7 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <th:block th:if="${checkVip}" th:text="${chapter.content}"></th:block>
+                            <th:block th:if="${checkVip}" th:utext="${chapter.content}"></th:block>
                         </div>
                     </div>
                     <div class="truyen-read-navigation text-center">
@@ -131,6 +143,13 @@
                            data-toggle="tooltip" data-placement="bottom" title="Chương sau">
                             <span class="btn-icon"> <i class="truyen-icon icon-next-bold"></i> </span>
                         </a>
+                    </div>
+                    <div class="chapter-comment">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <th:block th:include="web/listLayout :: commentOfStory"></th:block>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

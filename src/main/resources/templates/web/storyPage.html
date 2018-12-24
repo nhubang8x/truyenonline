@@ -6,9 +6,22 @@
     <title th:text="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <th:block th:include="web/layout :: head"></th:block>
+    <!--TinyMCE plugins-->
+    <script type="text/javascript" th:src="@{/bower/tinymce/tinymce.js}"></script>
+    <!--Angular JS-->
+    <script th:src="@{/bower/angular/angular.min.js}"></script>
+    <!--Angular Sanitize JS-->
+    <script th:src="@{/bower/angular-sanitize/angular-sanitize.min.js}"></script>
+    <!-- Angular UI TinyMCE -->
+    <script type="text/javascript" th:src="@{/bower/angular-ui-tinymce/src/tinymce.js}"></script>
+    <!--My AngularJS Controller-->
+    <script th:src="@{/js/controller/homeStoryContrller.js}"></script>
+    <!--Home AngularJS Service-->
+    <script th:src="@{/js/service/HomeService.js}"></script>
+    <!--Rating-->
     <script th:src="@{/js/jRating.js}"></script>
 </head>
-<body ng-app="ngApp" ng-controller="storyController" th:ng-init="|sid='${story.sID}'|">
+<body ng-app="ngApp" ng-controller="storyCtrl" th:ng-init="|init(${story.sID}, ${story.uID})|">
 <th:block th:include="web/layout :: loading"></th:block>
 <section class="page-wrapper">
     <th:block th:include="web/layout :: navbar"></th:block>
@@ -91,13 +104,17 @@
                                     </div>
                                     <div class="buttons">
                                         <a th:if="${readChapter ne null}" class="btn btn-truyen"
-                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${readChapter.chID}}">Đọc
-                                            tiếp</a>
-                                        <a th:if="${(readChapter eq null) && (story.getchHead() ne null)}" class="btn btn-truyen"
-                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${story.getchHead().getChID()}}">Đọc Từ Đầu</a>
+                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${readChapter.chID}}">
+                                            Đọc tiếp
+                                        </a>
+                                        <a th:if="${(readChapter eq null) && (story.getchHead() ne null)}"
+                                           class="btn btn-truyen"
+                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${story.getchHead().getChID()}}">
+                                            Đọc Từ Đầu
+                                        </a>
                                         <a href="javascript:void(0)" onclick="registRecentReadingStory(20569,1)"
-                                           class="btn btn-truyen-white" id="btnregistRecentReadingStory">Theo
-                                            dõi</a>
+                                           class="btn btn-truyen-white" id="btnregistRecentReadingStory">
+                                            Theo dõi</a>
                                     </div>
                                 </div>
                             </div>
@@ -152,25 +169,135 @@
                             <section class="tab-pane fade show active" id="truyen-info"
                                      name="truyen-detail-info" role="tabpanel">
                                 <section class="row">
-                                    <section class="col-sm-12 col-md-4 col-lg-3">
-                                        <div class="truyen-detail-sidebar">
-                                            <div class="block block-normal">
-                                                <div class="block-content">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="block-detail-sidebar-author text-center">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                    <section class="col-sm-12 col-md-8 col-lg-9">
+                                        <div class="brief" th:text="${story.sInfo}" th:if="${story.sInfo ne null}">
+                                        </div>
+                                        <div class="list-overview" th:if="${story.getchNew() ne null}">
+                                            <div class="item">
+                                                <div class="item-title">
+                                                    <i class="truyen-icon icon-list"></i> Mới nhất
                                                 </div>
+                                                <div class="item-value">
+                                                    <a th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${story.getchNew().chID}}"
+                                                       th:text="'Chương ' + ${story.getchNew().chNumber}+': ' + ${story.getchNew().chName}"></a>
+                                                </div>
+                                                <div class="item-time"
+                                                     th:text="${story.getchNew().getTimeUpdate()}"></div>
                                             </div>
                                         </div>
                                     </section>
-                                    <section class="col-sm-12 col-md-8 col-lg-9">
-                                        <div class="alert alert-primary" role="alert">
-
-                                        </div>
+                                    <section class="col-sm-12 col-md-4 col-lg-3">
+                                        <section class="truyen-detail-sidebar">
+                                            <section class="block block-normal">
+                                                <section class="block-content">
+                                                    <section class="row">
+                                                        <div class="col-xs-12 col-sm-6 col-md-12">
+                                                            <div class="block-detail-sidebar-author text-center">
+                                                                <div class="info">
+                                                                    <a href="#" class="avatar">
+                                                                        <img class="img-fluid lazyload"
+                                                                             data-src="{{user.uavatar? user.uavatar : noImage}}">
+                                                                    </a>
+                                                                    <h2 class="name">{{user.udname? user.udname :
+                                                                        user.uname}}</h2>
+                                                                </div>
+                                                                <ul class="list-unstyled truyen-author-badge"></ul>
+                                                                <div class="overview">
+                                                                    <span class="cap-3">Ngày Tham Gia:
+                                                                        <span ng-bind="user.createDate | date:'dd-MM-yyyy'"></span>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="statistic">
+                                                                    <div class="row">
+                                                                        <div class="col-4">
+                                                                            <div class="item">
+                                                                                        <span class="item-icon">
+                                                                                            <i class="truyen-icon icon-book"></i>
+                                                                                        </span>
+                                                                                <span class="item-value">{{user.countStory}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="item"><span
+                                                                                    class="item-icon"> <i
+                                                                                    class="truyen-icon icon-list"></i> </span>
+                                                                                <span class="item-value">{{user.countChapter}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="item"><span
+                                                                                    class="item-icon"> <i
+                                                                                    class="truyen-icon icon-gold"></i> </span>
+                                                                                <span class="item-value">{{user.gold}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-12">
+                                                            <div class="block-detail-sidebar-related">
+                                                                <div class="header">
+                                                                    <h2 class="title"> Cùng người đăng</h2>
+                                                                </div>
+                                                                <div class="content">
+                                                                    <div class="detail-sidebar-related js-detail-sidebar-related">
+                                                                        <div class="swiper-container swiper-container-horizontal">
+                                                                            <div class="swiper-wrapper">
+                                                                                <div class="swiper-slide">
+                                                                                    <div class="item text-center">
+                                                                                        <a href="https://truyencv.com/sat-than-chi-than/"
+                                                                                           title="Sát Thần Chi Thần"
+                                                                                           class="thumb">
+                                                                                            <img
+                                                                                                    class="img-fluid swiper-lazy"
+                                                                                                    data-src="https://truyencv.com/images/poster/sat-than-chi-than-poster-1535771508-200x300.jpg"
+                                                                                                    alt="Sát Thần Chi Thần">
+                                                                                            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                                                                                        </a>
+                                                                                        <div class="info"><h2
+                                                                                                class="title"><a
+                                                                                                href="https://truyencv.com/sat-than-chi-than/"
+                                                                                                title="Sát Thần Chi Thần">Sát
+                                                                                            Thần Chi Thần</a>
+                                                                                        </h2>
+                                                                                            <p class="description">
+                                                                                                Nhiếp Chân, kiếp
+                                                                                                trước
+                                                                                                lọt vào trời
+                                                                                                ghen tỵ lôi
+                                                                                                kiếp, nhưng may
+                                                                                                mà một
+                                                                                                linh không dứt,
+                                                                                                trọng
+                                                                                                sinh đến một cái
+                                                                                                khác
+                                                                                                thế giới khác
+                                                                                                trở
+                                                                                                thành </p> <a
+                                                                                                    href="https://truyencv.com/sat-than-chi-than/"
+                                                                                                    class="btn btn-truyen"
+                                                                                                    title="">Xem
+                                                                                                chi
+                                                                                                tiết</a></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="swiper-button-prev"><i
+                                                                                    class="truyen-icon icon-prev"></i>
+                                                                            </div>
+                                                                            <div class="swiper-button-next"><i
+                                                                                    class="truyen-icon icon-next"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </section>
+                                            </section>
+                                        </section>
                                     </section>
                                 </section>
                             </section>
@@ -200,17 +327,19 @@
     $(document).ready(function () {
         $(".basic").jRating({
             decimalLength: 0,
-            phpPath: window.location.origin + '/api/rating',
+            ratingPath: window.location.origin + '/api/rating',
             bigStarsPath: window.location.origin + '/images/stars.png',
             rateMax: 10,
             onSuccess: function (element, rate, data) {
-                if (data.message)
+                if (data.message) {
+                    $(".basic").removeClass("jDisabled");
                     swal({
                         text: data.message,
                         type: 'warning',
                         confirmButtonText: 'Ok'
                     });
-                else {
+                } else {
+                    $(".basic").unbind();
                     $('#myrating').html(data.myrating);
                     $('#myrate').html(data.myrate);
                 }
@@ -219,6 +348,17 @@
                 alert('Error : please retry');
             }
         });
+    });
+</script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        loop: true,
+        // Enable lazy loading
+        lazy: true
     });
 </script>
 </body>

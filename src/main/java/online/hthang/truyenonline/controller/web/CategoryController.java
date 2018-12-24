@@ -129,7 +129,7 @@ public class CategoryController {
                 .collect(Collectors.toList());
 
         //Lấy Top View Truyện Vip Trong Tuần
-        List<TopStory> listWeekTop = storyService.getTopStoryByCID(firstDayOfWeek, lastDayOfWeek, category.getCID(),
+        List<   TopStory> listWeekTop = storyService.getTopStoryByCID(firstDayOfWeek, lastDayOfWeek, category.getCID(),
                 ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
                 .get()
                 .collect(Collectors.toList());

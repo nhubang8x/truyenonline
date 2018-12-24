@@ -212,4 +212,14 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
      * @return Long
      */
     Long countBySConverter_uIDAndSStatusIn(Long uID, List<Integer> listStatus);
+
+    /**
+     * Lấy Top 3 Truyện Mới Đăng Của Converter
+     *
+     * @param uID
+     * @param listStatus
+     * @return List<SearchStory>
+     */
+    List<SearchStory> findTop3BySConverter_uIDAndSStatusInOrderByCreateDateDesc(Long uID,
+                                                                                List<Integer> listStatus);
 }

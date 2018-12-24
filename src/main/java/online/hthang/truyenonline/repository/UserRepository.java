@@ -1,6 +1,7 @@
 package online.hthang.truyenonline.repository;
 
 import online.hthang.truyenonline.entity.User;
+import online.hthang.truyenonline.projections.ConveterSummary;
 import online.hthang.truyenonline.projections.TopConverter;
 import online.hthang.truyenonline.utils.ConstantsQueryUtils;
 import org.springframework.data.domain.Page;
@@ -16,17 +17,17 @@ import java.util.List;
  * @author Huy Thang
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository< User, Long > {
 
     User findByUName(String username);
 
-    Page<User> findByUStatus(Integer status, Pageable pageable);
+    Page< User > findByUStatus(Integer status, Pageable pageable);
 
     @Query(value = ConstantsQueryUtils.TOP_CONVERTER,
             countQuery = ConstantsQueryUtils.COUNT_TOP_CONVERTER,
             nativeQuery = true)
-    Page<TopConverter> getTopConverter(@Param("chStatus") List<Integer> listStatus,
-                                       @Param("uStatus") Integer uStatus, Pageable pageable);
+    Page< TopConverter > getTopConverter(@Param("chStatus") List< Integer > listStatus,
+                                         @Param("uStatus") Integer uStatus, Pageable pageable);
 
     boolean existsUserByUEmail(String uEmail);
 
@@ -50,4 +51,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return true - nếu tồn tại user/ false - nếu không tồn tại user
      */
     boolean existsByUIDNotAndAndUDname(Long uID, String uDName);
+
+    /**
+     * Lấy Thông Tin Converter
+     *
+     * @param uID
+     * @return Converter
+     */
+    ConveterSummary findUserByUID(Long uID);
 }

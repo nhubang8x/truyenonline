@@ -1,6 +1,7 @@
 package online.hthang.truyenonline.service;
 
 import online.hthang.truyenonline.entity.User;
+import online.hthang.truyenonline.projections.ConveterSummary;
 import online.hthang.truyenonline.projections.TopConverter;
 import org.springframework.data.domain.Page;
 
@@ -121,5 +122,11 @@ public interface UserService {
      */
     void updateAvatarOfUser(Long uID, String avatar, Double price);
 
-
+    /**
+     * Lấy Thông TIn Converter
+     *
+     * @param uID
+     * @return ConverterSummary
+     */
+    ConveterSummary getConverterByID(Long uID);
 }

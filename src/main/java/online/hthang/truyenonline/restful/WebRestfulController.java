@@ -2,9 +2,7 @@ package online.hthang.truyenonline.restful;
 
 import online.hthang.truyenonline.entity.*;
 import online.hthang.truyenonline.exception.*;
-import online.hthang.truyenonline.projections.ChapterOfStory;
-import online.hthang.truyenonline.projections.CommentSummary;
-import online.hthang.truyenonline.projections.StorySummary;
+import online.hthang.truyenonline.projections.*;
 import online.hthang.truyenonline.service.*;
 import online.hthang.truyenonline.utils.*;
 import org.slf4j.Logger;
@@ -197,7 +195,7 @@ public class WebRestfulController {
     }
 
 
-    @PostMapping(value = "//add/commentOfStory")
+    @PostMapping(value = "/add/commentOfStory")
     public ResponseEntity< ? > newComment(@RequestParam("sID") Long sID,
                                           @RequestParam("commentText") String commentTextEncode,
                                           Principal principal) throws Exception {
@@ -244,6 +242,21 @@ public class WebRestfulController {
         }
     }
 
+    //Lấy Top 3 Truyện Mới Của Converter
+    @PostMapping(value = "/converterInfo")
+    public ResponseEntity< ? > loadConverter(@RequestParam("uID") Long uID) {
+        ConveterSummary conveterSummary = userService.getConverterByID(uID);
+        return new ResponseEntity<>(conveterSummary, HttpStatus.OK);
+    }
+
+    //Lấy Top 3 Truyện Mới Của Converter
+    @PostMapping(value = "/storyOfConverter")
+    public ResponseEntity< ? > loadStoryOfConverter(@RequestParam("uID") Long uID) {
+        List< SearchStory > listNewStory = storyService
+                .getTop3StoryOfConverter(uID, ConstantsListUtils.LIST_STORY_DISPLAY);
+        return new ResponseEntity<>(listNewStory, HttpStatus.OK);
+    }
+
     private String getLocationIP(HttpServletRequest request) {
         String remoteAddr = "";
 
@@ -257,4 +270,5 @@ public class WebRestfulController {
 
         return remoteAddr;
     }
+
 }

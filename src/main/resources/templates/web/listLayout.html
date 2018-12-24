@@ -167,21 +167,21 @@
                 <section class="alert alert-primary" role="alert" ng-show="listComment.length === 0">
                     <h5 class="text-center">Chưa có Bình Luận nào</h5>
                 </section>
-                <ul class="comments" ng-show="listComment.length !== 0">
-                    <li id="comment_1313433" class="clearfix" ng-repeat="item in listComment">
+                <ul class="comments" id="comment_list" ng-show="listComment.length !== 0">
+                    <li class="clearfix" ng-repeat="comment in listComment" id="comment_{{comment.comID}}" >
                         <div style="float:left;width:40px;height:80px;"><a
-                                ng-href="/member/{{item.user.uid}}"><img
-                                class="avatar" alt="{{item.user.udname != null ? item.user.udname : item.user.uname}}"
-                                src="{{item.user.uavatar? item.user.uavatar : noImage}}"></a><br
+                                ng-href="/member/{{comment.user.uid}}"><img
+                                class="avatar" alt="{{comment.user.udname != null ? comment.user.udname : comment.user.uname}}"
+                                ng-src="{{comment.user.uavatar? comment.user.uavatar : noImage}}"></a><br
                                 style="clear:both"></div>
                         <div class="post-comments">
-                            <p ng-bind-html="item.content" read-more></p>
+                            <p ng-bind-html="comment.content"></p>
                             <p class="meta-2">
-                                <a ng-href="/member/{{item.user.uid}}"><abbr title="Thành viên">{{item.user.udname?item.user.udname:item.user.uname}}</abbr></a>
+                                <a ng-href="/member/{{comment.user.uid}}"><abbr title="Thành viên">{{comment.user.udname?comment.user.udname:comment.user.uname}}</abbr></a>
                                 <small> ·
                                     <small><a>Báo xấu</a></small>
                                 </small>
-                                <small class="float-right">{{item.timeUpdate}}
+                                <small class="float-right">{{comment.timeUpdate}}
                                 </small>
                             </p>
                         </div>

@@ -14,4 +14,6 @@ public interface SearchStory {
 
     String getsAuthor();
 
+    String getsInfo();
+
 }

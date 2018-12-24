@@ -2,6 +2,7 @@ package online.hthang.truyenonline.serviceImpl;
 
 import online.hthang.truyenonline.entity.Role;
 import online.hthang.truyenonline.entity.User;
+import online.hthang.truyenonline.projections.ConveterSummary;
 import online.hthang.truyenonline.projections.TopConverter;
 import online.hthang.truyenonline.repository.RoleRepository;
 import online.hthang.truyenonline.repository.UserRepository;
@@ -177,5 +178,16 @@ public class UserServiceImpl implements UserService {
         user.setUAvatar(avatar);
         user.setGold(user.getGold() - price);
         userRepository.save(user);
+    }
+
+    /**
+     * Lấy Thông TIn Converter
+     *
+     * @param uID
+     * @return ConverterSummary
+     */
+    @Override
+    public ConveterSummary getConverterByID(Long uID) {
+        return userRepository.findUserByUID(uID);
     }
 }

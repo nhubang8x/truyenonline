@@ -1,9 +1,9 @@
-(function($) {
-        $.fn.jRating = function(op) {
+(function ($) {
+        $.fn.jRating = function (op) {
             var defaults = {
                 bigStarsPath: 'jquery/icons/stars.png',
                 smallStarsPath: 'jquery/icons/small.png',
-                phpPath: 'php/jRating.php',
+                ratingPath: window.location.origin + '/api/rating',
                 type: 'big',
                 step: false,
                 isDisabled: false,
@@ -21,7 +21,7 @@
                 onClick: null
             };
             if (this.length > 0)
-                return this.each(function() {
+                return this.each(function () {
                     var opts = $.extend(defaults, op)
                         , newWidth = 0
                         , starWidth = 0
@@ -70,7 +70,7 @@
                     });
                     if (!jDisabled)
                         $(this).unbind().bind({
-                            mouseenter: function(e) {
+                            mouseenter: function (e) {
                                 var realOffsetLeft = findRealLeft(this);
                                 var relativeX = e.pageX - realOffsetLeft;
                                 if (opts.showRateInfo)
@@ -83,17 +83,17 @@
                                         }
                                     }).appendTo('body').show();
                             },
-                            mouseover: function(e) {
+                            mouseover: function (e) {
                                 $(this).css('cursor', 'pointer');
                             },
-                            mouseout: function() {
+                            mouseout: function () {
                                 $(this).css('cursor', 'default');
                                 if (hasRated)
                                     average.width(globalWidth);
                                 else
                                     average.width(0);
                             },
-                            mousemove: function(e) {
+                            mousemove: function (e) {
                                 var realOffsetLeft = findRealLeft(this);
                                 var relativeX = e.pageX - realOffsetLeft;
                                 if (opts.step)
@@ -106,32 +106,30 @@
                                         left: (e.pageX + opts.rateInfosX)
                                     }).html(getNote(newWidth) + ' <span class="maxRate">/ ' + opts.rateMax + '</span>');
                             },
-                            mouseleave: function() {
+                            mouseleave: function () {
                                 $("p.jRatingInfos").remove();
                             },
-                            click: function(e) {
+                            click: function (e) {
                                 var element = this;
                                 hasRated = true;
                                 globalWidth = newWidth;
                                 nbOfRates--;
                                 if (!opts.canRateAgain || parseInt(nbOfRates) <= 0)
-                                    $(this).unbind().css('cursor', 'default').addClass('jDisabled');
+                                    $(this).css('cursor', 'default').addClass('jDisabled');
                                 if (opts.showRateInfo)
-                                    $("p.jRatingInfos").fadeOut('fast', function() {
+                                    $("p.jRatingInfos").fadeOut('fast', function () {
                                         $(this).remove();
                                     });
                                 e.preventDefault();
                                 var rate = getNote(newWidth);
                                 average.width(newWidth);
-                                $('.datasSent p').html('<strong>idBox : </strong>' + idBox + '<br /><strong>rate : </strong>' + rate + '<br /><strong>action :</strong> rating');
-                                $('.serverResponse p').html('<strong>Loading...</strong>');
                                 if (opts.onClick)
                                     opts.onClick(element, rate);
                                 if (opts.sendRequest) {
-                                    $.post(opts.phpPath, {
+                                    $.post(opts.ratingPath, {
                                         idBox: idBox,
                                         rate: rate
-                                    }, function(data) {
+                                    }, function (data) {
                                         if (!data.error) {
                                             $('.serverResponse p').html(data.server);
                                             if (opts.onSuccess)
@@ -145,13 +143,15 @@
                                 }
                             }
                         });
+
                     function getNote(relativeX) {
                         var noteBrut = parseFloat((relativeX * 100 / widthRatingContainer) * parseInt(opts.rateMax) / 100);
                         var dec = Math.pow(10, parseInt(opts.decimalLength));
                         var note = Math.round(noteBrut * dec) / dec;
                         return note;
-                    }
-                    ;function getStarWidth() {
+                    };
+
+                    function getStarWidth() {
                         switch (opts.type) {
                             case 'small':
                                 starWidth = 12;
@@ -163,13 +163,13 @@
                                 starHeight = 20;
                                 bgPath = opts.bigStarsPath;
                         }
-                    }
-                    ;function findRealLeft(obj) {
+                    };
+
+                    function findRealLeft(obj) {
                         if (!obj)
                             return 0;
                         return obj.offsetLeft + findRealLeft(obj.offsetParent);
-                    }
-                    ;
+                    };
                 });
         }
     }
