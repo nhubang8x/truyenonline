@@ -168,10 +168,11 @@
                     <h5 class="text-center">Chưa có Bình Luận nào</h5>
                 </section>
                 <ul class="comments" id="comment_list" ng-show="listComment.length !== 0">
-                    <li class="clearfix" ng-repeat="comment in listComment" id="comment_{{comment.comID}}" >
+                    <li class="clearfix" ng-repeat="comment in listComment" id="comment_{{comment.comID}}">
                         <div style="float:left;width:40px;height:80px;"><a
                                 ng-href="/member/{{comment.user.uid}}"><img
-                                class="avatar" alt="{{comment.user.udname != null ? comment.user.udname : comment.user.uname}}"
+                                class="avatar"
+                                alt="{{comment.user.udname != null ? comment.user.udname : comment.user.uname}}"
                                 ng-src="{{comment.user.uavatar? comment.user.uavatar : noImage}}"></a><br
                                 style="clear:both"></div>
                         <div class="post-comments">

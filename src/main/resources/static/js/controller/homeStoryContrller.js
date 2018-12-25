@@ -84,6 +84,7 @@ function storyCtrl(HomeService, $scope, $http) {
         url = window.location.origin + '/api/storyOfConverter';
         HomeService.getData(url, data).then(function (response) {
             $scope.listStory = response.data;
+            console.log($scope.listStory);
         }, function errorCallback(errResponse) {
             console.log('Có lỗi xảy ra!');
         });

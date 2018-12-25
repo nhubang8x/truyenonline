@@ -8,6 +8,7 @@ window.TruyenOnlineScript = {
         this.initSearchMobile();
         this.initSidebar();
         this.initSlideBar();
+        this.initDetailSidebarSlider();
     },
 
     initApplyConfig: function () {
@@ -222,6 +223,24 @@ window.TruyenOnlineScript = {
             },
             spaceBetween: 30,
             slidesPerView: 1,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+        });
+    },
+
+    initDetailSidebarSlider: function() {
+        var $container = $('.js-detail-sidebar-related'), $slider, swiper;
+        $slider = $container.find('.swiper-container');
+        swiper = new Swiper($slider,{
+            navigation: {
+                nextEl: $slider.find('.swiper-button-next'),
+                prevEl: $slider.find('.swiper-button-prev'),
+            },
+            spaceBetween: 30,
+            slidesPerView: 1,
+            loop: true,
             autoplay: {
                 delay: 5000,
                 disableOnInteraction: false,

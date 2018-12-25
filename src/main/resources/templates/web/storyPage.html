@@ -244,42 +244,29 @@
                                                                     <div class="detail-sidebar-related js-detail-sidebar-related">
                                                                         <div class="swiper-container swiper-container-horizontal">
                                                                             <div class="swiper-wrapper">
-                                                                                <div class="swiper-slide">
+                                                                                <div class="swiper-slide"
+                                                                                     ng-repeat="lStory in listStory">
                                                                                     <div class="item text-center">
-                                                                                        <a href="https://truyencv.com/sat-than-chi-than/"
-                                                                                           title="Sát Thần Chi Thần"
+                                                                                        <a ng-href="/truyen/{{lStory.sID}}"
+                                                                                           ng-attr-title="{{lStory.vnName}}"
                                                                                            class="thumb">
-                                                                                            <img
-                                                                                                    class="img-fluid swiper-lazy"
-                                                                                                    data-src="https://truyencv.com/images/poster/sat-than-chi-than-poster-1535771508-200x300.jpg"
-                                                                                                    alt="Sát Thần Chi Thần">
-                                                                                            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                                                                                            <img class="img-fluid"
+                                                                                                 src="{{lStory.sImages}}"
+                                                                                                 ng-alt="{{lStory.vnName}}">
                                                                                         </a>
-                                                                                        <div class="info"><h2
-                                                                                                class="title"><a
-                                                                                                href="https://truyencv.com/sat-than-chi-than/"
-                                                                                                title="Sát Thần Chi Thần">Sát
-                                                                                            Thần Chi Thần</a>
-                                                                                        </h2>
+                                                                                        <div class="info">
+                                                                                            <h2 class="title"><a
+                                                                                                    ng-href="/truyen/{{lStory.sID}}"
+                                                                                                    ng-attr-title="{{lStory.vnName}}">{{lStory.vnName}}</a>
+                                                                                            </h2>
                                                                                             <p class="description">
-                                                                                                Nhiếp Chân, kiếp
-                                                                                                trước
-                                                                                                lọt vào trời
-                                                                                                ghen tỵ lôi
-                                                                                                kiếp, nhưng may
-                                                                                                mà một
-                                                                                                linh không dứt,
-                                                                                                trọng
-                                                                                                sinh đến một cái
-                                                                                                khác
-                                                                                                thế giới khác
-                                                                                                trở
-                                                                                                thành </p> <a
-                                                                                                    href="https://truyencv.com/sat-than-chi-than/"
-                                                                                                    class="btn btn-truyen"
-                                                                                                    title="">Xem
-                                                                                                chi
-                                                                                                tiết</a></div>
+                                                                                                {{lStory.sInfo}}</p>
+                                                                                            <a ng-href="/truyen/{{lStory.sID}}"
+                                                                                               class="btn btn-truyen"
+                                                                                               title="">
+                                                                                                Xem chi tiết
+                                                                                            </a>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -351,14 +338,12 @@
     });
 </script>
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
+    var swiper = new Swiper('.', {
+
         loop: true,
-        // Enable lazy loading
-        lazy: true
+        autoplay: {
+            delay: 5000,
+        },
     });
 </script>
 </body>
