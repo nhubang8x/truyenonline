@@ -16,6 +16,8 @@ public interface NewStory {
 
     String getSAuthor();
 
+    String getSInfo();
+
     @Value("#{@myComponent.getBetewwen(target.sUpdate)}")
     String getTimeUpdate();
 
@@ -24,6 +26,8 @@ public interface NewStory {
     Integer getChNumber();
 
     String getUDname();
+
+    String getUName();
 
     Integer getSDealStatus();
 

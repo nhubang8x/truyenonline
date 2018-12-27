@@ -26,7 +26,8 @@ public interface UserRepository extends JpaRepository< User, Long > {
     @Query(value = ConstantsQueryUtils.TOP_CONVERTER,
             countQuery = ConstantsQueryUtils.COUNT_TOP_CONVERTER,
             nativeQuery = true)
-    Page< TopConverter > getTopConverter(@Param("chStatus") List< Integer > listStatus,
+    Page< TopConverter > getTopConverter(@Param("chStatus") List< Integer > listChapterStatus,
+                                         @Param("sStatus") List< Integer > listStoryStatus,
                                          @Param("uStatus") Integer uStatus, Pageable pageable);
 
     boolean existsUserByUEmail(String uEmail);

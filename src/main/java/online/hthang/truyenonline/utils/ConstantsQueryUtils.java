@@ -6,7 +6,7 @@ package online.hthang.truyenonline.utils;
 
 public class ConstantsQueryUtils {
 
-    public static final String STORY_NEW_UPDATE = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, s.sDealStatus"
+    public static final String STORY_NEW_UPDATE = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, u.uName, s.sDealStatus"
             + " FROM Story s LEFT JOIN (SELECT c.* FROM Chapter c INNER JOIN"
             + " (SELECT MAX(c.chID) AS chapterID FROM Story s"
             + " LEFT JOIN Chapter c"
@@ -58,7 +58,7 @@ public class ConstantsQueryUtils {
             + " GROUP BY s.sID"
             + " ORDER BY s.sUpdate DESC";
 
-    public static final String VIP_STORY_NEW_UPDATE = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, s.sDealStatus"
+    public static final String VIP_STORY_NEW_UPDATE = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, s.sInfo, c.chID, c.chNumber, u.uDname, u.uName, s.sDealStatus"
             + " FROM Story s LEFT JOIN (SELECT c.* FROM Chapter c INNER JOIN"
             + " (SELECT MAX(c.chID) AS chapterID FROM Story s"
             + " LEFT JOIN Chapter c"
@@ -160,19 +160,25 @@ public class ConstantsQueryUtils {
             + " WHERE s.sDealStatus = :sDealStatus AND s.sStatus IN :sStatus"
             + " ORDER BY COALESCE(g.scnt,0) DESC";
 
-    public static final String TOP_CONVERTER = "SELECT u.uID, u.uDname, u.uAvatar, COALESCE(d.cnt ,0) AS con FROM User u"
-            + " LEFT JOIN (SELECT c.uID,COUNT(c.uID) as cnt FROM Chapter c"
+    public static final String TOP_CONVERTER = "SELECT u.uID, u.uName, u.uDname, u.uAvatar, COALESCE(d.cntc ,0) AS cnt, COALESCE(e.cnts ,0) AS scnt FROM User u"
+            + " LEFT JOIN (SELECT c.uID, COUNT(c.uID) as cntc FROM Chapter c"
             + " WHERE c.chStatus IN :chStatus"
             + " GROUP BY c.uID) d ON u.uID = d.uID"
+            + " LEFT JOIN (SELECT s.sConverter, COUNT(s.sConverter) as cnts FROM Story s"
+            + " WHERE s.sStatus IN :sStatus"
+            + " GROUP BY s.sConverter) e ON u.uID = e.sConverter"
             + " WHERE u.uStatus = :uStatus"
-            + " ORDER BY con DESC";
+            + " ORDER BY cnt DESC, scnt DESC";
 
     public static final String COUNT_TOP_CONVERTER = "SELECT COUNT(*) FROM User u"
             + " LEFT JOIN (SELECT c.uID,COUNT(c.uID) as cnt FROM Chapter c"
             + " WHERE c.chStatus IN :chStatus"
             + " GROUP BY c.uID) d ON u.uID = d.uID"
+            + " LEFT JOIN (SELECT s.sConverter, COUNT(s.sConverter) as cnts FROM Story s"
+            + " WHERE s.sStatus IN :sStatus"
+            + " GROUP BY s.sConverter) e ON u.uID = e.sConverter"
             + " WHERE u.uStatus = :uStatus"
-            + " ORDER BY d.cnt DESC";
+            + " ORDER BY d.cnt DESC, e.cnts DESC";
 
     public static final String LIST_ALL_FAVORITES_CHAPTER = "SELECT c.* FROM Chapter c"
             + " INNER JOIN (SELECT MAX(uf.ufID), uf.chID FROM `_ufavorites` uf"
@@ -184,7 +190,7 @@ public class ConstantsQueryUtils {
             + " WHERE S.sStatus != :sStatus"
             + " ORDER BY s.sUpdate DESC";
 
-    public static final String STORY_COMPLETE = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, s.sDealStatus"
+    public static final String STORY_COMPLETE = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, u.uName, s.sDealStatus"
             + " FROM Story s LEFT JOIN (SELECT c.* FROM Chapter c INNER JOIN"
             + " (SELECT MAX(c.chID) AS chapterID FROM Story s"
             + " LEFT JOIN Chapter c"
@@ -256,7 +262,7 @@ public class ConstantsQueryUtils {
             + " ORDER BY createDate DESC"
             + " LIMIT 1";
 
-    public static final String SEARCH_STORY = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, s.sDealStatus"
+    public static final String SEARCH_STORY = "SELECT s.sID, s.vnName, s.sImages, s.sAuthor, s.sUpdate, c.chID, c.chNumber, u.uDname, u.uName, s.sDealStatus"
             + " FROM Story s LEFT JOIN (SELECT c.* FROM Chapter c INNER JOIN"
             + " (SELECT MAX(c.chID) AS chapterID FROM Story s"
             + " LEFT JOIN Chapter c"

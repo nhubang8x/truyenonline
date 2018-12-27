@@ -9,6 +9,7 @@ window.TruyenOnlineScript = {
         this.initSidebar();
         this.initSlideBar();
         this.initDetailSidebarSlider();
+        this.initSlider();
     },
 
     initApplyConfig: function () {
@@ -44,7 +45,7 @@ window.TruyenOnlineScript = {
                     type: "POST",
                     url: window.location.origin + '/api/search',
                     data: {
-                        txtSearch:encryptText(this.term)
+                        txtSearch: encryptText(this.term)
                     },
                     success: function (data) {
                         if (data.length === 0) {
@@ -71,7 +72,7 @@ window.TruyenOnlineScript = {
                 if (ui.item) {
                     if (ui.item.id !== 0) {
                         event.preventDefault();
-                        window.location.replace(window.location.origin + '/truyen/' + ui.item.id );
+                        window.location.replace(window.location.origin + '/truyen/' + ui.item.id);
                         return false;
                     }
                     return false;
@@ -227,13 +228,14 @@ window.TruyenOnlineScript = {
                 delay: 5000,
                 disableOnInteraction: false,
             },
+            loop: true
         });
     },
 
-    initDetailSidebarSlider: function() {
+    initDetailSidebarSlider: function () {
         var $container = $('.js-detail-sidebar-related'), $slider, swiper;
         $slider = $container.find('.swiper-container');
-        swiper = new Swiper($slider,{
+        swiper = new Swiper($slider, {
             navigation: {
                 nextEl: $slider.find('.swiper-button-next'),
                 prevEl: $slider.find('.swiper-button-prev'),
@@ -248,6 +250,46 @@ window.TruyenOnlineScript = {
         });
     },
 
+    initSlider: function () {
+        var $containers = $('.js-truyen-slider');
+        $containers.each(function () {
+            var $container = $(this), $slider, $info, slider, info;
+            $slider = $container.find('.slider-thumb .swiper-container');
+            $info = $container.find('.slider-info .swiper-container');
+            info = new Swiper($info, {
+                spaceBetween: 30,
+                slidesPerView: 1,
+                loop: true,
+                freeMode: true,
+                watchSlidesVisibility: true,
+                watchSlidesProgress: true,
+                simulateTouch: false
+            });
+            slider = new Swiper($slider, {
+                navigation: {
+                    nextEl: $slider.find('.swiper-button-next'),
+                    prevEl: $slider.find('.swiper-button-prev'),
+                },
+                effect: 'coverflow',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                },
+                spaceBetween: 30,
+                loop:true,
+                thumbs: {
+                    swiper: info,
+                },
+            });
+        });
+        window.dispatchEvent(new Event('resize'));
+    },
     utils: {
         isMobile: function (agent) {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(agent || window.navigator.userAgent);

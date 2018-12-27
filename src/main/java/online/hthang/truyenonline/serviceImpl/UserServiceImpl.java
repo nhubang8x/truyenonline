@@ -7,6 +7,7 @@ import online.hthang.truyenonline.projections.TopConverter;
 import online.hthang.truyenonline.repository.RoleRepository;
 import online.hthang.truyenonline.repository.UserRepository;
 import online.hthang.truyenonline.service.UserService;
+import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,11 +54,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List< TopConverter > getTopConverter(int page, int size) {
-        List< Integer > listChStatus = new ArrayList<>();
-        listChStatus.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
-        listChStatus.add(ConstantsUtils.CHAPTER_ACTIVED);
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page< TopConverter > result = userRepository.getTopConverter(listChStatus, ConstantsUtils.STATUS_ACTIVED, pageable);
+        Page< TopConverter > result = userRepository
+                .getTopConverter(ConstantsListUtils.LIST_CHAPTER_DISPLAY,
+                        ConstantsListUtils.LIST_STORY_DISPLAY,
+                        ConstantsUtils.STATUS_ACTIVED,
+                        pageable);
         return result.getContent();
     }
 

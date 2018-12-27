@@ -15,4 +15,5 @@ public interface TopConverter {
 
     Long getCnt();
 
+    Long getScnt();
 }

@@ -360,11 +360,13 @@ button {
     width: 10px;
     height: 17px
 }
+
 .truyen-icon.icon-prev {
     background-image: url(images/icon-prev.png);
     width: 10px;
     height: 17px
 }
+
 .truyen-icon.icon-white-next {
     background-image: url(images/icon-white-next.png);
     width: 10px;
@@ -2820,6 +2822,7 @@ section .section-title {
     width: 26px;
     height: 24px;
 }
+
 .truyen-icon.icon-next-bold {
     background-image: url(images/icon-next-bold.png);
     width: 22px;
@@ -2928,6 +2931,7 @@ section .section-title {
     padding: 15px;
     border-radius: 5px;
 }
+
 /* Chapter */
 
 /*Error Page*/
@@ -3708,6 +3712,7 @@ section .section-title {
     margin-top: 0;
     margin-bottom: 0
 }
+
 .truyen-detail-tab .list-overview {
     border-top: 1px dashed #eee;
     margin-bottom: 35px;
@@ -3721,20 +3726,20 @@ section .section-title {
     position: relative
 }
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
     .truyen-detail-tab .list-overview .item {
-        padding-left:0;
+        padding-left: 0;
         padding-right: 0
     }
 }
 
-.truyen-detail-tab .list-overview .item>div {
+.truyen-detail-tab .list-overview .item > div {
     padding: 0 15px
 }
 
-@media(max-width: 767px) {
-    .truyen-detail-tab .list-overview .item>div {
-        padding:0
+@media (max-width: 767px) {
+    .truyen-detail-tab .list-overview .item > div {
+        padding: 0
     }
 }
 
@@ -3753,9 +3758,9 @@ section .section-title {
     font-weight: 900
 }
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
     .truyen-detail-tab .list-overview .item-title {
-        width:100%;
+        width: 100%;
         position: static
     }
 }
@@ -3765,7 +3770,7 @@ section .section-title {
     margin-right: 15px
 }
 
-.truyen-detail-tab .list-overview .item-value>a {
+.truyen-detail-tab .list-overview .item-value > a {
     color: #005bb6;
     -webkit-transition: .2s ease-in-out;
     -o-transition: .2s ease-in-out;
@@ -3773,7 +3778,7 @@ section .section-title {
     transition: .2s ease-in-out
 }
 
-.truyen-detail-tab .list-overview .item-value>a:hover {
+.truyen-detail-tab .list-overview .item-value > a:hover {
     color: #007bff
 }
 
@@ -3792,13 +3797,14 @@ section .section-title {
     color: #999
 }
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
     .truyen-detail-tab .list-overview .item-time {
-        position:static;
+        position: static;
         width: 100%;
         height: auto
     }
 }
+
 /*INFORMATION OF STORY*/
 
 .block-detail-sidebar-related .header {
@@ -3811,11 +3817,12 @@ section .section-title {
     margin: 0;
     font-weight: 900
 }
+
 .block-detail-sidebar-related .content .thumb {
     display: block;
-    -webkit-box-shadow: 0 3px 10px 0 rgba(0,0,0,.15);
-    -moz-box-shadow: 0 3px 10px 0 rgba(0,0,0,.15);
-    box-shadow: 0 3px 10px 0 rgba(0,0,0,.15);
+    -webkit-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .15);
     width: 120px;
     margin: auto auto 20px;
 }
@@ -3830,11 +3837,11 @@ section .section-title {
     margin: 0 0 4px
 }
 
-.block-detail-sidebar-related .content .info .title>a {
+.block-detail-sidebar-related .content .info .title > a {
     color: inherit
 }
 
-.block-detail-sidebar-related .content .info .title>a:hover {
+.block-detail-sidebar-related .content .info .title > a:hover {
     color: #005dba
 }
 
@@ -3850,9 +3857,140 @@ section .section-title {
     overflow: hidden;
 }
 
-.block-detail-sidebar-related .swiper-button-next,.block-detail-sidebar-related .swiper-button-prev {
+.block-detail-sidebar-related .swiper-button-next, .block-detail-sidebar-related .swiper-button-prev {
     background: 0 0;
     width: 10px;
     height: 17px;
     top: 25%
 }
+
+.truyen-slider {
+    -webkit-box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .1);
+    margin-bottom: 30px
+}
+
+.truyen-slider .slider-thumb {
+    padding-top: 30px
+}
+
+.truyen-slider .slider-thumb .swiper-container {
+    padding-bottom: 10px
+}
+
+.truyen-slider .slider-thumb .swiper-button-prev {
+    left: 10px;
+}
+
+.truyen-slider .slider-thumb .swiper-button-next {
+    right: 10px;
+}
+
+.truyen-slider .slider-thumb .swiper-button-prev, .truyen-slider .slider-thumb .swiper-button-next {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    background-image: none;
+    -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .15);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    top: 50%;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    margin-top: -20px
+}
+
+.truyen-slider .slider-thumb .swiper-button-next.swiper-button-disabled, .truyen-slider .slider-thumb .swiper-button-prev.swiper-button-disabled {
+    display: none
+}
+
+.truyen-slider .slider-thumb .swiper-button-next:hover, .truyen-slider .slider-thumb .swiper-button-prev:hover {
+    opacity: .8
+}
+
+.truyen-slider .slider-thumb .swiper-button-next .truyen-icon, .truyen-slider .slider-thumb .swiper-button-prev .truyen-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto
+}
+
+.truyen-slider .swiper-button-next {
+    right: 10px
+}
+
+.truyen-slider .swiper-button-prev {
+    left: 10px
+}
+.truyen-slider .slider-thumb .swiper-slide {
+    width: 160px;
+    height: 240px;
+    -webkit-box-shadow: 0 3px 10px 0 rgba(0,0,0,.25);
+    -moz-box-shadow: 0 3px 10px 0 rgba(0,0,0,.25);
+    box-shadow: 0 3px 10px 0 rgba(0,0,0,.25);
+    background-color: #eee;
+    opacity: .5;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    pointer-events: none
+}
+
+.truyen-slider .slider-thumb .swiper-slide-active {
+    opacity: 1;
+    pointer-events: all
+}
+
+.truyen-slider .slider-thumb .item {
+    display: block;
+    height: 100%;
+}
+.truyen-slider .slider-thumb .item img {
+    height: 100%;
+}
+.truyen-slider .slider-info {
+    padding: 30px
+}
+
+.truyen-slider .slider-info .item {
+    background-color: #fff
+}
+
+.truyen-slider .slider-info .item .title {
+    font-size: 22px;
+    line-height: 28px;
+    margin: 0 0 8px;
+    font-weight: 400;
+    color: #005dba
+}
+
+.truyen-slider .slider-info .item .view {
+    margin: 0 0 8px;
+    line-height: 20px
+}
+
+.truyen-slider .slider-info .item .description {
+    margin: 0 0 16px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    max-height: 96px;
+}
+.block.block-default .cnt-view {
+    padding-top: 10px;
+    padding-right: 10px;
+}
+

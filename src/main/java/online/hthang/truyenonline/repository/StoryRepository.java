@@ -167,7 +167,7 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
      * @param listChStatus
      * @param listStatus
      * @param pageable
-     * @return Page<TopStory>
+     * @return Page<NewStory>
      */
     @Query(value = ConstantsQueryUtils.SEARCH_STORY,
             countQuery = ConstantsQueryUtils.COUNT_SEARCH_STORY,
@@ -222,4 +222,6 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
      */
     List<SearchStory> findTop3BySConverter_uIDAndSStatusInOrderByCreateDateDesc(Long uID,
                                                                                 List<Integer> listStatus);
+
+
 }
