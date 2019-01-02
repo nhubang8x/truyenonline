@@ -149,8 +149,25 @@
             <section class="truyen-section">
                 <section class="container">
                     <section class="row">
-                        <section class="col-12 col-sm-12 col-md-4"></section>
-                        <section class="col-12 col-sm-12 col-md-8">
+                        <section class="col-12 col-md-12 col-lg-4">
+                            <section class="block block-default block-list-new">
+                                <section class="block-header">
+                                    <h3 class="title">
+                                        Bạn đang đọc
+                                        <span class="float-right">
+                                        <a th:href="@{/tai-khoan/tu-truyen}">
+                                            <small class="text-muted" style="font-size: 65%">Tủ truyện</small>
+                                        </a>
+                                    </span>
+                                    </h3>
+                                </section>
+                                <section class="block-content">
+
+                                </section>
+                            </section>
+                        </section>
+
+                        <section class="col-12 col-md-12 col-lg-8">
                             <section class="block block-default block-list-new">
                                 <section class="block-header">
                                     <h2 class="title text-uppercase">Mới Cập Nhật</h2>
@@ -187,11 +204,11 @@
                                                 </section>
                                             </section>
                                         </li>
-                                        <section>
-                                            <a th:href="@{/danh-muc/moi-cap-nhat}" class="float-right cnt-view">Xem
-                                                tiếp</a>
-                                        </section>
                                     </ul>
+                                    <section>
+                                        <a th:href="@{/danh-muc/moi-cap-nhat}" class="float-right cnt-view">Xem
+                                            tiếp</a>
+                                    </section>
                                 </section>
                             </section>
                         </section>
@@ -203,7 +220,7 @@
         <section class="truyen-section section-featured">
             <section class="container">
                 <section class="row">
-                    <section class="col-12 col-sm-12 col-md-8">
+                    <section class="col-12 col-md-12 col-lg-8">
                         <section class="block block-default">
                             <section class="block-header">
                                 <h2 class="title text-uppercase">Truyện Vip</h2>
@@ -221,7 +238,8 @@
                                                             <a class="item" th:href="@{'/truyen/'+${storyVip.SID}}"
                                                                th:title="${storyVip.vnName}">
                                                                 <img th:src="${storyVip.SImages}"
-                                                                     th:alt="${storyVip.vnName}" class="img-fluid img-thumbnail">
+                                                                     th:alt="${storyVip.vnName}"
+                                                                     class="img-fluid img-thumbnail">
                                                             </a>
                                                         </section>
                                                     </section>
@@ -241,7 +259,7 @@
                                                                 <h2 class="title" th:text="${storyVip.vnName}"></h2>
                                                                 <section class="view text-secondary"
                                                                          th:text="${storyVip.SAuthor}"></section>
-                                                                <p class="description" th:text="${storyVip.SInfo}">                                                                </p>
+                                                                <p class="description" th:text="${storyVip.SInfo}"></p>
                                                                 <a th:href="@{'/truyen/'+${storyVip.SID}}"
                                                                    class="btn btn-truyen" title="xem tiếp">
                                                                     Xem chi tiết
@@ -268,9 +286,11 @@
                                                                            th:text="${vStory.vnName}"></a>
                                                                     </h2>
                                                                     <section class="view text-secondary"><span
-                                                                            class="text-red fz-16" th:text="${vStory.SAuthor}"></span>
+                                                                            class="text-red fz-16"
+                                                                            th:text="${vStory.SAuthor}"></span>
                                                                     </section>
-                                                                    <p class="description" th:text="${vStory.SInfo}"></p>
+                                                                    <p class="description"
+                                                                       th:text="${vStory.SInfo}"></p>
                                                                 </section>
                                                             </section>
                                                         </th:block>
@@ -284,7 +304,7 @@
                             </section>
                         </section>
                     </section>
-                    <section class="col-12 col-sm-12 col-md-4">
+                    <section class="col-12 col-md-12 col-lg-4">
                         <section class="block block-default block-readers-choice">
                             <section class="block-header"><h2 class="title"> Top Conveter</h2></section>
                             <section class="block-content">

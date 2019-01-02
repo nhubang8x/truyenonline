@@ -8,14 +8,13 @@ function homeCtrl(HomeService, $scope) {
 
     $scope.topViewMonth = [];
     $scope.storyNewUpdate = [];
-    $scope.storyNewVip = [];
     $scope.topConveter = [];
     $scope.noImage = 'https://res.cloudinary.com/thang1988/image/upload/v1544258290/truyenmvc/noImages.png';
+
     $scope.init = function () {
         $scope.getTopViewMonth();
         $scope.getStoryNewUpdate();
-        $scope.getStoryVipNew();
-        $scope.getTopConveter();
+         $scope.getTopConveter();
     };
 
     $scope.getTopViewMonth = function () {
@@ -35,17 +34,6 @@ function homeCtrl(HomeService, $scope) {
         var url = window.location.origin + '/api/home/storyNewUpdate';
         HomeService.getData(url, data).then(function (response) {
             $scope.storyNewUpdate = response.data;
-        }, function errorCallback(errResponse) {
-            console.log('Có lỗi xảy ra!');
-        });
-    };
-
-    $scope.getStoryVipNew = function () {
-        var data = new FormData();
-        //Lấy Top View 10 Truyện Trong Tuần
-        var url = window.location.origin + '/api/home/storyVipNew';
-        HomeService.getData(url, data).then(function (response) {
-            $scope.storyNewVip = response.data;
         }, function errorCallback(errResponse) {
             console.log('Có lỗi xảy ra!');
         });

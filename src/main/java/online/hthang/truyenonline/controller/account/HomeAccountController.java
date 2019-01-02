@@ -69,7 +69,6 @@ public class HomeAccountController {
 
     @RequestMapping
     public String defaultPage(Model model, Principal principal) throws NotFoundException {
-        // Lấy Danh sách truyện đang đọc của người dùng
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         //Lấy thông tin Tài Khoản đăng nhập
         Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getUID());
