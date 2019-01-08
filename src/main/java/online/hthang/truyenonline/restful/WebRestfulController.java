@@ -206,7 +206,6 @@ public class WebRestfulController {
                     decryptedText.split("::")[0],
                     "1234567891234567",
                     decryptedText.split("::")[2]);
-            System.out.println(commentText.length());
             if (commentText.trim().length() == 0) {
                 throw new HttpMyException("Bình luận không được để trống");
             }

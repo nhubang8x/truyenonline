@@ -2,9 +2,9 @@ var app = angular.module('ngApp', ['ui.tinymce', 'ngSanitize']);
 
 app.controller('storyCtrl', storyCtrl);
 
-storyCtrl.$inject = ['HomeService', '$scope', '$http'];
+storyCtrl.$inject = ['HomeService', '$scope'];
 
-function storyCtrl(HomeService, $scope, $http) {
+function storyCtrl(HomeService, $scope,) {
 
     $scope.listChapter = [];
     $scope.listStory = [];
@@ -21,7 +21,7 @@ function storyCtrl(HomeService, $scope, $http) {
     $scope.pageComment = [];
     $scope.totalComment = 0;
     $scope.noImage = 'https://res.cloudinary.com/thang1988/image/upload/v1544258290/truyenmvc/noImages.png';
-
+    $scope.coupon = null;
     //Lấy danh sách Chapter Theo sID, pagenumber, size
     $scope.getListChapter = function (pagenumber, size) {
         var url = window.location.origin + '/api/chapterOfStory';
@@ -88,7 +88,30 @@ function storyCtrl(HomeService, $scope, $http) {
         }, function errorCallback(errResponse) {
             console.log('Có lỗi xảy ra!');
         });
+    };
 
+    //Thực Hiện Đề Cử Khi Nhấn Submit
+    $scope.appoint = function () {
+        if ($scope.coupon == null || $scope.coupon === "") {
+            callWarningSweetalert('Bạn Chưa nhập số phiếu đề cử');
+        } else {
+            var data = new FormData();
+            data.append('coupon', $scope.coupon);
+            var url = window.location.origin + '/api/appoint';
+
+            HomeService.submitForm(url, data).then(function (response) {
+                $scope.coupon = null;
+                swal({
+                    text: 'Đề Cử Thành Công!',
+                    type: 'success',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    $('#appointModal').modal('hide');
+                });
+            }, function errorCallback(errResponse) {
+                callWarningSweetalert(errResponse.data.messageError);
+            });
+        }
     };
 
     $scope.init = function (sID, uID) {

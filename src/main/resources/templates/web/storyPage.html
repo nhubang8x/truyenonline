@@ -17,7 +17,7 @@
     <!--My AngularJS Controller-->
     <script th:src="@{/js/controller/homeStoryContrller.js}"></script>
     <!--Home AngularJS Service-->
-    <script th:src="@{/js/service/HomeService.js}"></script>
+    <script th:src="@{/js/service/WebService.js}"></script>
     <!--Rating-->
     <script th:src="@{/js/jRating.js}"></script>
 </head>
@@ -87,7 +87,7 @@
                                         <div class="item d-block d-sm-none" th:if="${readChapter ne null}">
                                             <div class="item-label"> Đã đọc:</div>
                                             <div class="item-value">
-                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${readChapter.chID}}"
+                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${readChapter.chID}}"
                                                    th:text="'Chương ' + ${readChapter.chNumber} + ': ' + ${readChapter.chName}">
                                                 </a>
                                             </div>
@@ -95,7 +95,7 @@
                                         <div class="item d-block d-sm-none">
                                             <div class="item-label"> Mới nhất:</div>
                                             <div class="item-value" th:if="${story.getchNew() ne null}">
-                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong/'+${story.getchNew().chID}}">
+                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong-'+${story.getchNew().chID}}">
                                                     <span class="text-info"
                                                           th:text="'Chương ' + ${story.getchNew().chNumber} + ': ' + ${story.getchNew().chName}"></span>
                                                 </a>
@@ -104,16 +104,20 @@
                                     </div>
                                     <div class="buttons">
                                         <a th:if="${readChapter ne null}" class="btn btn-truyen"
-                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${readChapter.chID}}">
+                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${readChapter.chID}}">
                                             Đọc tiếp
                                         </a>
                                         <a th:if="${(readChapter eq null) && (story.getchHead() ne null)}"
                                            class="btn btn-truyen"
-                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${story.getchHead().getChID()}}">
+                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${story.getchHead().getChID()}}">
                                             Đọc Từ Đầu
                                         </a>
                                         <a onclick="registRecentReadingStory(20569,1)" class="btn btn-truyen-white">
                                             Theo dõi</a>
+                                        <!-- Button trigger modal -->
+                                        <a class="btn btn-truyen" data-toggle="modal" data-target="#appointModal">
+                                            Đề Cử
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +181,7 @@
                                                     <i class="truyen-icon icon-list"></i> Mới nhất
                                                 </div>
                                                 <div class="item-value">
-                                                    <a th:href="@{'/truyen/' + ${story.sID} + '/chuong/' + ${story.getchNew().chID}}"
+                                                    <a th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${story.getchNew().chID}}"
                                                        th:text="'Chương ' + ${story.getchNew().chNumber}+': ' + ${story.getchNew().chName}"></a>
                                                 </div>
                                                 <div class="item-time"
@@ -308,6 +312,33 @@
         </section>
     </section>
     <th:block th:include="web/layout :: footer"></th:block>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-sm" id="appointModal" tabindex="-1" role="dialog" aria-labelledby="appointModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointModalLabel">Đề Cử Truyện</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>- Truyện đã được đề cử: <strong>1864</strong> nguyệt phiếu</p>
+                    <p>- Nếu bạn thấy truyện này hay bạn có thể sử dụng Đậu để đề cử truyện này, truyện càng có
+                        nhiều phiếu đề cử càng có vị trí đẹp ngoài trang chủ, càng có nhiều người đọc truyện hơn.</p>
+                    <p>- Mỗi Phiếu đề cử tốn 1000 đậu</p>
+                    <form class="form-inline" ng-submit="appoint()">
+                        <div class="form-group">
+                            <input type="number" class="form-control"
+                                   placeholder="Nhập số phiếu đề cử" min="1" ng-model="coupon"></div>
+                        <button type="submit" class="btn btn-truyen">Đề cử</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <script>
     $(document).ready(function () {
@@ -336,5 +367,6 @@
         });
     });
 </script>
+
 </body>
 </html>

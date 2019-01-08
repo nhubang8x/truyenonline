@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Controller
 @PropertySource(value = "classpath:messages.properties", encoding = "UTF-8")
-@RequestMapping(value = "/tai-khoan/nap-dau")
+@RequestMapping(value = "/tai-khoan")
 public class PayAccountController {
 
     private final static Logger logger = LoggerFactory.getLogger(PayAccountController.class);
@@ -57,7 +57,7 @@ public class PayAccountController {
         model.addAttribute("information", informationService.getWebInfomation());
     }
 
-    @RequestMapping
+    @RequestMapping("/nap-dau")
     public String defaultPage(Model model, Principal principal) throws NotFoundException {
         // Lấy Danh sách truyện đang đọc của người dùng
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
@@ -76,5 +76,26 @@ public class PayAccountController {
         getMenuAndInfo(model, title);
 
         return "web/account/payPage";
+    }
+
+    @RequestMapping("/log_xu/")
+    public String logPaymentPage(Model model, Principal principal) throws NotFoundException {
+        // Lấy Danh sách truyện đang đọc của người dùng
+        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+        //Lấy thông tin Tài Khoản đăng nhập
+        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getUID());
+        if (!optionalUser.isPresent()) {
+            throw new NotFoundException("Tài khoản không tồn tại mời liên hệ admin để biết thêm thông tin");
+        }
+        User user = optionalUser.get();
+        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+            throw new NotFoundException("Tài khoản của bạn đã bị khóa mời liên hệ admin để biết thêm thông tin");
+        }
+
+        model.addAttribute("codePay", user.getUID() + "-" + user.getUName());
+
+        getMenuAndInfo(model, title);
+
+        return "web/account/logPayPage";
     }
 }

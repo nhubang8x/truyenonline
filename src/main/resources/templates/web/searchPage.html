@@ -53,14 +53,14 @@
                                             th:each="story : ${listStory}">
                                             <div class="content">
                                                 <a class="thumb"
-                                                   th:href="@{'/truyen/'+${story.sID}+'/'+${story.sMetaTitle}}">
+                                                   th:href="@{'/truyen/'+${story.sID}}">
                                                     <img class="img-fluid lazyload"
                                                          th:data-src="@{${story.sImages}}"
                                                          th:alt="${story.vnName}">
                                                 </a>
                                                 <div class="info">
                                                     <h2 class="title">
-                                                        <a th:href="@{'/truyen/'+${story.sID}+'/'+${story.sMetaTitle}}"
+                                                        <a th:href="@{'/truyen/'+${story.sID}}"
                                                            th:title="${story.vnName}">
                                                             <img class="img-fluid"
                                                                  th:if="${story.SDealStatus == 1}"

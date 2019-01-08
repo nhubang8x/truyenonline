@@ -45,6 +45,9 @@ public class ConstantsUtils {
     // Page Default
     public static Integer PAGE_DEFAULT = 1;
 
+    // Trạng Thái Nạp Tiền
+    public static Integer RECHARGE_STATUS = 0;
+
     // Trạng Thái Thanh Toán Truyện
     public static Integer PAY_STATUS = 1;
 
@@ -54,8 +57,8 @@ public class ConstantsUtils {
     //Trạng Thái Thanh Toán Đổi Avatar
     public static Integer PAY_AVATAR_STATUS = 3;
 
-    // Trạng Thái Nạp Tiền
-    public static Integer RECHARGE_STATUS = 2;
+    // Trạng Thái Đề Cử
+    public static Integer APPOINT_STATUS = 4;
 
     public static Integer RANK_SIZE = 10;
 

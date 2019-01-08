@@ -47,6 +47,9 @@ public class Pay implements Serializable {
     @JoinColumn(name = "chID", referencedColumnName = "chID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Chapter chapter;
+    @JoinColumn(name = "sID", referencedColumnName = "sID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Story story;
     @Column(name = "payStatus")
     private Integer payStatus;
 

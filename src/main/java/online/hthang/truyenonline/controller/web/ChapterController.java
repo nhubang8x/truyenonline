@@ -34,23 +34,27 @@ public class ChapterController {
 
     Logger logger = LoggerFactory.getLogger(ChapterController.class);
 
-    @Autowired
-    private InformationService informationService;
+    private final InformationService informationService;
+
+    private final CategoryService categoryService;
+
+    private final StoryService storyService;
+
+    private final ChapterService chapterService;
+
+    private final PayService payService;
+
+    private final UfavoritesService ufavoritesService;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private StoryService storyService;
-
-    @Autowired
-    private ChapterService chapterService;
-
-    @Autowired
-    private PayService payService;
-
-    @Autowired
-    private UfavoritesService ufavoritesService;
+    public ChapterController(InformationService informationService, CategoryService categoryService, StoryService storyService, ChapterService chapterService, PayService payService, UfavoritesService ufavoritesService) {
+        this.informationService = informationService;
+        this.categoryService = categoryService;
+        this.storyService = storyService;
+        this.chapterService = chapterService;
+        this.payService = payService;
+        this.ufavoritesService = ufavoritesService;
+    }
 
     private void getMenuAndInfo(Model model, String title) {
 
@@ -64,7 +68,7 @@ public class ChapterController {
         model.addAttribute("information", informationService.getWebInfomation());
     }
 
-    @RequestMapping("/{sID}/chuong/{chID}")
+    @RequestMapping("/{sID}/chuong-{chID}")
     public String chapterPage(@PathVariable("sID") String sid,
                               @PathVariable("chID") String chid,
                               Principal principal,

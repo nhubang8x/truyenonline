@@ -19,6 +19,14 @@ callWarningSweetalert = function (messager) {
     })
 };
 
+callSuccessSweetalert = function (messager) {
+    swal({
+        text: messager,
+        type: 'success',
+        confirmButtonText: 'Ok'
+    })
+};
+
 storypostby = function (uID, pagenumber) {
     if (typeof (pagenumber) !== "undefined") {
         $.ajax({

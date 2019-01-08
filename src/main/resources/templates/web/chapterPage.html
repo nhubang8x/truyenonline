@@ -15,7 +15,7 @@
     <!--My AngularJS Controller-->
     <script th:src="@{/js/controller/homeChapterController.js}"></script>
     <!--Home AngularJS Service-->
-    <script th:src="@{/js/service/HomeService.js}"></script>
+    <script th:src="@{/js/service/WebService.js}"></script>
 </head>
 <body class="page-read" ng-app="ngApp" ng-controller="chapterCtrl" th:ng-init="|init(${chapter.story.sID})|">
 <th:block th:include="web/layout :: loading"></th:block>
@@ -84,7 +84,7 @@
             <div class="container">
                 <div class="truyen-read-block">
                     <div class="truyen-read-navigation text-center">
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong/' + ${preChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${preChapter}}"
                            class="btn btn-primary" th:classappend="${preChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương trước">
                             <span class="btn-icon"> <i class="truyen-icon icon-prev-bold"></i> </span>
@@ -93,7 +93,7 @@
                            onclick="showChapter(16214,2,2,'cuc pham manh nhat cao thu')"> <span
                                 class="btn-icon js-tooltip" data-toggle="tooltip" data-placement="bottom"
                                 title="Danh sách chương"> <i class="truyen-icon icon-list"></i> </span> </a>
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong/' + ${nextChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${nextChapter}}"
                            class="btn btn-primary" th:classappend="${nextChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương sau">
                             <span class="btn-icon"> <i class="truyen-icon icon-next-bold"></i> </span>
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="truyen-read-navigation text-center">
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong/' + ${preChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${preChapter}}"
                            class="btn btn-primary" th:classappend="${preChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương trước">
                             <span class="btn-icon"> <i class="truyen-icon icon-prev-bold"></i> </span>
@@ -138,7 +138,7 @@
                            onclick="showChapter(16214,2,2,'cuc pham manh nhat cao thu')"> <span
                                 class="btn-icon js-tooltip" data-toggle="tooltip" data-placement="bottom"
                                 title="Danh sách chương"> <i class="truyen-icon icon-list"></i> </span> </a>
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong/' + ${nextChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${nextChapter}}"
                            class="btn btn-primary" th:classappend="${nextChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương sau">
                             <span class="btn-icon"> <i class="truyen-icon icon-next-bold"></i> </span>
@@ -161,7 +161,7 @@
     $(document).keydown(function (e) {
         if (!$(e.target).is(':input, [contenteditable]')) {
             if (e.keyCode == '37') {
-                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.sID}]] + "/chuong/" + [[${preChapter}]];
+                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.sID}]] + "/chuong-" + [[${preChapter}]];
             }
         }
     })
@@ -170,7 +170,7 @@
     $(document).keydown(function (e) {
         if (!$(e.target).is(':input, [contenteditable]')) {
             if (e.keyCode == '39') {
-                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.sID}]] + "/chuong/" + [[${nextChapter}]];
+                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.sID}]] + "/chuong-" + [[${nextChapter}]];
             }
         }
     });

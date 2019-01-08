@@ -197,7 +197,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a th:href="@{/tai-khoan/}">Hồ Sơ</a></li>
-                                <li><a th:href="@{/tai-khoan/nap-the}">Nạp Coin</a></li>
+                                <li><a th:href="@{/tai-khoan/nap-dau}">Nạp Đậu</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li><a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Thoát</a></li>
                             </ul>
@@ -282,7 +282,7 @@
                             <section
                                     class="list-group-item list-group-item-sidebar list-group-item-diver"></section>
                             <section class="list-group-item list-group-item-sidebar">
-                                <a href="/tai-khoan/nap-the">Nạp Coin<span
+                                <a href="/tai-khoan/nap-dau">Nạp Đậu<span
                                         class="truyen-icon icon-white-next"></span></a>
                             </section>
                         </section>
@@ -292,8 +292,8 @@
             <section class="sidebar-menu">
                 <section class="list-group" style="margin-bottom: 20px;">
                     <section class="list-group-item list-group-item-action list-group-item-sidebar">
-                        <a th:href="@{/}"><i class="fas fa-home"></i>Trang chủ <span
-                                class="truyen-icon icon-next"></span>
+                        <a th:href="@{/}"><i class="fas fa-home"></i>Trang chủ
+                            <span class="truyen-icon icon-next"></span>
                         </a>
                     </section>
                 </section>

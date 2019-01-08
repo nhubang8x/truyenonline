@@ -214,7 +214,7 @@
                                                     <div class="chap" th:text="${story.sAuthor}"></div>
                                                     <div class="author">
                                                         <a th:if="${story.chID != null}"
-                                                           th:href="@{'/truyen/'+${story.sID}+'/chuong/'+${story.chID}}"
+                                                           th:href="@{'/truyen/'+${story.sID}+'/chuong-'+${story.chID}}"
                                                            th:title="'Chương ' + ${story.chNumber}"
                                                            th:text="'Chương '+ ${story.chNumber}"></a>
                                                         <a th:unless="${story.chID != null}">&nbsp;</a>
