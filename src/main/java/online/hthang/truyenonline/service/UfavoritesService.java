@@ -11,7 +11,7 @@ import java.util.Date;
 public interface UfavoritesService {
 
     /**
-     * Kiểm tra tồn tại Ufavorites trong khoảng
+     * Kiểm tra tồn tại Favorites trong khoảng
      *
      * @param chID
      * @param uID
@@ -23,7 +23,7 @@ public interface UfavoritesService {
     boolean checkChapterAndUserInTime(Long chID, Long uID, Date startDate, Date endDate);
 
     /**
-     * Kiểm tra tồn tại Ufavorites trong khoảng
+     * Kiểm tra tồn tại Favorites trong khoảng
      *
      * @param chID
      * @param locationIP
@@ -51,7 +51,7 @@ public interface UfavoritesService {
      * @param uID
      * @param sID
      *
-     * @return Ufavorites
+     * @return Favorites
      */
     Chapter getChapterReadNewByUser(Long uID, Long sID);
 }

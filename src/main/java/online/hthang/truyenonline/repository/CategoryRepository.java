@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    List<Category> findByCStatus(Integer cStatus);
+    List<Category> findByStatus(Integer status);
 
-    Optional<Category> findByCIDAndCStatus(Integer cid, Integer cStatus);
+    Optional<Category> findByIdAndStatus(Integer id, Integer status);
 }

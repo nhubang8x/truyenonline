@@ -29,12 +29,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getUPass();
+        return user.getPassowrd();
     }
 
     @Override
     public String getUsername() {
-        return user.getUName();
+        return user.getUsername();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getUStatus().equals(ConstantsUtils.STATUS_ACTIVED);
+        return user.getStatus().equals(ConstantsUtils.STATUS_ACTIVED);
     }
 
     @Override

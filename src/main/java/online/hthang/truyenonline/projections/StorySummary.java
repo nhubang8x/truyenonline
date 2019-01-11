@@ -40,7 +40,7 @@ public interface StorySummary {
     @Value("#{@myComponent.getNewChapter(target.sID)}")
     ChapterSummary getchNew();
 
-    List<CatogorySummary> getCategoryList();
+    List< CategorySummary > getCategoryList();
 
     Integer getsStatus();
 }

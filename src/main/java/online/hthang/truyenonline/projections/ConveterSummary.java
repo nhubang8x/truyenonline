@@ -10,21 +10,21 @@ import java.util.Date;
  */
 public interface ConveterSummary {
 
-    Long getUID();
+    Long getId();
 
-    String getUName();
+    String getUsername();
 
-    String getUDname();
+    String getDisplayName();
 
-    String getUAvatar();
+    String getAvatar();
 
     Double getGold();
 
     Date getCreateDate();
 
-    @Value("#{@myComponent.countChapterOfUser(target.uID)}")
+    @Value("#{@myComponent.countChapterOfUser(target.id)}")
     Long getCountChapter();
 
-    @Value("#{@myComponent.countStoryOfUser(target.uID)}")
+    @Value("#{@myComponent.countStoryOfUser(target.id)}")
     Long getCountStory();
 }

@@ -1,6 +1,6 @@
 package online.hthang.truyenonline.repository;
 
-import online.hthang.truyenonline.entity.Ufavorites;
+import online.hthang.truyenonline.entity.Favorites;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +11,10 @@ import java.util.Optional;
  * @author Huy Thang
  */
 @Repository
-public interface UfavoritesRepository extends JpaRepository<Ufavorites, Long> {
+public interface FavoritesRepository extends JpaRepository< Favorites, Long> {
 
     /**
-     * Kiểm tra tồn tại Ufavorites trong khoảng
+     * Kiểm tra tồn tại Favorites trong khoảng
      *
      * @param chID
      * @param uID
@@ -26,7 +26,7 @@ public interface UfavoritesRepository extends JpaRepository<Ufavorites, Long> {
     boolean existsUfavoritesByChapter_ChIDAndUser_uIDAndDateViewBetween(Long chID, Long uID, Date startDate, Date endDate);
 
     /**
-     * Kiểm tra tồn tại Ufavorites trong khoảng
+     * Kiểm tra tồn tại Favorites trong khoảng
      *
      * @param chID
      * @param locationIP
@@ -43,7 +43,7 @@ public interface UfavoritesRepository extends JpaRepository<Ufavorites, Long> {
      * @param uID
      * @param sID
      *
-     * @return Optional<Ufavorites>
+     * @return Optional<Favorites>
      */
-    Optional<Ufavorites> findTopByUser_uIDAndChapter_Story_sIDOrderByDateViewDesc(Long uID, Long sID);
+    Optional< Favorites > findTopByUser_uIDAndChapter_Story_sIDOrderByDateViewDesc(Long uID, Long sID);
 }

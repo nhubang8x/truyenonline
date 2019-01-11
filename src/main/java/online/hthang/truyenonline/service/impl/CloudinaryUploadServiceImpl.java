@@ -1,4 +1,4 @@
-package online.hthang.truyenonline.serviceImpl;
+package online.hthang.truyenonline.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Singleton;

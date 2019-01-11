@@ -5,13 +5,13 @@ package online.hthang.truyenonline.projections;
  */
 public interface TopConverter {
 
-    Long getUID();
+    Long getId();
 
-    String getUName();
+    String getUsername();
 
-    String getUDname();
+    String getDisplayName();
 
-    String getUAvatar();
+    String getAvatar();
 
     Long getCnt();
 

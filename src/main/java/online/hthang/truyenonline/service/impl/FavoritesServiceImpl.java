@@ -1,9 +1,9 @@
-package online.hthang.truyenonline.serviceImpl;
+package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Chapter;
-import online.hthang.truyenonline.entity.Ufavorites;
+import online.hthang.truyenonline.entity.Favorites;
 import online.hthang.truyenonline.entity.User;
-import online.hthang.truyenonline.repository.UfavoritesRepository;
+import online.hthang.truyenonline.repository.FavoritesRepository;
 import online.hthang.truyenonline.service.UfavoritesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,17 @@ import java.util.Optional;
  */
 
 @Service
-public class UfavoritesServiceImpl implements UfavoritesService {
+public class FavoritesServiceImpl implements UfavoritesService {
+
+    private final FavoritesRepository favoritesRepository;
 
     @Autowired
-    private UfavoritesRepository ufavoritesRepository;
+    public FavoritesServiceImpl(FavoritesRepository favoritesRepository) {
+        this.favoritesRepository = favoritesRepository;
+    }
 
     /**
-     * Kiểm tra tồn tại Ufavorites trong khoảng
+     * Kiểm tra tồn tại Favorites trong khoảng
      *
      * @param chID
      * @param uID
@@ -32,12 +36,12 @@ public class UfavoritesServiceImpl implements UfavoritesService {
      */
     @Override
     public boolean checkChapterAndUserInTime(Long chID, Long uID, Date startDate, Date endDate) {
-        return ufavoritesRepository
+        return favoritesRepository
                 .existsUfavoritesByChapter_ChIDAndUser_uIDAndDateViewBetween(chID, uID, startDate, endDate);
     }
 
     /**
-     * Kiểm tra tồn tại Ufavorites trong khoảng
+     * Kiểm tra tồn tại Favorites trong khoảng
      *
      * @param chID
      * @param locationIP
@@ -47,7 +51,7 @@ public class UfavoritesServiceImpl implements UfavoritesService {
      */
     @Override
     public boolean checkChapterAndLocationIPInTime(Long chID, String locationIP, Date startDate, Date endDate) {
-        return ufavoritesRepository
+        return favoritesRepository
                 .existsUfavoritesByChapter_ChIDAndLocationIPAndDateViewBetween(chID, locationIP, startDate, endDate);
     }
 
@@ -62,13 +66,12 @@ public class UfavoritesServiceImpl implements UfavoritesService {
      */
     @Override
     public void saveUfavorite(Chapter chapter, User user, String LocationIP, Integer uView) {
-        Ufavorites ufavorites = new Ufavorites();
-        ufavorites.setUfView(uView);
-        ufavorites.setUser(user);
-        ufavorites.setChapter(chapter);
-        ufavorites.setLocationIP(LocationIP);
-        ufavoritesRepository.save(ufavorites);
-        System.out.println("Save UFavorite");
+        Favorites favorites = new Favorites();
+        favorites.setStatus(uView);
+        favorites.setUser(user);
+        favorites.setChapter(chapter);
+        favorites.setLocationIP(LocationIP);
+        favoritesRepository.save(favorites);
     }
 
     /**
@@ -76,12 +79,12 @@ public class UfavoritesServiceImpl implements UfavoritesService {
      *
      * @param uID
      * @param sID
-     * @return Ufavorites
+     * @return Favorites
      */
     @Override
     public Chapter getChapterReadNewByUser(Long uID, Long sID) {
-        Optional< Ufavorites > ufavorites = ufavoritesRepository
+        Optional< Favorites > ufavorites = favoritesRepository
                 .findTopByUser_uIDAndChapter_Story_sIDOrderByDateViewDesc(uID, sID);
-        return ufavorites.map(Ufavorites::getChapter).orElse(null);
+        return ufavorites.map(Favorites::getChapter).orElse(null);
     }
 }

@@ -8,27 +8,27 @@ import org.springframework.beans.factory.annotation.Value;
 
 public interface NewStory {
 
-    Long getSID();
+    Long getId();
 
     String getVnName();
 
-    String getSImages();
+    String getImages();
 
-    String getSAuthor();
+    String getAuthor();
 
-    String getSInfo();
+    String getInfomation();
 
-    @Value("#{@myComponent.getBetewwen(target.sUpdate)}")
+    @Value("#{@myComponent.getBetewwen(target.updateDate)}")
     String getTimeUpdate();
 
-    Long getChID();
+    Long getChapterId();
 
-    Integer getChNumber();
+    Integer getChapterNumber();
 
-    String getUDname();
+    String getDisplayName();
 
-    String getUName();
+    String getUsername();
 
-    Integer getSDealStatus();
+    Integer getDealStatus();
 
 }

@@ -1,7 +1,7 @@
-package online.hthang.truyenonline.serviceImpl;
+package online.hthang.truyenonline.service.impl;
 
-import online.hthang.truyenonline.entity.Srating;
-import online.hthang.truyenonline.repository.SratingRepository;
+import online.hthang.truyenonline.entity.UserRating;
+import online.hthang.truyenonline.repository.UserRatingRepository;
 import online.hthang.truyenonline.service.SratingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ import java.util.Optional;
  * @author Huy Thang
  */
 @Service
-public class SratingServiceImpl implements SratingService {
+public class UserRatingServiceImpl implements SratingService {
 
     @Autowired
-    private SratingRepository sratingRepository;
+    private UserRatingRepository userRatingRepository;
 
     /**
-     * Kiểm tra Tồn Tại Srating theo
+     * Kiểm tra Tồn Tại UserRating theo
      *
      * @param uID
      * @param sID
@@ -27,22 +27,22 @@ public class SratingServiceImpl implements SratingService {
      */
     @Override
     public boolean checkRatingWithUser(Long sID, Long uID) {
-        return sratingRepository
+        return userRatingRepository
                 .existsSratingByStory_sIDAndUser_uID(sID, uID);
     }
 
     /**
-     * Kiểm tra Tồn Tại Srating theo
+     * Kiểm tra Tồn Tại UserRating theo
      *
      * @param sID
      * @param locationIP
      * @param startDate
      * @param endDate
-     * @return Optional<Srating>
+     * @return Optional<UserRating>
      */
     @Override
-    public Optional< Srating > checkRatingWithLocationIP(Long sID, String locationIP, Date startDate, Date endDate) {
-        return sratingRepository
+    public Optional< UserRating > checkRatingWithLocationIP(Long sID, String locationIP, Date startDate, Date endDate) {
+        return userRatingRepository
                 .findByStory_sIDAndLocationIPAndCreateDateBetween(sID, locationIP, startDate, endDate);
     }
 
@@ -54,7 +54,7 @@ public class SratingServiceImpl implements SratingService {
      */
     @Override
     public Long getSumRaitingOfStory(Long sID) {
-        return sratingRepository
+        return userRatingRepository
                 .countByStory_sID(sID);
     }
 
@@ -69,7 +69,7 @@ public class SratingServiceImpl implements SratingService {
      */
     @Override
     public Float saveRating(Long uID, Long sID, String locationIP, Integer rating) {
-        return sratingRepository
+        return userRatingRepository
                 .saveRating(uID,sID,locationIP,rating);
     }
 }

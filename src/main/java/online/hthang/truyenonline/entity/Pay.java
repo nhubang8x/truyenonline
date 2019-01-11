@@ -32,10 +32,10 @@ public class Pay implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payID", unique = true, nullable = false)
     private Long payID;
-    @JoinColumn(name = "payerID", referencedColumnName = "uID")
+    @JoinColumn(name = "payerID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User payer;
-    @JoinColumn(name = "receiverID", referencedColumnName = "uID")
+    @JoinColumn(name = "receiverID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User receiver;
     @Column(name = "price", precision = 22, scale = 0)
@@ -44,10 +44,10 @@ public class Pay implements Serializable {
     @Column(name = "createDate", length = 19)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
-    @JoinColumn(name = "chID", referencedColumnName = "chID")
+    @JoinColumn(name = "chID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Chapter chapter;
-    @JoinColumn(name = "sID", referencedColumnName = "sID")
+    @JoinColumn(name = "sID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Story story;
     @Column(name = "payStatus")

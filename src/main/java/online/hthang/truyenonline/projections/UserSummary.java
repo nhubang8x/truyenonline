@@ -6,11 +6,11 @@ package online.hthang.truyenonline.projections;
  */
 public interface UserSummary {
 
-    Long getUID();
+    Long getId();
 
-    String getUName();
+    String getUsername();
 
-    String getUDname();
+    String getDisplayName();
 
-    String getUAvatar();
+    String getAvatar();
 }

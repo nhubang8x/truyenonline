@@ -8,22 +8,22 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public interface MemberStorySummary {
 
-    Long getsID();
+    Long getId();
 
     String getVnName();
 
-    String getsImages();
+    String getImages();
 
-    String getsAuthor();
+    String getAuthor();
 
-    Long getsView();
+    Long getCountView();
 
-    Integer getSDealStatus();
+    Integer getDealStatus();
 
-    @Value("#{@myComponent.getBetewwen(target.sUpdate)}")
+    @Value("#{@myComponent.getBetewwen(target.updateDate)}")
     String getTimeUpdate();
 
-    @Value("#{@myComponent.getNewChapter(target.sID)}")
+    @Value("#{@myComponent.getNewChapter(target.id)}")
     ChapterSummary getNewChapter();
 
 }

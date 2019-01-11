@@ -12,15 +12,15 @@ import lombok.Data;
  */
 @Embeddable
 @Data
-public class SratingPK implements Serializable {
+public class UserRatingPK implements Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    @Column(name = "uID", nullable = false)
-    private long uID;
-    @Column(name = "sID", nullable = false)
-    private long sID;
+    @Column(name = "userId", nullable = false)
+    private long userId;
+    @Column(name = "storyId", nullable = false)
+    private long storyId;
 
 }

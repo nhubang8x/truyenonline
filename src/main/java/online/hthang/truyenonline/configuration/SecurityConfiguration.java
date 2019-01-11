@@ -1,6 +1,6 @@
 package online.hthang.truyenonline.configuration;
 
-import online.hthang.truyenonline.serviceImpl.UserDetailsServiceImpl;
+import online.hthang.truyenonline.service.impl.UserDetailsServiceImpl;
 import online.hthang.truyenonline.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

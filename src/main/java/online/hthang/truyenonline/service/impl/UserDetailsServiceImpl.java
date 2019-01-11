@@ -1,4 +1,4 @@
-package online.hthang.truyenonline.serviceImpl;
+package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.MyUserDetails;
 import online.hthang.truyenonline.entity.Role;

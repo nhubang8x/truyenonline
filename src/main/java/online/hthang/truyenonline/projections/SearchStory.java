@@ -6,14 +6,14 @@ package online.hthang.truyenonline.projections;
 
 public interface SearchStory {
 
-    Long getsID();
+    Long getId();
 
-    String getvnName();
+    String getVnName();
 
-    String getsImages();
+    String getImages();
 
-    String getsAuthor();
+    String getAuthor();
 
-    String getsInfo();
+    String getInfomation();
 
 }

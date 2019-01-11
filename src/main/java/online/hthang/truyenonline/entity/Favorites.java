@@ -16,30 +16,28 @@ import lombok.NoArgsConstructor;
  * @author Huy Thang
  */
 @Entity
-@Table(name = "_ufavorites", schema = "")
+@Table(name = "favorites")
 @Data
 @NoArgsConstructor
-public class Ufavorites implements Serializable {
+public class Favorites implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ufID", unique = true, nullable = false)
-    private Long ufID;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
     @Column(name = "locationIP", nullable = false, length = 50)
     private String locationIP;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "dateView", length = 19)
     private Date dateView;
-    @Column(name = "ufStatus")
-    private Integer ufStatus;
-    @Column(name = "ufView")
-    private Integer ufView;
-    @JoinColumn(name = "chID", referencedColumnName = "chID")
+    @Column(name = "status")
+    private Integer status;
+    @JoinColumn(name = "chapterId", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Chapter chapter;
-    @JoinColumn(name = "uID", referencedColumnName = "uID")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -48,8 +46,8 @@ public class Ufavorites implements Serializable {
         if (dateView == null) {
             dateView = DateUtils.getCurrentDate();
         }
-        if (ufStatus == null) {
-            ufStatus = 1;
+        if (status == null) {
+            status = 1;
         }
     }
 

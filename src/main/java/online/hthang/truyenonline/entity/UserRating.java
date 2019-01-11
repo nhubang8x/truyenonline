@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -23,26 +24,29 @@ import lombok.Data;
  * @author Huy Thang
  */
 @Entity
-@Table(name = "_seditor", schema = "")
+@Table(name = "_srating")
 @Data
-public class Seditor implements Serializable {
+@NoArgsConstructor
+public class UserRating implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    @AttributeOverrides({@AttributeOverride(name = "uid", column = @Column(name = "uID", nullable = false)),
-            @AttributeOverride(name = "sid", column = @Column(name = "sID", nullable = false))})
-    protected SeditorPK seditorPK;
+    @AttributeOverrides({@AttributeOverride(name = "userId", column = @Column(name = "userId", nullable = false)),
+            @AttributeOverride(name = "storyId", column = @Column(name = "storyId", nullable = false))})
+    private UserRatingPK userRatingPK;
+    @Column(name = "rating", nullable = false)
+    private Integer rating;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "createDate", length = 19)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Column(name = "createDate", length = 19)
     private Date createDate;
-    @Column(name = "status")
-    private Integer status;
-    @JoinColumn(name = "sID", referencedColumnName = "sID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "storyId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Story story;
-    @JoinColumn(name = "uID", referencedColumnName = "uID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
+    @Column(name = "locationIP", length = 50, nullable = false)
+    private String locationIP;
 
 }

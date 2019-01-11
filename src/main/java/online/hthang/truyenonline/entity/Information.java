@@ -10,20 +10,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Huy Thang
  */
 @Entity
-@Table(name = "information", schema = "")
+@Table(name = "information")
 @Data
+@NoArgsConstructor
 public class Information implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "infoID", unique = true, nullable = false)
-    private Integer infoID;
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
     @Column(name = "introduce", columnDefinition = "TEXT")
     private String introduce;
     @Column(name = "email", nullable = false, length = 150)

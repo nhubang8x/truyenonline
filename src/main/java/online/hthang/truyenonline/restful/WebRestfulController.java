@@ -130,7 +130,7 @@ public class WebRestfulController {
         }
         String locationIP = getLocationIP(request);
         Date now = DateUtils.getCurrentDate();
-        Optional< Srating > optionalSrating = sratingService.checkRatingWithLocationIP(idBox, locationIP, DateUtils.getHalfAgo(now), now);
+        Optional< UserRating > optionalSrating = sratingService.checkRatingWithLocationIP(idBox, locationIP, DateUtils.getHalfAgo(now), now);
         if (optionalSrating.isPresent()) {
             exceptionResponse.setMessage("Đã có đánh giá truyện tại địa chỉ IP này. Hãy đợi " + DateUtils.betweenHours(optionalSrating.get().getCreateDate()) + " để tiếp tục đánh giá");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);

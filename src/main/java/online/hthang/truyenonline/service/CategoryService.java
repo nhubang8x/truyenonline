@@ -12,5 +12,5 @@ public interface CategoryService {
 
     public List<Category> getCategoryMenu();
 
-    public Optional<Category> getCategoryByID(Integer cID);
+    public Optional<Category> getCategoryByID(Integer id);
 }

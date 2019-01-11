@@ -7,13 +7,13 @@ package online.hthang.truyenonline.projections;
  */
 public interface TopStory {
 
-    Long getsID();
+    Long getId();
 
     String getVnName();
 
-    String getsImages();
+    String getImages();
 
-    String getsAuthor();
+    String getAuthor();
 
     Long getCnt();
 
@@ -21,7 +21,7 @@ public interface TopStory {
 
     String getCName();
 
-    String getSInfo();
+    String getInfomation();
 
-    Integer getSDealStatus();
+    Integer getDealStatus();
 }

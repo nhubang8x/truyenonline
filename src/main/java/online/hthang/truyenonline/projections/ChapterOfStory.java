@@ -10,26 +10,26 @@ import java.util.Date;
  */
 public interface ChapterOfStory {
 
-    Long getChID();
+    Long getId();
 
-    Integer getChNumber();
+    Integer getChapterNumber();
 
-    String getChName();
+    String getName();
 
-    @Value("#{target.story.sID}")
-    Long getsID();
+    @Value("#{target.story.id}")
+    Long getStoryId();
 
-    @Value("#{target.user.uName}")
-    String getUName();
+    @Value("#{target.user.name}")
+    String getUserName();
 
-    @Value("#{target.user.uDname}")
-    String getUDname();
+    @Value("#{target.user.displayName}")
+    String getUserDisplayName();
 
     Date getCreateDate();
 
     @Value("#{@myComponent.getBetewwen(target.createDate)}")
     String getTimeUpdate();
 
-    Integer getChStatus();
+    Integer getStatus();
 
 }

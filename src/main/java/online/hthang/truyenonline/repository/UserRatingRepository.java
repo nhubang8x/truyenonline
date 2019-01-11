@@ -1,7 +1,7 @@
 package online.hthang.truyenonline.repository;
 
-import online.hthang.truyenonline.entity.Srating;
-import online.hthang.truyenonline.entity.SratingPK;
+import online.hthang.truyenonline.entity.UserRating;
+import online.hthang.truyenonline.entity.UserRatingPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
@@ -14,11 +14,11 @@ import java.util.Optional;
  * @author Huy Thang
  */
 @Repository
-public interface SratingRepository extends JpaRepository< Srating, SratingPK > {
+public interface UserRatingRepository extends JpaRepository< UserRating, UserRatingPK > {
 
 
     /**
-     * Kiểm tra Tồn Tại Srating theo
+     * Kiểm tra Tồn Tại UserRating theo
      *
      * @param sID
      * @param locationIP
@@ -26,13 +26,13 @@ public interface SratingRepository extends JpaRepository< Srating, SratingPK > {
      * @param endDate
      * @return
      */
-    Optional<Srating> findByStory_sIDAndLocationIPAndCreateDateBetween(Long sID,
-                                                              String locationIP,
-                                                              Date startDate,
-                                                              Date endDate);
+    Optional< UserRating > findByStory_sIDAndLocationIPAndCreateDateBetween(Long sID,
+                                                                            String locationIP,
+                                                                            Date startDate,
+                                                                            Date endDate);
 
     /**
-     * Kiểm tra Tồn Tại Srating theo
+     * Kiểm tra Tồn Tại UserRating theo
      *
      * @param sID
      * @param uID

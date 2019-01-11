@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public interface CommentSummary {
 
-    Long getComID();
+    Long getId();
 
     String getContent();
 

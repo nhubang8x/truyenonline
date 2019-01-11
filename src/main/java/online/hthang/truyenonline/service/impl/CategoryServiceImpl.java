@@ -1,4 +1,4 @@
-package online.hthang.truyenonline.serviceImpl;
+package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Category;
 import online.hthang.truyenonline.repository.CategoryRepository;
@@ -16,17 +16,21 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Override
-    public List<Category> getCategoryMenu() {
-        return categoryRepository.findByCStatus(ConstantsUtils.STATUS_ACTIVED);
+    @Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public Optional<Category> getCategoryByID(Integer cID) {
-        return categoryRepository.findByCIDAndCStatus(cID, ConstantsUtils.STATUS_ACTIVED);
+    public List< Category > getCategoryMenu() {
+        return categoryRepository.findByStatus(ConstantsUtils.STATUS_ACTIVED);
+    }
+
+    @Override
+    public Optional< Category > getCategoryByID(Integer id) {
+        return categoryRepository.findByIdAndStatus(id, ConstantsUtils.STATUS_ACTIVED);
     }
 
 }

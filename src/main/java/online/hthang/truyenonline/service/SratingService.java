@@ -1,6 +1,6 @@
 package online.hthang.truyenonline.service;
 
-import online.hthang.truyenonline.entity.Srating;
+import online.hthang.truyenonline.entity.UserRating;
 
 import java.util.Date;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface SratingService {
 
     /**
-     * Kiểm tra Tồn Tại Srating theo
+     * Kiểm tra Tồn Tại UserRating theo
      *
      * @param sID
      * @param uID
@@ -20,13 +20,13 @@ public interface SratingService {
     boolean checkRatingWithUser(Long sID, Long uID);
 
     /**
-     * Kiểm tra Tồn Tại Srating theo
+     * Kiểm tra Tồn Tại UserRating theo
      *
      * @param sID
      * @param locationIP
-     * @return Optional<Srating>
+     * @return Optional<UserRating>
      */
-    Optional< Srating > checkRatingWithLocationIP(Long sID, String locationIP, Date startDate, Date endDate);
+    Optional< UserRating > checkRatingWithLocationIP(Long sID, String locationIP, Date startDate, Date endDate);
 
     /**
      * Đếm số lượng đánh giá
