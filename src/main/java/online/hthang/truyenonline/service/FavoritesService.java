@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author Huy Thang
  */
-public interface UfavoritesService {
+public interface FavoritesService {
 
     /**
      * Kiểm tra tồn tại Favorites trong khoảng

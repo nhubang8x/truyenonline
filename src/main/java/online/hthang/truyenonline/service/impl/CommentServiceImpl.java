@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     public Page< CommentSummary > getCommentOfStoryByPage(Long sID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return commentRepository
-                .findByStory_sIDAndComStatusOrderByCreateDateDesc(sID, ConstantsUtils.STATUS_ACTIVED, pageable);
+                .findByStory_IdAndStatusOrderByCreateDateDesc(sID, ConstantsUtils.STATUS_ACTIVED, pageable);
     }
 
     /**
@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List< CommentSummary > getAllCommentOfStory(Long sID) {
         return commentRepository
-                .findAllByStory_sIDAndComStatusOrderByCreateDateDesc(sID, ConstantsUtils.STATUS_ACTIVED);
+                .findByStory_IdAndStatusOrderByCreateDateDesc(sID, ConstantsUtils.STATUS_ACTIVED);
     }
 
     /**
@@ -70,6 +70,6 @@ public class CommentServiceImpl implements CommentService {
         newComment.setUser(user);
         newComment.setContent(comment);
         commentRepository.save(newComment);
-        return newComment.getComID() != null;
+        return newComment.getId() != null;
     }
 }

@@ -2,36 +2,27 @@ package online.hthang.truyenonline.controller.web;
 
 import online.hthang.truyenonline.entity.Chapter;
 import online.hthang.truyenonline.entity.MyUserDetails;
-import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.exception.NotFoundException;
-import online.hthang.truyenonline.projections.ChapterOfStory;
-import online.hthang.truyenonline.projections.CommentSummary;
 import online.hthang.truyenonline.projections.SearchStory;
 import online.hthang.truyenonline.projections.StorySummary;
 import online.hthang.truyenonline.service.*;
 import online.hthang.truyenonline.utils.ConstantsListUtils;
-import online.hthang.truyenonline.utils.ConstantsUtils;
 import online.hthang.truyenonline.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Huy Thang on 17/10/2018
@@ -47,19 +38,19 @@ public class StoryController {
     private final InformationService informationService;
     private final CategoryService categoryService;
     private final StoryService storyService;
-    private final SratingService sratingService;
-    private final UfavoritesService ufavoritesService;
+    private final UserRatingService userRatingService;
+    private final FavoritesService favoritesService;
 
     @Autowired
     public StoryController(InformationService informationService,
                            CategoryService categoryService,
                            StoryService storyService,
-                           SratingService sratingService, UfavoritesService ufavoritesService) {
+                           UserRatingService userRatingService, FavoritesService favoritesService) {
         this.informationService = informationService;
         this.categoryService = categoryService;
         this.storyService = storyService;
-        this.sratingService = sratingService;
-        this.ufavoritesService = ufavoritesService;
+        this.userRatingService = userRatingService;
+        this.favoritesService = favoritesService;
     }
 
     private void getMenuAndInfo(Model model,
@@ -143,14 +134,14 @@ public class StoryController {
             } else {
 
                 // Kiểm tra Người dùng đã đánh giá chưa
-                if (sratingService
+                if (userRatingService
                         .checkRatingWithUser(story.getsID(), user.getUID())) {
                     // Người dùng đã đánh giá
                     checkRating = true;
                 }
             }
         }
-        model.addAttribute("countRating", sratingService.getSumRaitingOfStory(story.getsID()));
+        model.addAttribute("countRating", userRatingService.getSumRaitingOfStory(story.getsID()));
         model.addAttribute("rating", checkRating);
     }
 
@@ -178,7 +169,7 @@ public class StoryController {
     private void getChapterReadByUser(User user, Long sID, Model model) {
         Chapter chapter = null;
         if (user != null) {
-            chapter = ufavoritesService.getChapterReadNewByUser(user.getUID(), sID);
+            chapter = favoritesService.getChapterReadNewByUser(user.getUID(), sID);
         }
         model.addAttribute("readChapter", chapter);
     }

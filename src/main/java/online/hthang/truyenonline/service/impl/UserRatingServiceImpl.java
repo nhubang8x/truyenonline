@@ -2,7 +2,7 @@ package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.UserRating;
 import online.hthang.truyenonline.repository.UserRatingRepository;
-import online.hthang.truyenonline.service.SratingService;
+import online.hthang.truyenonline.service.UserRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author Huy Thang
  */
 @Service
-public class UserRatingServiceImpl implements SratingService {
+public class UserRatingServiceImpl implements UserRatingService {
 
     @Autowired
     private UserRatingRepository userRatingRepository;

@@ -30,27 +30,29 @@ public class Pay implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payID", unique = true, nullable = false)
-    private Long payID;
-    @JoinColumn(name = "payerID", referencedColumnName = "id")
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
+    @JoinColumn(name = "userSend", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User payer;
-    @JoinColumn(name = "receiverID", referencedColumnName = "id")
+    private User userSend;
+    @JoinColumn(name = "userReceived", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User receiver;
-    @Column(name = "price", precision = 22, scale = 0)
-    private Double price;
+    private User userReceived;
+    @Column(name = "money", precision = 22, scale = 0)
+    private Double money;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createDate", length = 19)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createDate;
-    @JoinColumn(name = "chID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chapterId", referencedColumnName = "id")
     private Chapter chapter;
-    @JoinColumn(name = "sID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "storyId", referencedColumnName = "id")
     private Story story;
-    @Column(name = "payStatus")
-    private Integer payStatus;
+    @Column(name = "type", nullable = false)
+    private Integer type;
+    @Column(name = "status")
+    private Integer status;
 
 }

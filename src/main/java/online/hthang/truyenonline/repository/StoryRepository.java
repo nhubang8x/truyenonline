@@ -34,7 +34,7 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
     @Query(value = ConstantsQueryUtils.STORY_NEW_UPDATE,
             countQuery = ConstantsQueryUtils.COUNT_STORY_NEW_UPDATE,
             nativeQuery = true)
-    Page<NewStory> getStoryNew(@Param("chStatus") List<Integer> listChStatus, @Param("sStatus") List<Integer> listStatus,
+    Page<NewStory> getStoryNew(@Param("chapterStatus") List<Integer> listChStatus, @Param("storyStatus") List<Integer> listStatus,
                                Pageable pageable);
 
     /**

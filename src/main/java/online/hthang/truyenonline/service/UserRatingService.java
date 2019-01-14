@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * @author Huy Thang
  */
-public interface SratingService {
+public interface UserRatingService {
 
     /**
      * Kiểm tra Tồn Tại UserRating theo

@@ -22,7 +22,7 @@ public interface CommentRepository extends JpaRepository< Comment, Long > {
      * @param status
      * @return Page<CommentSummary>
      */
-    Page< CommentSummary > findByStory_sIDAndComStatusOrderByCreateDateDesc(Long sID, Integer status, Pageable pageable);
+    Page< CommentSummary > findByStory_IdAndStatusOrderByCreateDateDesc(Long sID, Integer status, Pageable pageable);
 
     /**
      * Lấy List All comment của truyện
@@ -30,5 +30,5 @@ public interface CommentRepository extends JpaRepository< Comment, Long > {
      * @param status
      * @return List<CommentSummary>
      */
-    List<CommentSummary> findAllByStory_sIDAndComStatusOrderByCreateDateDesc(Long sID, Integer status);
+    List<CommentSummary> findByStory_IdAndStatusOrderByCreateDateDesc(Long sID, Integer status);
 }

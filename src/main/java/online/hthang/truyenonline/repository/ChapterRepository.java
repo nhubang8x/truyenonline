@@ -112,7 +112,7 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      * @param listStatus
      * @return Long
      */
-    Long countByUser_uIDAndChStatusIn(Long uID, List< Integer > listStatus);
+    Long countByUser_IdAndStatusIn(Long uID, List< Integer > listStatus);
 
     /**
      * Lấy CHương Theo Truyện
@@ -121,7 +121,8 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      * @param listStatus
      * @return Page
      */
-    Page< ChapterOfStory > findByStory_sIDAndChStatusInOrderByChSerialDesc(Long sID,
+
+    Page< ChapterOfStory > findByStory_IdAndStatusInOrderBySerialDesc(Long sID,
                                                                              List< Integer > listStatus,
                                                                              Pageable pageable);
 
@@ -131,6 +132,6 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      * @param sID
      * @param listStatus
      */
-    List< ChapterOfStory > findByStory_sIDAndChStatusInOrderByChSerialDesc(Long sID,
+    List< ChapterOfStory > findByStory_IdAndStatusInOrderBySerialDesc(Long sID,
                                                                                List< Integer > listStatus);
 }

@@ -23,7 +23,7 @@ public interface FavoritesRepository extends JpaRepository< Favorites, Long> {
      *
      * @return boolean
      */
-    boolean existsUfavoritesByChapter_ChIDAndUser_uIDAndDateViewBetween(Long chID, Long uID, Date startDate, Date endDate);
+    boolean existsUfavoritesByChapter_IdAndUser_uIDAndDateViewBetween(Long chID, Long uID, Date startDate, Date endDate);
 
     /**
      * Kiểm tra tồn tại Favorites trong khoảng
@@ -35,7 +35,7 @@ public interface FavoritesRepository extends JpaRepository< Favorites, Long> {
      *
      * @return boolean
      */
-    boolean existsUfavoritesByChapter_ChIDAndLocationIPAndDateViewBetween(Long chID, String locationIP, Date startDate, Date endDate);
+    boolean existsUfavoritesByChapter_IdAndLocationIPAndDateViewBetween(Long chID, String locationIP, Date startDate, Date endDate);
 
     /**
      * Lấy Lịch sử đọc mới nhất
@@ -45,5 +45,5 @@ public interface FavoritesRepository extends JpaRepository< Favorites, Long> {
      *
      * @return Optional<Favorites>
      */
-    Optional< Favorites > findTopByUser_uIDAndChapter_Story_sIDOrderByDateViewDesc(Long uID, Long sID);
+    Optional< Favorites > findTopByUser_IdAndChapter_Story_IdOrderByDateViewDesc(Long uID, Long sID);
 }

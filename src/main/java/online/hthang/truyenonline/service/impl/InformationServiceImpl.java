@@ -17,7 +17,7 @@ public class InformationServiceImpl implements InformationService {
 
     @Override
     public Information getWebInfomation() {
-        return informationRepository.findFirstByOrderByInfoIDDesc();
+        return informationRepository.findFirstByOrderByInfoIdDesc();
     }
 
 }

@@ -41,16 +41,16 @@ public class WebRestfulController {
     private final PayService payService;
     private final ChapterService chapterService;
     private final UserService userService;
-    private final SratingService sratingService;
+    private final UserRatingService userRatingService;
     private final CommentService commentService;
 
     @Autowired
-    public WebRestfulController(StoryService storyService, PayService payService, ChapterService chapterService, UserService userService, SratingService sratingService, CommentService commentService) {
+    public WebRestfulController(StoryService storyService, PayService payService, ChapterService chapterService, UserService userService, UserRatingService userRatingService, CommentService commentService) {
         this.storyService = storyService;
         this.payService = payService;
         this.chapterService = chapterService;
         this.userService = userService;
-        this.sratingService = sratingService;
+        this.userRatingService = userRatingService;
         this.commentService = commentService;
     }
 
@@ -124,21 +124,21 @@ public class WebRestfulController {
             exceptionResponse.setMessage("Tài khoản của bạn đã bị khóa. Mời liên hệ admin!");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
-        if (sratingService.checkRatingWithUser(idBox, user.getUID())) {
+        if (userRatingService.checkRatingWithUser(idBox, user.getUID())) {
             exceptionResponse.setMessage("Bạn đã đánh giá truyện này rồi");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
         String locationIP = getLocationIP(request);
         Date now = DateUtils.getCurrentDate();
-        Optional< UserRating > optionalSrating = sratingService.checkRatingWithLocationIP(idBox, locationIP, DateUtils.getHalfAgo(now), now);
+        Optional< UserRating > optionalSrating = userRatingService.checkRatingWithLocationIP(idBox, locationIP, DateUtils.getHalfAgo(now), now);
         if (optionalSrating.isPresent()) {
             exceptionResponse.setMessage("Đã có đánh giá truyện tại địa chỉ IP này. Hãy đợi " + DateUtils.betweenHours(optionalSrating.get().getCreateDate()) + " để tiếp tục đánh giá");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
-        Float result = sratingService.saveRating(user.getUID(), idBox, locationIP, rate);
+        Float result = userRatingService.saveRating(user.getUID(), idBox, locationIP, rate);
         //Lưu đánh giá
         if (result != -1) {
-            exceptionResponse.setMyrating(sratingService.getSumRaitingOfStory(idBox));
+            exceptionResponse.setMyrating(userRatingService.getSumRaitingOfStory(idBox));
             DecimalFormat df = new DecimalFormat("#.0");
             ;
             exceptionResponse.setMyrate(df.format(result));

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 11, 2019 lúc 04:43 AM
+-- Thời gian đã tạo: Th1 14, 2019 lúc 06:04 AM
 -- Phiên bản máy phục vụ: 10.1.33-MariaDB
 -- Phiên bản PHP: 7.2.6
 
@@ -680,40 +680,15 @@ INSERT INTO `information` (`id`, `introduce`, `email`, `phone`, `skype`, `logo`,
 
 CREATE TABLE `pay` (
   `id` bigint(20) NOT NULL COMMENT 'ID pay',
-  `payerID` bigint(20) DEFAULT NULL COMMENT 'ID người trả phí',
-  `story_id` bigint(20) NOT NULL,
-  `chID` bigint(20) DEFAULT NULL COMMENT 'ID Chapter Trả',
-  `receiverID` bigint(20) DEFAULT NULL COMMENT 'ID người Nhận',
-  `price` bigint(20) DEFAULT NULL COMMENT 'Price Trả Phí',
+  `userSend` bigint(20) DEFAULT NULL COMMENT 'ID người trả phí',
+  `storyId` bigint(20) DEFAULT NULL COMMENT 'ID Truyện',
+  `chapterId` bigint(20) DEFAULT NULL COMMENT 'ID Chapter Trả',
+  `userReceived` bigint(20) DEFAULT NULL COMMENT 'ID người Nhận',
+  `money` bigint(20) DEFAULT NULL COMMENT 'Price Trả Phí',
+  `type` int(11) NOT NULL COMMENT 'Loại giao dịch',
   `createDate` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Ngày Trả Phí',
-  `payStatus` int(11) DEFAULT '1' COMMENT 'Trạng Thái Thanh Toán'
+  `status` int(11) DEFAULT '1' COMMENT 'Trạng Thái Thanh Toán'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table Thanh Toán Phí';
-
---
--- Đang đổ dữ liệu cho bảng `pay`
---
-
-INSERT INTO `pay` (`id`, `payerID`, `story_id`, `chID`, `receiverID`, `price`, `createDate`, `payStatus`) VALUES
-(5, 1, 0, 2, 2, 100, '2018-11-26 10:39:43', 1),
-(6, 1, 0, 2, 3, 200, '2018-11-26 10:48:09', 1),
-(12, 1, 0, 2, 1, 10, '2018-11-26 11:16:04', 1),
-(13, 2, 0, 2, 1, 10, '2018-11-26 11:17:06', 1),
-(14, 1, 0, 4, 2, 100, '2018-11-26 21:58:24', 1),
-(15, 1, 0, NULL, NULL, 100, NULL, 2),
-(16, 1, 0, NULL, NULL, 1000, NULL, 3),
-(17, 1, 0, NULL, NULL, 1000, NULL, 3),
-(18, 1, 0, NULL, NULL, 1000, NULL, 3),
-(19, 1, 0, NULL, NULL, 1000, NULL, 3),
-(20, 1, 0, NULL, NULL, 1000, NULL, 3),
-(21, 1, 0, NULL, NULL, 1000, NULL, 3),
-(22, 1, 0, NULL, NULL, 2000, NULL, 2),
-(23, 1, 0, NULL, NULL, 1000, NULL, 3),
-(24, 1, 0, NULL, NULL, 2000, NULL, 2),
-(25, 1, 0, NULL, NULL, 2000, NULL, 2),
-(26, 1, 0, NULL, NULL, 2000, NULL, 2),
-(27, 1, 0, NULL, NULL, 2000, NULL, 2),
-(28, 1, 0, NULL, NULL, 2000, NULL, 2),
-(31, 1, 0, 3, 2, 0, '2018-12-10 22:27:41', 1);
 
 -- --------------------------------------------------------
 
@@ -960,9 +935,10 @@ ALTER TABLE `information`
 --
 ALTER TABLE `pay`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `chdeal_user_uID_fk` (`payerID`),
-  ADD KEY `chdeal_chapter_chID_fk` (`chID`),
-  ADD KEY `pay_user_uID_fk` (`receiverID`);
+  ADD KEY `chdeal_user_uID_fk` (`userSend`),
+  ADD KEY `chdeal_chapter_chID_fk` (`chapterId`),
+  ADD KEY `pay_user_uID_fk` (`userReceived`),
+  ADD KEY `pay_story_id_fk` (`storyId`);
 
 --
 -- Chỉ mục cho bảng `role`
@@ -1048,7 +1024,7 @@ ALTER TABLE `information`
 -- AUTO_INCREMENT cho bảng `pay`
 --
 ALTER TABLE `pay`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID pay', AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID pay';
 
 --
 -- AUTO_INCREMENT cho bảng `role`
@@ -1100,9 +1076,10 @@ ALTER TABLE `favorites`
 -- Các ràng buộc cho bảng `pay`
 --
 ALTER TABLE `pay`
-  ADD CONSTRAINT `chdeal_chapter_chID_fk` FOREIGN KEY (`chID`) REFERENCES `chapter` (`id`),
-  ADD CONSTRAINT `chdeal_user_uID_fk` FOREIGN KEY (`payerID`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `pay_user_uID_fk` FOREIGN KEY (`receiverID`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `chdeal_chapter_chID_fk` FOREIGN KEY (`chapterId`) REFERENCES `chapter` (`id`),
+  ADD CONSTRAINT `chdeal_user_uID_fk` FOREIGN KEY (`userSend`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `pay_story_id_fk` FOREIGN KEY (`storyId`) REFERENCES `story` (`id`),
+  ADD CONSTRAINT `pay_user_uID_fk` FOREIGN KEY (`userReceived`) REFERENCES `user` (`id`);
 
 --
 -- Các ràng buộc cho bảng `story`

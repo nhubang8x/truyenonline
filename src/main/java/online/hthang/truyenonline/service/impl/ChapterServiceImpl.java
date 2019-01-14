@@ -176,7 +176,7 @@ public class ChapterServiceImpl implements ChapterService {
      */
     @Override
     public Long countChapterByUser(Long uID, List< Integer > listStatus) {
-        return chapterRepository.countByUser_uIDAndChStatusIn(uID, listStatus);
+        return chapterRepository.countByUser_IdAndStatusIn(uID, listStatus);
     }
 
     /**
@@ -192,7 +192,7 @@ public class ChapterServiceImpl implements ChapterService {
     public Page< ChapterOfStory > getChapterOfStory(Long sID, List< Integer > listStatus, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return chapterRepository
-                .findByStory_sIDAndChStatusInOrderByChSerialDesc(sID, listStatus, pageable);
+                .findByStory_IdAndStatusInOrderBySerialDesc(sID, listStatus, pageable);
     }
 
     /**
@@ -205,6 +205,6 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public List< ChapterOfStory > getAllChapterOfStory(Long sID, List< Integer > listStatus) {
         return chapterRepository
-                .findByStory_sIDAndChStatusInOrderByChSerialDesc(sID, listStatus);
+                .findByStory_IdAndStatusInOrderBySerialDesc(sID, listStatus);
     }
 }

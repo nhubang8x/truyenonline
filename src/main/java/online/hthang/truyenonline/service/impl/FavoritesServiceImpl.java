@@ -4,7 +4,7 @@ import online.hthang.truyenonline.entity.Chapter;
 import online.hthang.truyenonline.entity.Favorites;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.repository.FavoritesRepository;
-import online.hthang.truyenonline.service.UfavoritesService;
+import online.hthang.truyenonline.service.FavoritesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 
 @Service
-public class FavoritesServiceImpl implements UfavoritesService {
+public class FavoritesServiceImpl implements FavoritesService {
 
     private final FavoritesRepository favoritesRepository;
 
@@ -37,7 +37,7 @@ public class FavoritesServiceImpl implements UfavoritesService {
     @Override
     public boolean checkChapterAndUserInTime(Long chID, Long uID, Date startDate, Date endDate) {
         return favoritesRepository
-                .existsUfavoritesByChapter_ChIDAndUser_uIDAndDateViewBetween(chID, uID, startDate, endDate);
+                .existsUfavoritesByChapter_IdAndUser_uIDAndDateViewBetween(chID, uID, startDate, endDate);
     }
 
     /**
@@ -52,7 +52,7 @@ public class FavoritesServiceImpl implements UfavoritesService {
     @Override
     public boolean checkChapterAndLocationIPInTime(Long chID, String locationIP, Date startDate, Date endDate) {
         return favoritesRepository
-                .existsUfavoritesByChapter_ChIDAndLocationIPAndDateViewBetween(chID, locationIP, startDate, endDate);
+                .existsUfavoritesByChapter_IdAndLocationIPAndDateViewBetween(chID, locationIP, startDate, endDate);
     }
 
     /**
@@ -84,7 +84,7 @@ public class FavoritesServiceImpl implements UfavoritesService {
     @Override
     public Chapter getChapterReadNewByUser(Long uID, Long sID) {
         Optional< Favorites > ufavorites = favoritesRepository
-                .findTopByUser_uIDAndChapter_Story_sIDOrderByDateViewDesc(uID, sID);
+                .findTopByUser_IdAndChapter_Story_IdOrderByDateViewDesc(uID, sID);
         return ufavorites.map(Favorites::getChapter).orElse(null);
     }
 }

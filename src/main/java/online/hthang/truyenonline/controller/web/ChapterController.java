@@ -44,16 +44,16 @@ public class ChapterController {
 
     private final PayService payService;
 
-    private final UfavoritesService ufavoritesService;
+    private final FavoritesService favoritesService;
 
     @Autowired
-    public ChapterController(InformationService informationService, CategoryService categoryService, StoryService storyService, ChapterService chapterService, PayService payService, UfavoritesService ufavoritesService) {
+    public ChapterController(InformationService informationService, CategoryService categoryService, StoryService storyService, ChapterService chapterService, PayService payService, FavoritesService favoritesService) {
         this.informationService = informationService;
         this.categoryService = categoryService;
         this.storyService = storyService;
         this.chapterService = chapterService;
         this.payService = payService;
-        this.ufavoritesService = ufavoritesService;
+        this.favoritesService = favoritesService;
     }
 
     private void getMenuAndInfo(Model model, String title) {
@@ -209,7 +209,7 @@ public class ChapterController {
                                Date now,
                                String LocationIP) {
         // Kiểm Tra đã đọc Chapter trong Khoảng
-        boolean check = ufavoritesService
+        boolean check = favoritesService
                 .checkChapterAndLocationIPInTime(chapter.getChID(), LocationIP, halfHourAgo, now);
         Integer ufView = 1;
 
@@ -219,7 +219,7 @@ public class ChapterController {
             // Chưa Đọc Chapter Trong Khoảng 30 phút Thì Tăng Lượt View Của Chapter
             increaseView(chapter);
         }
-        ufavoritesService.saveUfavorite(chapter, user, LocationIP, ufView);
+        favoritesService.saveUfavorite(chapter, user, LocationIP, ufView);
     }
 
     //Tăng Lượt Xem Của Chapter Và Story
