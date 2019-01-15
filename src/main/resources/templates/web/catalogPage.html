@@ -54,29 +54,29 @@
                                             th:each="story : ${listStory}">
                                             <section class="content">
                                                 <a class="thumb"
-                                                   th:href="@{'/truyen/'+${story.sID}}">
+                                                   th:href="@{'/truyen/'+${story.id}}">
                                                     <img class="img-fluid lazyload"
-                                                         th:data-src="${story.sImages}"
+                                                         th:data-src="${story.images}"
                                                          th:alt="${story.vnName}">
                                                 </a>
                                                 <section class="info">
                                                     <h2 class="title">
-                                                        <a th:href="@{'/truyen/'+${story.sID}}"
+                                                        <a th:href="@{'/truyen/'+${story.id}}"
                                                            th:title="${story.vnName}">
                                                             <img class="img-fluid"
-                                                                 th:if="${story.SDealStatus == 1}"
+                                                                 th:if="${story.dealStatus == 1}"
                                                                  th:src="@{/images/vip-vip.gif}">
-                                                            <span th:class="${story.SDealStatus == 1}?'shadow-2' : ''"
+                                                            <span th:class="${story.dealStatus == 1}?'shadow-2' : ''"
                                                                   th:text="${story.vnName}"></span>
                                                         </a>
                                                     </h2>
-                                                    <section class="chap" th:text="${story.sAuthor}"></section>
+                                                    <section class="chap" th:text="${story.author}"></section>
                                                     <section class="author">
-                                                        <a th:if="${story.chID != null}"
-                                                           th:href="@{'/truyen/'+${story.sID}+'/chuong/'+${story.chID}}"
-                                                           th:title="'Chương ' + ${story.chNumber}"
-                                                           th:text="'Chương '+ ${story.chNumber}"></a>
-                                                        <a th:unless="${story.chID != null}">&nbsp;</a>
+                                                        <a th:if="${story.chapterId != null}"
+                                                           th:href="@{'/truyen/'+${story.id}+'/chuong-'+${story.chapterId}}"
+                                                           th:title="'Chương ' + ${story.chapterNumber}"
+                                                           th:text="'Chương '+ ${story.chapterNumber}"></a>
+                                                        <a th:unless="${story.chapterId != null}">&nbsp;</a>
                                                     </section>
                                                     <section class="time"
                                                              th:text="${story.timeUpdate}"></section>
@@ -138,21 +138,21 @@
                                                          th:each="topstory : ${topview}">
                                                     <section class="item">
                                                         <section class="thumb">
-                                                            <a th:href="@{'/truyen/'+${topstory.sID}}"
+                                                            <a th:href="@{'/truyen/'+${topstory.id}}"
                                                                th:title="${topstory.vnName}">
                                                                 <img class="img-fluid" alt=""
-                                                                     th:src="@{${topstory.sImages}}"
+                                                                     th:src="@{${topstory.images}}"
                                                                      th:title="${topstory.vnName}">
                                                             </a>
                                                         </section>
                                                         <section class="info" style="">
                                                             <h2 class="title">
-                                                                <a th:href="@{'/truyen/'+${topstory.sID}}"
+                                                                <a th:href="@{'/truyen/'+${topstory.id}}"
                                                                    th:title="${topstory.vnName}"
                                                                    th:text="${topstory.vnName}"></a>
                                                             </h2>
                                                             <p class="description text-center"
-                                                               th:text="${topstory.sInfo}"></p>
+                                                               th:text="${topstory.infomation}"></p>
                                                         </section>
                                                     </section>
                                                 </section>

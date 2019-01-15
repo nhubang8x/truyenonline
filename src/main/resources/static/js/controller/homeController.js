@@ -19,7 +19,7 @@ function homeCtrl(HomeService, $scope) {
 
     $scope.getTopViewMonth = function () {
         var data = new FormData();
-        //Lấy Top View 10 Truyện Trong Tuần
+        //Lấy Top View 10 Truyện Trong Tháng
         var url = window.location.origin + '/api/home/topViewMonth';
         HomeService.getData(url, data).then(function (response) {
             $scope.topViewMonth = response.data;

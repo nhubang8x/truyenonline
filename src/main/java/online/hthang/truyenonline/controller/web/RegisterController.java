@@ -80,13 +80,13 @@ public class RegisterController {
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setUPass(passwordEncoder.encode(user.getPasswordRegister()));
+        user.setPassowrd(passwordEncoder.encode(user.getPasswordRegister()));
 
         //Lưu Người dùng đăng ký trong database
         userService.registerUser(user);
 
         //Đăng nhập sau khi đăng ký thành công
-        securityService.autologin(user.getUName(), user.getPasswordRegisterConfirm(), request);
+        securityService.autologin(user.getUsername(), user.getPasswordRegisterConfirm(), request);
 
         return "redirect:/";
     }

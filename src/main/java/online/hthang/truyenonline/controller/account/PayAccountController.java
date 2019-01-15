@@ -62,16 +62,16 @@ public class PayAccountController {
         // Lấy Danh sách truyện đang đọc của người dùng
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         //Lấy thông tin Tài Khoản đăng nhập
-        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getUID());
+        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getId());
         if (!optionalUser.isPresent()) {
             throw new NotFoundException("Tài khoản không tồn tại mời liên hệ admin để biết thêm thông tin");
         }
         User user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new NotFoundException("Tài khoản của bạn đã bị khóa mời liên hệ admin để biết thêm thông tin");
         }
 
-        model.addAttribute("codePay", user.getUID() + "-" + user.getUName());
+        model.addAttribute("codePay", user.getId() + "-" + user.getUsername());
 
         getMenuAndInfo(model, title);
 
@@ -83,16 +83,16 @@ public class PayAccountController {
         // Lấy Danh sách truyện đang đọc của người dùng
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         //Lấy thông tin Tài Khoản đăng nhập
-        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getUID());
+        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getId());
         if (!optionalUser.isPresent()) {
             throw new NotFoundException("Tài khoản không tồn tại mời liên hệ admin để biết thêm thông tin");
         }
         User user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new NotFoundException("Tài khoản của bạn đã bị khóa mời liên hệ admin để biết thêm thông tin");
         }
 
-        model.addAttribute("codePay", user.getUID() + "-" + user.getUName());
+        model.addAttribute("codePay", user.getId() + "-" + user.getDisplayName());
 
         getMenuAndInfo(model, title);
 

@@ -13,6 +13,14 @@ import java.util.Optional;
  */
 public interface StoryService {
 
+    /*
+     * Lây Story theo id
+     *
+     * @param id
+     * @return Story/null
+     */
+    Story getStoryById(Long id);
+
     /**
      * Lấy List Truyện Mới Cập Nhật
      *
@@ -78,13 +86,16 @@ public interface StoryService {
     /**
      * Lấy List Truyện Hoàn Thành Top View Trong Khoảng
      *
+     * @param favoritesStatus
+     * @param listStatus
      * @param startDate
      * @param endDate
      * @param page
      * @param size
      * @return Page<TopStory>
      */
-    Page< TopStory > getTopStoryComplete(Date startDate, Date endDate, int page, int size);
+    Page< TopStory > getTopStoryComplete(List< Integer > listStatus, Integer favoritesStatus,
+                                         Date startDate, Date endDate, int page, int size);
 
     /**
      * Lấy Top 10 Truyện Mới hoàn thành

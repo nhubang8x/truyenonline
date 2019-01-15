@@ -62,7 +62,7 @@ public class Story implements Serializable {
     @Column(name = "status")
     private Integer status;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userPosted", referencedColumnName = "uID", nullable = false)
+    @JoinColumn(name = "userPosted", referencedColumnName = "id", nullable = false)
     private User user;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "story_category",

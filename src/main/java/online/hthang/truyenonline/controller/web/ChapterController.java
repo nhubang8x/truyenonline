@@ -32,19 +32,13 @@ import java.util.Optional;
 @RequestMapping("/truyen")
 public class ChapterController {
 
-    Logger logger = LoggerFactory.getLogger(ChapterController.class);
-
     private final InformationService informationService;
-
     private final CategoryService categoryService;
-
     private final StoryService storyService;
-
     private final ChapterService chapterService;
-
     private final PayService payService;
-
     private final FavoritesService favoritesService;
+    Logger logger = LoggerFactory.getLogger(ChapterController.class);
 
     @Autowired
     public ChapterController(InformationService informationService, CategoryService categoryService, StoryService storyService, ChapterService chapterService, PayService payService, FavoritesService favoritesService) {
@@ -97,8 +91,8 @@ public class ChapterController {
 
         Chapter chapter = optionalChapter.get();
         String title = chapter.getStory().getVnName()
-                + " - Chương " + chapter.getChNumber()
-                + ": " + chapter.getChName();
+                + " - Chương " + chapter.getChapterNumber()
+                + ": " + chapter.getName();
 
         //Lấy Thời Gian Hiện Tại
         Date now = DateUtils.getCurrentDate();
@@ -126,9 +120,9 @@ public class ChapterController {
 
         //Lưu Lịch Sử Đọc Truyện
         saveFavorites(user, chapter, halfHourAgo, now, locationIP);
-        if (chapter.getUser().getUAvatar() == null || chapter.getUser().getUAvatar().isEmpty()) {
+        if (chapter.getUser().getAvatar() == null || chapter.getUser().getAvatar().isEmpty()) {
             logger.info("Đã log avatar");
-            chapter.getUser().setUAvatar(ConstantsUtils.AVATAR_DEFAULT);
+            chapter.getUser().setAvatar(ConstantsUtils.AVATAR_DEFAULT);
         }
         return "web/chapterPage";
     }
@@ -154,7 +148,7 @@ public class ChapterController {
 
         //Kiểm Tra Chapter có phải tính phí hay không
         //Chapter tính phí là chapter có chStatus = 2
-        if (chapter.getChStatus() == 2) {
+        if (chapter.getStatus() == 2) {
 
             // Kiểm tra người dùng đã đăng nhập chưa
             if (user != null) {
@@ -162,7 +156,7 @@ public class ChapterController {
                 // Kiểm tra người dùng đã thanh toán chương vip trong 24h qua không
                 // Nếu chưa thanh toán rồi thì check = false
                 if (!checkUser) {
-                    boolean checkPay = checkDealStory(chapter.getChID(), user.getUID(), dayAgo, now);
+                    boolean checkPay = checkDealStory(chapter.getId(), user.getId(), dayAgo, now);
                     logger.info(String.valueOf(checkPay));
                     if (!checkPay) {
                         check = false;
@@ -180,11 +174,8 @@ public class ChapterController {
                                    Long uID,
                                    Date dayAgo,
                                    Date now) {
-        logger.info("Hôm Trước:" + dayAgo);
-        logger.info("Hiện Tại:" + now);
         boolean check = payService
                 .checkDealStoryVip(chID, uID, dayAgo, now);
-        logger.info(String.valueOf(check));
         return check;
     }
 
@@ -210,33 +201,34 @@ public class ChapterController {
                                String LocationIP) {
         // Kiểm Tra đã đọc Chapter trong Khoảng
         boolean check = favoritesService
-                .checkChapterAndLocationIPInTime(chapter.getChID(), LocationIP, halfHourAgo, now);
-        Integer ufView = 1;
+                .checkChapterAndLocationIPInTime(chapter.getId(), LocationIP, halfHourAgo, now);
+        int uView = 1;
 
         if (check) {
-            ufView = 0;
+            uView = 0;
         } else {
             // Chưa Đọc Chapter Trong Khoảng 30 phút Thì Tăng Lượt View Của Chapter
             increaseView(chapter);
         }
-        favoritesService.saveUfavorite(chapter, user, LocationIP, ufView);
+        favoritesService.saveUfavorite(chapter, user, LocationIP, uView);
     }
 
     //Tăng Lượt Xem Của Chapter Và Story
     private void increaseView(Chapter chapter) {
-        chapter.setChView(chapter.getChView() + 1);
-        chapterService.updateChapter(chapter);
-        Story story = chapter.getStory();
-        story.setSView(story.getSView() + 1);
+        Chapter updateChapter = chapterService.getChapterByID(chapter.getId());
+        updateChapter.setCountView(chapter.getCountView() + 1);
+        chapterService.updateChapter(updateChapter);
+        Story story = storyService.getStoryById(chapter.getStory().getId());
+        story.setCountView(story.getCountView() + 1);
         storyService.updateViewStory(story);
     }
 
     private void getPreAndNextChapter(Model model,
                                       Chapter chapter) {
         model.addAttribute("preChapter", chapterService
-                .getPreviousChapterID(chapter.getChSerial(), chapter.getStory().getSID()));
+                .getPreviousChapterID(chapter.getSerial(), chapter.getStory().getId()));
 
         model.addAttribute("nextChapter", chapterService.
-                getNextChapterID(chapter.getChSerial(), chapter.getStory().getSID()));
+                getNextChapterID(chapter.getSerial(), chapter.getStory().getId()));
     }
 }

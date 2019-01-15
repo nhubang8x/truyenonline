@@ -17,9 +17,9 @@ public interface TopStory {
 
     Long getCnt();
 
-    Long getCID();
+    Long getCategoryId();
 
-    String getCName();
+    String getCategoryName();
 
     String getInfomation();
 

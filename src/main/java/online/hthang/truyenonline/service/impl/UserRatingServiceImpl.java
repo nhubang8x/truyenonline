@@ -15,8 +15,12 @@ import java.util.Optional;
 @Service
 public class UserRatingServiceImpl implements UserRatingService {
 
+    private final UserRatingRepository userRatingRepository;
+
     @Autowired
-    private UserRatingRepository userRatingRepository;
+    public UserRatingServiceImpl(UserRatingRepository userRatingRepository) {
+        this.userRatingRepository = userRatingRepository;
+    }
 
     /**
      * Kiểm tra Tồn Tại UserRating theo
@@ -28,7 +32,7 @@ public class UserRatingServiceImpl implements UserRatingService {
     @Override
     public boolean checkRatingWithUser(Long sID, Long uID) {
         return userRatingRepository
-                .existsSratingByStory_sIDAndUser_uID(sID, uID);
+                .existsSratingByStory_IdAndUser_Id(sID, uID);
     }
 
     /**
@@ -43,7 +47,7 @@ public class UserRatingServiceImpl implements UserRatingService {
     @Override
     public Optional< UserRating > checkRatingWithLocationIP(Long sID, String locationIP, Date startDate, Date endDate) {
         return userRatingRepository
-                .findByStory_sIDAndLocationIPAndCreateDateBetween(sID, locationIP, startDate, endDate);
+                .findByStory_IdAndLocationIPAndCreateDateBetween(sID, locationIP, startDate, endDate);
     }
 
     /**
@@ -55,7 +59,7 @@ public class UserRatingServiceImpl implements UserRatingService {
     @Override
     public Long getSumRaitingOfStory(Long sID) {
         return userRatingRepository
-                .countByStory_sID(sID);
+                .countByStory_Id(sID);
     }
 
     /**

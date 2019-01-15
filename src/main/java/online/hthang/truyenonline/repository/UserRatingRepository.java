@@ -26,7 +26,7 @@ public interface UserRatingRepository extends JpaRepository< UserRating, UserRat
      * @param endDate
      * @return
      */
-    Optional< UserRating > findByStory_sIDAndLocationIPAndCreateDateBetween(Long sID,
+    Optional< UserRating > findByStory_IdAndLocationIPAndCreateDateBetween(Long sID,
                                                                             String locationIP,
                                                                             Date startDate,
                                                                             Date endDate);
@@ -38,7 +38,7 @@ public interface UserRatingRepository extends JpaRepository< UserRating, UserRat
      * @param uID
      * @return "true" nếu đã có bình chọn, "false: nếu chưa có bình chọn phù hợp
      */
-    boolean existsSratingByStory_sIDAndUser_uID(Long sID, Long uID);
+    boolean existsSratingByStory_IdAndUser_Id(Long sID, Long uID);
 
     /**
      * Đếm số đánh giá
@@ -46,7 +46,7 @@ public interface UserRatingRepository extends JpaRepository< UserRating, UserRat
      * @param sID
      * @return "true" nếu đã có bình chọn, "false: nếu chưa có bình chọn phù hợp
      */
-    Long countByStory_sID(Long sID);
+    Long countByStory_Id(Long sID);
 
     /**
      * Thực Hiện Đánh giá

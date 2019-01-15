@@ -24,7 +24,7 @@ import lombok.Data;
  * @author Huy Thang
  */
 @Entity
-@Table(name = "_srating")
+@Table(name = "user_rating")
 @Data
 @NoArgsConstructor
 public class UserRating implements Serializable {

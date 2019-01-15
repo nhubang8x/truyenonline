@@ -33,6 +33,12 @@ public class StoryServiceImpl implements StoryService {
         this.storyRepository = storyRepository;
     }
 
+    @Override
+    public Story getStoryById(Long id) {
+        Optional< Story > storyOptional = storyRepository.findById(id);
+        return storyOptional.orElse(null);
+    }
+
     /**
      * Lấy List Truyện Mới Cập Nhật
      *
@@ -80,7 +86,7 @@ public class StoryServiceImpl implements StoryService {
     public Page< NewStory > getStoryNewByCID(Integer cID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
-                .getStoryNewByCategory(ConstantsListUtils.LIST_CHAPTER_DISPLAY, cID,
+                .findStoryNewByCategory(ConstantsListUtils.LIST_CHAPTER_DISPLAY, cID,
                         ConstantsListUtils.LIST_STORY_DISPLAY, pageable);
     }
 
@@ -97,7 +103,7 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public Page< TopStory > getTopStoryByCID(Date startDate, Date endDate, Integer cID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        return storyRepository.getTopStoryByCategory(cID, ConstantsListUtils.LIST_STORY_DISPLAY,
+        return storyRepository.getTopStoryByCategory(cID, ConstantsUtils.STATUS_ACTIVED, ConstantsListUtils.LIST_STORY_DISPLAY,
                 startDate, endDate, pageable);
     }
 
@@ -115,7 +121,7 @@ public class StoryServiceImpl implements StoryService {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getTopStory(ConstantsListUtils.LIST_STORY_DISPLAY, startDate,
-                        endDate, pageable);
+                        endDate, ConstantsUtils.STATUS_ACTIVED, pageable);
     }
 
     /**
@@ -145,12 +151,10 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<TopStory>
      */
     @Override
-    public Page< TopStory > getTopStoryComplete(Date startDate, Date endDate, int page, int size) {
-        List< Integer > listStatus = new ArrayList<>();
-        listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
+    public Page< TopStory > getTopStoryComplete(List< Integer > listStatus, Integer favoritesStatus, Date startDate, Date endDate, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
-                .getTopStory(listStatus, startDate, endDate, pageable);
+                .getTopStory(listStatus, startDate, endDate, favoritesStatus, pageable);
     }
 
     /**
@@ -161,7 +165,7 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public List< Story > getNewStoryCompleted() {
         return storyRepository
-                .findTop10BySStatus(ConstantsUtils.STORY_STATUS_COMPLETED);
+                .findTop10ByStatus(ConstantsUtils.STORY_STATUS_COMPLETED);
     }
 
     /**
@@ -173,7 +177,7 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public Page< NewStory > getStoryCompletedByPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "sUpdate");
+        Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .getPageStoryComplete(ConstantsListUtils.LIST_CHAPTER_DISPLAY, ConstantsUtils.STORY_STATUS_COMPLETED, pageable);
     }
@@ -187,7 +191,7 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public List< SearchStory > getSearch(String searchName) {
         return storyRepository
-                .findTop10ByvnNameContainingAndSStatusNot(searchName,
+                .findTop10ByVnNameContainingAndStatusNot(searchName,
                         ConstantsUtils.STORY_STATUS_HIDDEN);
     }
 
@@ -199,7 +203,7 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public boolean searchStoryByID(Long sID) {
-        return storyRepository.existsStoryBySIDAndSStatusNot(sID, ConstantsUtils.STORY_STATUS_HIDDEN);
+        return storyRepository.existsStoryByIdAndStatusNot(sID, ConstantsUtils.STORY_STATUS_HIDDEN);
     }
 
     /**
@@ -238,7 +242,7 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public Optional< StorySummary > getStoryBySIDAndStatus(Long sID, List< Integer > listStatus) {
-        return storyRepository.findBysIDAndSStatusIn(sID, listStatus);
+        return storyRepository.findByIdAndStatusIn(sID, listStatus);
     }
 
     /**
@@ -251,14 +255,14 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public List< SearchStory > getListStoryOfConverter(Long uID, List< Integer > listStatus) {
         return storyRepository
-                .findTop5BySConverter_uIDAndSStatusInOrderByCreateDate(uID, listStatus);
+                .findTop5ByUser_IdAndStatusInOrderByCreateDateDesc(uID, listStatus);
     }
 
     @Override
     public Page< MemberStorySummary > getStoryByConverter(List< Integer > listStatus, Long uID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
-                .findBySConverter_uIDAndSStatusInOrderByCreateDateDesc(uID, listStatus, pageable);
+                .findByUser_IdAndStatusInOrderByCreateDateDesc(uID, listStatus, pageable);
     }
 
     /**
@@ -270,7 +274,7 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public Long countStoryByUser(Long uID, List< Integer > listStatus) {
-        return storyRepository.countBySConverter_uIDAndSStatusIn(uID, listStatus);
+        return storyRepository.countByUser_IdAndStatusIn(uID, listStatus);
     }
 
     /**
@@ -293,6 +297,6 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public List< SearchStory > getTop3StoryOfConverter(Long uID, List< Integer > listStatus) {
-        return storyRepository.findTop3BySConverter_uIDAndSStatusInOrderByCreateDateDesc(uID, listStatus);
+        return storyRepository.findTop3ByUser_IdAndStatusInOrderByCreateDateDesc(uID, listStatus);
     }
 }

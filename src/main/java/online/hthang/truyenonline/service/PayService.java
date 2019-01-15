@@ -1,6 +1,7 @@
 package online.hthang.truyenonline.service;
 
 import online.hthang.truyenonline.entity.Chapter;
+import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
 
 import java.util.Date;
@@ -17,19 +18,10 @@ public interface PayService {
      * @param uID
      * @param startDate
      * @param endDate
-     *
      * @return true/false
      */
     boolean checkDealStoryVip(Long chID, Long uID, Date startDate, Date endDate);
 
-    boolean saveDealChapter(Chapter chapter, User user);
+    boolean savePay(Story story, Chapter chapter, User userSend, User userReceived, Double money, Integer payType);
 
-    /**
-     * Lưu Giao Dịch Với Trạng Thái
-     *
-     * @param uID
-     * @param price
-     * @return true/false
-     */
-    void savePay(Long uID , Double price, Integer status);
 }

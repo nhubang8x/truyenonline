@@ -48,8 +48,26 @@ public class ConstantsUtils {
     // Trạng Thái Nạp Tiền
     public static Integer RECHARGE_STATUS = 0;
 
-    // Trạng Thái Thanh Toán Truyện
+    // Trạng Thái Thanh Toán Hoàn Thành
     public static Integer PAY_STATUS = 1;
+
+    //Loại Thanh Toán Nạp Tiền
+    public static Integer PAY_RECHARGE_TYPE = 1;
+
+    //Loại Thanh Toán Đổi Ngoại Hiệu
+    public static Integer PAY_DNAME_TYPE = 2;
+
+    //Loại Thanh Toán Chapter Vip
+    public static Integer PAY_CHAPTER_VIP_TYPE = 3;
+
+    //Loại Thanh Toán Đề Cử Truyện
+    public static Integer PAY_STORY_APPOINT_TYPE = 4;
+
+    //Loại Thanh Toán Ủng Hộ Converter
+    public static Integer PAY_STORY_SUPPORT_TYPE = 5;
+
+    //Loại Thanh Toán Chuyển Tiền
+    public static Integer PAY_TRANSFERS_TYPE = 6;
 
     //Trạng Thái Thanh Toán Đổi Ngoại Hiệu
     public static Integer PAY_DNAME_STATUS = 2;

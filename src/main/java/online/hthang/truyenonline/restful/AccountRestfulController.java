@@ -56,35 +56,36 @@ public class AccountRestfulController {
         }
         MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         User user = myUser.getUser();
-        Optional< User > optionalUser = userService.getUserByID(user.getUID());
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
         if (!optionalUser.isPresent()) {
             throw new HttpNotLoginException("Tài khoản không tồn tại");
         }
         user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new HttpUserLockedException();
         }
         String uDName = uDname.trim();
         if (uDName == null || uDName.isEmpty() || uDName.length() > 25) {
             throw new HttpSizeException("Ngoại hiệu không được để trống hoặc dài quá 25 ký tự!");
         }
-        if (uDName.equalsIgnoreCase(user.getUDname())) {
+        if (uDName.equalsIgnoreCase(user.getDisplayName())) {
             throw new HttpMyException("Ngoại hiệu này bạn đang sử dụng");
         }
-        if (userService.checkUserdNameExits(user.getUID(), uDName)) {
+        if (userService.checkUserdNameExits(user.getId(), uDName)) {
             throw new HttpMyException("Ngoại hiệu đã tồn tại!");
         }
-        if (user.getUDname() == null || user.getUDname().isEmpty()) {
-            userService.updateDnameOfUser(user.getUID(), uDName);
-            payService.savePay(user.getUID(), (double) 0, ConstantsUtils.PAY_DNAME_STATUS);
+        if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
+            userService.updateDnameOfUser(user.getId(), uDName);
+            payService.savePay(null, null, user, null, (double) 0, ConstantsUtils.PAY_DNAME_TYPE);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         if (user.getGold() < ConstantsUtils.PRICE_UPDATE_DNAME) {
             throw new HttpUserGoldException();
         }
         userService
-                .updateDnameAndGoldOfUser(user.getUID(), uDName, ConstantsUtils.PRICE_UPDATE_DNAME);
-        payService.savePay(user.getUID(), ConstantsUtils.PRICE_UPDATE_DNAME, ConstantsUtils.PAY_DNAME_STATUS);
+                .updateDnameAndGoldOfUser(user.getId(), uDName, ConstantsUtils.PRICE_UPDATE_DNAME);
+        payService.savePay(null, null, user, null,
+                ConstantsUtils.PRICE_UPDATE_DNAME, ConstantsUtils.PAY_DNAME_TYPE);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -97,23 +98,24 @@ public class AccountRestfulController {
         }
         MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         User user = myUser.getUser();
-        Optional< User > optionalUser = userService.getUserByID(user.getUID());
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
         if (!optionalUser.isPresent()) {
             throw new HttpNotLoginException("Tài khoản không tồn tại");
         }
         user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new HttpUserLockedException();
         }
         if (notification.trim().length() > 255) {
             throw new HttpSizeException("Thông báo không được dài quá 255 ký tự!");
         }
-        userService.updateNotificationOfUser(user.getUID(), notification.trim());
+        userService.updateNotificationOfUser(user.getId(), notification.trim());
         logger.info("Đã Cập Nhật");
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
+    // Cập nhật Avatar
     @PostMapping(value = "/upload")
     @Transactional
     public ResponseEntity< Object > saveUserAvatar(@RequestParam("userfile") MultipartFile uploadfile,
@@ -123,24 +125,16 @@ public class AccountRestfulController {
         }
         MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         User user = myUser.getUser();
-        Optional< User > optionalUser = userService.getUserByID(user.getUID());
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
         if (!optionalUser.isPresent()) {
             throw new HttpNotLoginException("Tài khoản không tồn tại");
         }
         user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new HttpUserLockedException();
         }
-        if (user.getUAvatar() == null || user.getUAvatar().isEmpty()) {
-            String url = cloudinaryUploadService.upload(uploadfile, user.getUName());
-            userService.updateAvatarOfUser(user.getUID(), url, (double) 0);
-            payService.savePay(user.getUID(), (double) 0, ConstantsUtils.PAY_AVATAR_STATUS);
-            return new ResponseEntity<>(url, HttpStatus.OK);
-        }
-        if (user.getGold() < ConstantsUtils.PRICE_AVATAR_DNAME) {
-            throw new HttpUserGoldException();
-        }
         String fileExtension = FilenameUtils.getExtension(uploadfile.getOriginalFilename());
+        assert fileExtension != null;
         if (!WebUtils.checkExtension(fileExtension)) {
             throw new HttpMyException("Chỉ upload ảnh có định dạng JPG | JPEG | PNG!");
         }
@@ -148,11 +142,8 @@ public class AccountRestfulController {
             throw new HttpSizeException("Kích thước ảnh upload tối đa là 20 Megabybtes!");
         }
         ;
-        String url = cloudinaryUploadService.upload(uploadfile, user.getUName() + "-" + System.nanoTime());
-        userService.updateAvatarOfUser(user.getUID(), url, ConstantsUtils.PRICE_AVATAR_DNAME);
-        payService.savePay(user.getUID(),
-                ConstantsUtils.PRICE_AVATAR_DNAME,
-                ConstantsUtils.PAY_AVATAR_STATUS);
+        String url = cloudinaryUploadService.upload(uploadfile, user.getUsername() + "-" + System.nanoTime());
+        userService.updateAvatarOfUser(user.getId(), url, ConstantsUtils.PRICE_AVATAR_DNAME);
         return new ResponseEntity<>(url, HttpStatus.OK);
     }
 

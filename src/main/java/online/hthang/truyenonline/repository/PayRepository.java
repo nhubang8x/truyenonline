@@ -25,26 +25,28 @@ public interface PayRepository extends JpaRepository<Pay, Long> {
      * @param payStatus
      * @return true - nếu tồn tại/false - nếu không tồn tại
      */
-    boolean existsByChapter_ChIDAndPayer_uIDAndCreateDateBetweenAndPayStatus(Long chID,
-                                                                                Long uID,
-                                                                                Date startDate,
-                                                                                Date endDate,
-                                                                                Integer payStatus);
+    boolean existsByChapter_IdAndUserSendAndCreateDateBetweenAndTypeAndStatus(Long chID,
+                                                                              Long uID,
+                                                                              Date startDate,
+                                                                              Date endDate,
+                                                                              Integer type,
+                                                                              Integer payStatus);
 
     /**
-     * Thực Hiện Thanh Toán
+     * Thực Hiện Thanh Toán Chapter Vip
      *
      * @param payerID
      * @param receiverID
      * @param chapterID
      * @param price
-     * @param payStatus
+     * @param payType
      * @return true - nếu thanh toán thành công / false - nếu thanh toán thất bại và roll back dữ liệu
      */
     @Procedure("payChapter")
-    boolean transferPayChapter(@Param("payerID") Long payerID,
-                               @Param("receiverID") Long receiverID,
+    boolean transferPayChapter(@Param("userSend") Long payerID,
+                               @Param("userReceived") Long receiverID,
                                @Param("chapterID") Long chapterID,
+                               @Param("storyID") Long storyID,
                                @Param("price") Double price,
-                               @Param("payStatus") Integer payStatus);
+                               @Param("payType") Integer payType);
 }

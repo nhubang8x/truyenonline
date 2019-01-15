@@ -31,13 +31,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/the-loai")
 public class CategoryController {
 
-    Logger logger = LoggerFactory.getLogger(CategoryController.class);
-
     private final InformationService informationService;
-
     private final CategoryService categoryService;
-
     private final StoryService storyService;
+    Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @Autowired
     public CategoryController(InformationService informationService, CategoryService categoryService, StoryService storyService) {
@@ -55,7 +52,7 @@ public class CategoryController {
         }
 
         // Lấy Category theo cID
-        Optional<Category> category = categoryService.getCategoryByID(Integer.parseInt(cid));
+        Optional< Category > category = categoryService.getCategoryByID(Integer.parseInt(cid));
 
         if (!category.isPresent()) {
             throw new NotFoundException();
@@ -76,7 +73,7 @@ public class CategoryController {
     }
 
     private void loadData(Category category, int pagenumber, Model model) {
-        Page<NewStory> page = storyService.getStoryNewByCID(category.getCID(), pagenumber, ConstantsUtils.PAGE_SIZE_DEFAULT);
+        Page< NewStory > page = storyService.getStoryNewByCID(category.getId(), pagenumber, ConstantsUtils.PAGE_SIZE_DEFAULT);
 
         // Lấy tổng số trang
         int total = page.getTotalPages();
@@ -89,7 +86,7 @@ public class CategoryController {
         }
 
         // Lấy List Story
-        List<NewStory> lstStory = page.getContent();
+        List< NewStory > lstStory = page.getContent();
 
         // Lấy số trang hiện tại
         int current = page.getNumber() + 1;
@@ -100,7 +97,7 @@ public class CategoryController {
         //Lấy số trang kết thúc
         int end = Math.min(begin + 4, page.getTotalPages());
 
-        String urlIndex = "/the-loai/" + category.getCID() + "/"+ category.getCMetatitle();
+        String urlIndex = "/the-loai/" + category.getId() + "/" + category.getMetatitle();
         model.addAttribute("listStory", lstStory);
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
@@ -123,13 +120,13 @@ public class CategoryController {
         Date lastDayOfWeek = DateUtils.getLastDayOfWeek();
 
         //Lấy Top View Truyện Vip Trong Tháng
-        List<TopStory> listMonthTop = storyService.getTopStoryByCID(firstDayOfMonth, lastDayOfMonth, category.getCID(),
+        List< TopStory > listMonthTop = storyService.getTopStoryByCID(firstDayOfMonth, lastDayOfMonth, category.getId(),
                 ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
                 .get()
                 .collect(Collectors.toList());
 
         //Lấy Top View Truyện Vip Trong Tuần
-        List<   TopStory> listWeekTop = storyService.getTopStoryByCID(firstDayOfWeek, lastDayOfWeek, category.getCID(),
+        List< TopStory > listWeekTop = storyService.getTopStoryByCID(firstDayOfWeek, lastDayOfWeek, category.getId(),
                 ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
                 .get()
                 .collect(Collectors.toList());
@@ -145,7 +142,7 @@ public class CategoryController {
         // Lấy Category theo cID
         Category category = checkCategoryID(cid);
 
-        return "redirect:/the-loai/" + cid + "/" + category.getCMetatitle();
+        return "redirect:/the-loai/" + cid + "/" + category.getMetatitle();
     }
 
     @RequestMapping("/{cid}/{cmetaTitle}")
@@ -157,13 +154,13 @@ public class CategoryController {
 
         // Kiểm tra Metatitle có đúng hay không
         // Nếu không chuyển trang sang định dạng đúng
-        if (!cmetaTitle.equalsIgnoreCase(category.getCMetatitle())) {
+        if (!cmetaTitle.equalsIgnoreCase(category.getMetatitle())) {
 
-            return "redirect:/the-loai/" + cid + "/" + category.getCMetatitle();
+            return "redirect:/the-loai/" + cid + "/" + category.getMetatitle();
 
         }
 
-        String title = "Truyện " + category.getCName();
+        String title = "Truyện " + category.getName();
 
         // Lấy Thông tin Category cho menu và Information Web
         getMenuAndInfo(model, title);
@@ -184,15 +181,15 @@ public class CategoryController {
         Category category = checkCategoryID(cid);
         // Kiểm tra Metatitle có đúng hay không
         // Nếu không chuyển trang sang định dạng đúng
-        if (!cmetaTitle.equalsIgnoreCase(category.getCMetatitle())) {
+        if (!cmetaTitle.equalsIgnoreCase(category.getMetatitle())) {
 
-            return "redirect:/the-loai/" + cid + "/" + category.getCMetatitle() + "/trang-" + page;
+            return "redirect:/the-loai/" + cid + "/" + category.getMetatitle() + "/trang-" + page;
         }
 
 
         int pagenumber = WebUtils.checkPageNumber(page);
 
-        String title = "Truyện " + category.getCName();
+        String title = "Truyện " + category.getName();
 
         // Lấy Thông tin Category cho menu và Information Web
         getMenuAndInfo(model, title);

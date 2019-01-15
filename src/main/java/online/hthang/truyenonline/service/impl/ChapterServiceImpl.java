@@ -39,12 +39,8 @@ public class ChapterServiceImpl implements ChapterService {
         listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
         listStatus.add(ConstantsUtils.STORY_STATUS_GOING_ON);
         Optional< Chapter > chapter = chapterRepository
-                .findChapterByChIDAndChStatusIn(chID, listStatus);
-        if (chapter.isPresent()) {
-            return chapter.get();
-        } else {
-            return null;
-        }
+                .findChapterByIdAndStatusIn(chID, listStatus);
+        return chapter.orElse(null);
     }
 
     @Override
@@ -69,7 +65,7 @@ public class ChapterServiceImpl implements ChapterService {
         List< Integer > listStatus = new ArrayList<>();
         listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
         listStatus.add(ConstantsUtils.STORY_STATUS_GOING_ON);
-        return chapterRepository.findChapterByChIDAndStory_sIDAndChStatusIn(chID,
+        return chapterRepository.findChapterByIdAndStory_IdAndStatusIn(chID,
                 sID, listStatus);
     }
 
@@ -97,11 +93,7 @@ public class ChapterServiceImpl implements ChapterService {
         list.add(ConstantsUtils.CHAPTER_ACTIVED);
         list.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
         Optional< Long > nextID = chapterRepository.getNextChapter(chSerial, sID, list);
-        if (nextID.isPresent()) {
-            return nextID.get();
-        } else {
-            return Long.valueOf(0);
-        }
+        return nextID.orElseGet(() -> Long.valueOf(0));
     }
 
     /**
@@ -117,11 +109,7 @@ public class ChapterServiceImpl implements ChapterService {
         list.add(ConstantsUtils.CHAPTER_ACTIVED);
         list.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
         Optional< Long > previousID = chapterRepository.getPreviousChapter(chSerial, sID, list);
-        if (previousID.isPresent()) {
-            return previousID.get();
-        } else {
-            return Long.valueOf(0);
-        }
+        return previousID.orElseGet(() -> Long.valueOf(0));
     }
 
     /**
@@ -134,11 +122,7 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public ChapterSummary getChapterIDHead(Long sID, List< Integer > listStatus) {
         Optional< ChapterSummary > chapterIDHead = chapterRepository.getChapterHead(sID, listStatus);
-        if (chapterIDHead.isPresent()) {
-            return chapterIDHead.get();
-        } else {
-            return null;
-        }
+        return chapterIDHead.orElse(null);
     }
 
     /**
@@ -151,11 +135,7 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public ChapterSummary getChapterIDNew(Long sID, List< Integer > listStatus) {
         Optional< ChapterSummary > chapterIDNew = chapterRepository.getNewChapter(sID, listStatus);
-        if (chapterIDNew.isPresent()) {
-            return chapterIDNew.get();
-        } else {
-            return null;
-        }
+        return chapterIDNew.orElse(null);
     }
 
     /**

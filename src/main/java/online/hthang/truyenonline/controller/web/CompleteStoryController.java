@@ -5,6 +5,7 @@ import online.hthang.truyenonline.projections.TopStory;
 import online.hthang.truyenonline.service.CategoryService;
 import online.hthang.truyenonline.service.InformationService;
 import online.hthang.truyenonline.service.StoryService;
+import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import online.hthang.truyenonline.utils.DateUtils;
 import online.hthang.truyenonline.utils.WebUtils;
@@ -33,16 +34,12 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/danh-muc/hoan-thanh")
 public class CompleteStoryController {
 
+    private final InformationService informationService;
+    private final CategoryService categoryService;
+    private final StoryService storyService;
     Logger logger = LoggerFactory.getLogger(CompleteStoryController.class);
-
     @Value("${hthang.truyenmvc.title.complete.story}")
     private String titleCompleteStory;
-
-    private final InformationService informationService;
-
-    private final CategoryService categoryService;
-
-    private final StoryService storyService;
 
     @Autowired
     public CompleteStoryController(InformationService informationService, CategoryService categoryService, StoryService storyService) {
@@ -64,7 +61,7 @@ public class CompleteStoryController {
     }
 
     private void loadData(int pagenumber, Model model) {
-        Page<NewStory> page = storyService.getStoryCompletedByPage(pagenumber, ConstantsUtils.PAGE_SIZE_DEFAULT);
+        Page< NewStory > page = storyService.getStoryCompletedByPage(pagenumber, ConstantsUtils.PAGE_SIZE_DEFAULT);
 
         // Lấy tổng số trang
         int total = page.getTotalPages();
@@ -77,7 +74,7 @@ public class CompleteStoryController {
         }
 
         // Lấy List Story
-        List<NewStory> lstStory = page.getContent();
+        List< NewStory > lstStory = page.getContent();
 
         // Lấy số trang hiện tại
         int current = page.getNumber() + 1;
@@ -103,8 +100,9 @@ public class CompleteStoryController {
         Date lastDayOfMonth = DateUtils.getLastDayOfMonth();
 
         //Lấy Top View Truyện Vip Trong Tháng
-        List<TopStory> listtop = storyService.getTopStoryComplete(firstDayOfMonth, lastDayOfMonth,
-                ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.PAGE_SIZE_SWAPPER)
+        List< TopStory > listtop = storyService.
+                getTopStoryComplete(ConstantsListUtils.LIST_STORY_DISPLAY, ConstantsUtils.STATUS_ACTIVED,
+                        firstDayOfMonth, lastDayOfMonth, ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.PAGE_SIZE_SWAPPER)
                 .get()
                 .collect(Collectors.toList());
 

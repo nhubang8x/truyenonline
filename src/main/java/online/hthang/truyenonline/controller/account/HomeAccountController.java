@@ -71,24 +71,24 @@ public class HomeAccountController {
     public String defaultPage(Model model, Principal principal) throws NotFoundException {
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         //Lấy thông tin Tài Khoản đăng nhập
-        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getUID());
+        Optional< User > optionalUser = userService.getUserByID(loginedUser.getUser().getId());
         if (!optionalUser.isPresent()) {
             throw new NotFoundException("Tài khoản không tồn tại mời liên hệ admin để biết thêm thông tin");
         }
         User user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new NotFoundException("Tài khoản của bạn đã bị khóa mời liên hệ admin để biết thêm thông tin");
         }
-        String title = user.getUDname() != null ? user.getUDname() : user.getUName();
-        if (user.getUAvatar() == null || user.getUAvatar().isEmpty()) {
-            user.setUAvatar(ConstantsUtils.AVATAR_DEFAULT);
+        String title = user.getDisplayName() != null ? user.getDisplayName() : user.getUsername();
+        if (user.getAvatar() == null || user.getAvatar().isEmpty()) {
+            user.setAvatar(ConstantsUtils.AVATAR_DEFAULT);
         }
 
         model.addAttribute("user", user);
 
         getMenuAndInfo(model, title);
 
-        loadStory_ChapterByUser(user.getUID(), model);
+        loadStory_ChapterByUser(user.getId(), model);
 
         return "web/account/homePage";
     }

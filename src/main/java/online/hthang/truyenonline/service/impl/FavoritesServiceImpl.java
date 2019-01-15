@@ -37,7 +37,7 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Override
     public boolean checkChapterAndUserInTime(Long chID, Long uID, Date startDate, Date endDate) {
         return favoritesRepository
-                .existsUfavoritesByChapter_IdAndUser_uIDAndDateViewBetween(chID, uID, startDate, endDate);
+                .existsUfavoritesByChapter_IdAndUser_IdAndDateViewBetween(chID, uID, startDate, endDate);
     }
 
     /**

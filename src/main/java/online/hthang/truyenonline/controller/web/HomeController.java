@@ -80,8 +80,8 @@ public class HomeController {
             // Lấy Danh sách truyện đang đọc của người dùng
             MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
             User user = loginedUser.getUser();
-            List< Chapter > chapterListFavorites = chapterService.getAllChapterFavoritesByUser(user.getUID());
-            model.addAttribute("listFavorites", chapterListFavorites);
+//            List< Chapter > chapterListFavorites = chapterService.getAllChapterFavoritesByUser(user.getId());
+//            model.addAttribute("listFavorites", chapterListFavorites);
         } else {
             model.addAttribute("listFavorites", null);
         }

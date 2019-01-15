@@ -111,7 +111,7 @@ public class ResetPasswordController {
                 String newPassword = WebUtils.randomPassword();
                 if (sendMail(user, newPassword)) {
                     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                    user.setUPass(passwordEncoder.encode(newPassword));
+                    user.setPassowrd(passwordEncoder.encode(newPassword));
                     userService.updateUser(user);
                     redirect.addFlashAttribute("success", "Mật khẩu của bạn đã được thay đổi! Mời vào email để xem mật khẩu mới!");
                     return "redirect:/dang-nhap";
@@ -127,20 +127,18 @@ public class ResetPasswordController {
             model.addAttribute("user", forgotUser);
             return "web/forgotPage";
         }
-
-
         return "redirect:/";
     }
 
     private boolean sendMail(User user, String newPassword) {
         Mail mail = new Mail();
         mail.setFrom(emailForm);
-        mail.setTo(user.getUEmail());
+        mail.setTo(user.getEmail());
         mail.setSubject(emailSubject);
         mail.setFromDisplay(emailDisplay);
         logger.info("Send mail");
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("name", user.getUDname());
+        modelMap.put("name", user.getDisplayName()!=null?user.getDisplayName():user.getUsername());
         modelMap.put("url", emailUrl);
         modelMap.put("signature", emailSignature);
         modelMap.put("password", newPassword);

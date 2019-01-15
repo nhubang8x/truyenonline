@@ -23,7 +23,7 @@ public interface FavoritesRepository extends JpaRepository< Favorites, Long> {
      *
      * @return boolean
      */
-    boolean existsUfavoritesByChapter_IdAndUser_uIDAndDateViewBetween(Long chID, Long uID, Date startDate, Date endDate);
+    boolean existsUfavoritesByChapter_IdAndUser_IdAndDateViewBetween(Long chID, Long uID, Date startDate, Date endDate);
 
     /**
      * Kiểm tra tồn tại Favorites trong khoảng

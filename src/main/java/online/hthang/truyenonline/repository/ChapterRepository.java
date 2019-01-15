@@ -35,7 +35,7 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      * @param listStatus
      * @return Optional<Chapter>
      */
-    Optional< Chapter > findChapterByChIDAndStory_sIDAndChStatusIn(Long chID, Long sID, List< Integer > listStatus);
+    Optional< Chapter > findChapterByIdAndStory_IdAndStatusIn(Long chID, Long sID, List< Integer > listStatus);
 
     /**
      * Lấy Chapter Theo
@@ -44,7 +44,7 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      * @param listStatus
      * @return Optional<Chapter>
      */
-    Optional< Chapter > findChapterByChIDAndChStatusIn(Long chID, List< Integer > listStatus);
+    Optional< Chapter > findChapterByIdAndStatusIn(Long chID, List< Integer > listStatus);
 
     /**
      * Lấy Chapter ID Tiếp Theo
@@ -56,7 +56,9 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
     @Query(value = ConstantsQueryUtils.NEXT_CHAPTER,
             nativeQuery = true)
-    Optional< Long > getNextChapter(@Param("chSerial") float chSerial, @Param("sID") Long sID, @Param("chStatus") List< Integer > listStatus);
+    Optional< Long > getNextChapter(@Param("chapterSerial") float chSerial,
+                                    @Param("storyId") Long sID,
+                                    @Param("chapterStatus") List< Integer > listStatus);
 
     /**
      * Lấy Chapter ID Trước
@@ -68,7 +70,9 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
     @Query(value = ConstantsQueryUtils.PREVIOUS_CHAPTER,
             nativeQuery = true)
-    Optional< Long > getPreviousChapter(@Param("chSerial") float chSerial, @Param("sID") Long sID, @Param("chStatus") List< Integer > listStatus);
+    Optional< Long > getPreviousChapter(@Param("chapterSerial") float chSerial,
+                                        @Param("storyId") Long sID,
+                                        @Param("chapterStatus") List< Integer > listStatus);
 
     /**
      * Lấy Chapter ID Đầu Tiên
@@ -79,7 +83,8 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
     @Query(value = ConstantsQueryUtils.CHAPTER_HEAD,
             nativeQuery = true)
-    Optional< ChapterSummary > getChapterHead(@Param("sID") Long sID, @Param("chStatus") List< Integer > listStatus);
+    Optional< ChapterSummary > getChapterHead(@Param("storyId") Long sID,
+                                              @Param("chapterStatus") List< Integer > listStatus);
 
     /**
      * Lấy Chapter ID Mới Nhất
@@ -90,7 +95,8 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
     @Query(value = ConstantsQueryUtils.CHAPTER_NEW,
             nativeQuery = true)
-    Optional< ChapterSummary > getNewChapter(@Param("sID") Long sID, @Param("chStatus") List< Integer > listStatus);
+    Optional< ChapterSummary > getNewChapter(@Param("storyId") Long sID,
+                                             @Param("chapterStatus") List< Integer > listStatus);
 
     /**
      * Cập Nhật Status Chapter Vip Khi Đến Hạn Dealine
@@ -100,8 +106,8 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
     @Transactional
     @Modifying(flushAutomatically = true, clearAutomatically = true)
-    @Query(value = "UPDATE chapter ch SET ch.chStatus = :status"
-            + " WHERE ch.chStatus= :vipStatus AND ch.dealine<=NOW()", nativeQuery = true)
+    @Query(value = "UPDATE chapter ch SET ch.status = :status"
+            + " WHERE ch.status= :vipStatus AND ch.dealine<=NOW()", nativeQuery = true)
     void updateStatusChapterVip(@Param("status") Integer status,
                                 @Param("vipStatus") Integer vipStatus);
 
@@ -123,8 +129,8 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
 
     Page< ChapterOfStory > findByStory_IdAndStatusInOrderBySerialDesc(Long sID,
-                                                                             List< Integer > listStatus,
-                                                                             Pageable pageable);
+                                                                      List< Integer > listStatus,
+                                                                      Pageable pageable);
 
     /**
      * Lấy Tất Cả CHương Theo Truyện
@@ -133,5 +139,5 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      * @param listStatus
      */
     List< ChapterOfStory > findByStory_IdAndStatusInOrderBySerialDesc(Long sID,
-                                                                               List< Integer > listStatus);
+                                                                      List< Integer > listStatus);
 }

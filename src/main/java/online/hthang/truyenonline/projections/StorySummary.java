@@ -10,37 +10,37 @@ import java.util.List;
  */
 public interface StorySummary {
 
-    Long getsID();
+    Long getId();
 
-    String getvnName();
+    String getVnName();
 
-    String getcnName();
+    String getCnName();
 
-    String getcnLink();
+    String getCnLink();
 
-    String getsImages();
+    String getImages();
 
-    String getsAuthor();
+    String getAuthor();
 
     //Lấy Thông Tin
-    String getsInfo();
+    String getInfomation();
 
     //Lấy Điểm đánh giá
-    Float getsRating();
+    Float getRating();
 
     //Lấy ID Converter
-    @Value("#{target.sConverter.uID}")
-    Long getuID();
+    @Value("#{target.user.id}")
+    Long getUserId();
 
     //Lấy Chapter Đầu Tiên
-    @Value("#{@myComponent.getChapterHead(target.sID)}")
-    ChapterSummary getchHead();
+    @Value("#{@myComponent.getChapterHead(target.id)}")
+    ChapterSummary getChapterHead();
 
     //Lấy Chapter Mới Nhất
-    @Value("#{@myComponent.getNewChapter(target.sID)}")
-    ChapterSummary getchNew();
+    @Value("#{@myComponent.getNewChapter(target.id)}")
+    ChapterSummary getChapterNew();
 
     List< CategorySummary > getCategoryList();
 
-    Integer getsStatus();
+    Integer getStatus();
 }

@@ -81,11 +81,11 @@ public class StoryController {
 
         getListStoryOfConverter(model, story);
 
-        getMenuAndInfo(model, story.getvnName());
+        getMenuAndInfo(model, story.getVnName());
 
         checkConverter(model, user, story);
 
-        getChapterReadByUser(user, story.getsID(), model);
+        getChapterReadByUser(user, story.getId(), model);
 
         return "web/storyPage";
     }
@@ -128,20 +128,20 @@ public class StoryController {
         boolean checkRating = false;
         if (user != null) {
             //Nếu người đọc là người đăng thì tính là đã đánh giá
-            if (story.getuID().equals(user.getUID())) {
+            if (story.getUserId().equals(user.getId())) {
                 // Người đọc là Converter
                 checkRating = true;
             } else {
 
                 // Kiểm tra Người dùng đã đánh giá chưa
                 if (userRatingService
-                        .checkRatingWithUser(story.getsID(), user.getUID())) {
+                        .checkRatingWithUser(story.getId(), user.getId())) {
                     // Người dùng đã đánh giá
                     checkRating = true;
                 }
             }
         }
-        model.addAttribute("countRating", userRatingService.getSumRaitingOfStory(story.getsID()));
+        model.addAttribute("countRating", userRatingService.getSumRaitingOfStory(story.getId()));
         model.addAttribute("rating", checkRating);
     }
 
@@ -152,7 +152,7 @@ public class StoryController {
 
         boolean checkConverter = false;
         if (user != null) {
-            checkConverter = Objects.equals(user.getUID(), story.getuID());
+            checkConverter = Objects.equals(user.getId(), story.getUserId());
         }
         model.addAttribute("checkConverter", checkConverter);
     }
@@ -161,7 +161,7 @@ public class StoryController {
     private void getListStoryOfConverter(Model model,
                                          StorySummary story) {
         List< SearchStory > list = storyService
-                .getListStoryOfConverter(story.getuID(), ConstantsListUtils.LIST_STORY_DISPLAY);
+                .getListStoryOfConverter(story.getUserId(), ConstantsListUtils.LIST_STORY_DISPLAY);
 
         model.addAttribute("storyConverter", list);
     }
@@ -169,7 +169,7 @@ public class StoryController {
     private void getChapterReadByUser(User user, Long sID, Model model) {
         Chapter chapter = null;
         if (user != null) {
-            chapter = favoritesService.getChapterReadNewByUser(user.getUID(), sID);
+            chapter = favoritesService.getChapterReadNewByUser(user.getId(), sID);
         }
         model.addAttribute("readChapter", chapter);
     }

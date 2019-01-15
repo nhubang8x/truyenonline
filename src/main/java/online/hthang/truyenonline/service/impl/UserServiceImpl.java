@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUserName(String username) {
-        return userRepository.findByUName(username);
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -70,17 +70,17 @@ public class UserServiceImpl implements UserService {
         roleList.add(role);
         user.setRoleList(roleList);
         User newUser = userRepository.save(user);
-        return newUser.getUID() != null;
+        return newUser.getId() != null;
     }
 
     @Override
     public boolean checkEmailExits(String email) {
-        return userRepository.existsUserByUEmail(email);
+        return userRepository.existsUserByEmail(email);
     }
 
     @Override
     public boolean checkUserNameExits(String userName) {
-        return userRepository.existsUserByUName(userName);
+        return userRepository.existsUserByUsername(userName);
     }
 
     /**
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User getForgotUser(String userName, String email) {
-        return userRepository.findByUNameAndUEmail(userName, email);
+        return userRepository.findByUsernameAndEmail(userName, email);
     }
 
     /**
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateDnameOfUser(Long uID, String dName) {
         User user = userRepository.findById(uID).get();
-        user.setUDname(dName);
+        user.setDisplayName(dName);
         userRepository.save(user);
     }
 
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateDnameAndGoldOfUser(Long uID, String dName, Double price) {
         User user = userRepository.findById(uID).get();
-        user.setUDname(dName);
+        user.setDisplayName(dName);
         user.setGold(user.getGold() - price);
         userRepository.save(user);
     }
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean checkUserdNameExits(Long uID, String dName) {
-        return userRepository.existsByUIDNotAndAndUDname(uID, dName);
+        return userRepository.existsByIdNotAndDisplayName(uID, dName);
     }
 
     /**
@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateAvatarOfUser(Long uID, String avatar, Double price) {
         User user = userRepository.findById(uID).get();
-        user.setUAvatar(avatar);
+        user.setAvatar(avatar);
         user.setGold(user.getGold() - price);
         userRepository.save(user);
     }
@@ -190,6 +190,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ConveterSummary getConverterByID(Long uID) {
-        return userRepository.findUserByUID(uID);
+        return userRepository.findUserById(uID);
     }
 }

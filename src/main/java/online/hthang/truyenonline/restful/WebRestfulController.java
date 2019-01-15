@@ -62,12 +62,12 @@ public class WebRestfulController {
         }
         MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         User user = myUser.getUser();
-        Optional< User > optionalUser = userService.getUserByID(user.getUID());
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
         if (!optionalUser.isPresent()) {
             throw new HttpNotLoginException("Tài khoản không tồn tại");
         }
         user = optionalUser.get();
-        if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new HttpUserLockedException();
         }
         if (chID == null || !WebUtils.checkLongNumber(chID)) {
@@ -77,7 +77,7 @@ public class WebRestfulController {
         if (chapter == null) {
             throw new HttpMyException("Không tồn tại chương truyện này!");
         }
-        if (chapter.getChStatus() == 1) {
+        if (chapter.getStatus() == 1) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         //Lấy Thời Gian Hiện Tại
@@ -85,13 +85,14 @@ public class WebRestfulController {
 
         // Lấy Thời Gian 24h Trước
         Date dayAgo = DateUtils.getOneDayAgo(now);
-        if (payService.checkDealStoryVip(Long.valueOf(chID), user.getUID(), dayAgo, now)) {
+        if (payService.checkDealStoryVip(Long.valueOf(chID), user.getId(), dayAgo, now)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         if (user.getGold() < chapter.getPrice()) {
             throw new HttpUserGoldException();
         }
-        boolean payCheck = payService.saveDealChapter(chapter, user);
+        boolean payCheck = payService
+                .savePay(null, chapter, user, chapter.getUser(), chapter.getPrice(), ConstantsUtils.PAY_CHAPTER_VIP_TYPE);
         if (payCheck) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -114,17 +115,17 @@ public class WebRestfulController {
         }
         MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         User user = myUser.getUser();
-        Optional< User > optionalUser = userService.getUserByID(user.getUID());
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
         if (!optionalUser.isPresent()) {
             exceptionResponse.setMessage("Tài khoản không tồn tại!");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
         user = optionalUser.get();
-        if (user.getUStatus() == ConstantsUtils.STATUS_DENIED) {
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             exceptionResponse.setMessage("Tài khoản của bạn đã bị khóa. Mời liên hệ admin!");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
-        if (userRatingService.checkRatingWithUser(idBox, user.getUID())) {
+        if (userRatingService.checkRatingWithUser(idBox, user.getId())) {
             exceptionResponse.setMessage("Bạn đã đánh giá truyện này rồi");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
@@ -135,7 +136,7 @@ public class WebRestfulController {
             exceptionResponse.setMessage("Đã có đánh giá truyện tại địa chỉ IP này. Hãy đợi " + DateUtils.betweenHours(optionalSrating.get().getCreateDate()) + " để tiếp tục đánh giá");
             return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);
         }
-        Float result = userRatingService.saveRating(user.getUID(), idBox, locationIP, rate);
+        Float result = userRatingService.saveRating(user.getId(), idBox, locationIP, rate);
         //Lưu đánh giá
         if (result != -1) {
             exceptionResponse.setMyrating(userRatingService.getSumRaitingOfStory(idBox));
@@ -214,12 +215,12 @@ public class WebRestfulController {
             }
             MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
             User user = myUser.getUser();
-            Optional< User > optionalUser = userService.getUserByID(user.getUID());
+            Optional< User > optionalUser = userService.getUserByID(user.getId());
             if (!optionalUser.isPresent()) {
                 throw new HttpNotLoginException("Tài khoản không tồn tại");
             }
             user = optionalUser.get();
-            if (user.getUStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+            if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
                 throw new HttpUserLockedException();
             }
             Optional< Story > storyOptional = storyService.searchStoryBySID(sID);
@@ -227,7 +228,7 @@ public class WebRestfulController {
                 throw new HttpMyException("Truyện không tồn tại!");
             }
             Story story = storyOptional.get();
-            if (story.getSStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
+            if (story.getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
                 throw new HttpMyException("Truyện đã bị xóa hoặc không tìm thấy!");
             }
             boolean check = commentService.saveComment(user, story, commentText);

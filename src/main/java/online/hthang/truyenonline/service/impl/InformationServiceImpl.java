@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class InformationServiceImpl implements InformationService {
 
+    private final InformationRepository informationRepository;
+
     @Autowired
-    private InformationRepository informationRepository;
+    public InformationServiceImpl(InformationRepository informationRepository) {
+        this.informationRepository = informationRepository;
+    }
 
     @Override
     public Information getWebInfomation() {
-        return informationRepository.findFirstByOrderByInfoIdDesc();
+        return informationRepository.findFirstByOrderByIdDesc();
     }
 
 }

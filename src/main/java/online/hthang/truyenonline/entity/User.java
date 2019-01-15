@@ -61,7 +61,7 @@ public class User implements Serializable {
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "createDate", length = 19)
     private Date createDate;
-    @Column(name = "uStatus")
+    @Column(name = "status")
     private Integer status;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", catalog = "truyendb", joinColumns = {

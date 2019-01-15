@@ -69,7 +69,7 @@ public class MemberController {
 
         User user = checkMember(uID);
 
-        String title = user.getUDname() != null ? user.getUDname() : user.getUName();
+        String title = user.getDisplayName() != null ? user.getDisplayName() : user.getUsername();
 
         model.addAttribute("user", user);
 

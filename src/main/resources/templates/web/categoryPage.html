@@ -55,21 +55,21 @@
                                                      th:if="${iterStat.index < 4}">
                                                     <div class="item">
                                                         <div class="thumb">
-                                                            <a th:href="@{'/truyen/'+${topstory.sID}}"
+                                                            <a th:href="@{'/truyen/'+${topstory.id}}"
                                                                th:title="${topstory.vnName}">
                                                                 <img class="img-fluid lazyload" alt=""
-                                                                     th:data-src="${topstory.sImages}"
+                                                                     th:data-src="${topstory.images}"
                                                                      th:title="${topstory.vnName}">
                                                             </a>
                                                         </div>
                                                         <div class="info" style="">
                                                             <h2 class="title">
-                                                                <a th:href="@{'/truyen/'+${topstory.sID}}"
+                                                                <a th:href="@{'/truyen/'+${topstory.id}}"
                                                                    th:title="${topstory.vnName}"
                                                                    th:text="${topstory.vnName}"></a>
                                                             </h2>
                                                             <p class="description text-center"
-                                                               th:text="${topstory.sInfo}"></p>
+                                                               th:text="${topstory.infomation}"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,7 +96,7 @@
                                                 <div class="col-12 col-sm-12 col-md-6 btv-2">
                                                     <div class="item">
                                                         <h2 class="title">
-                                                            <a th:href="@{'/truyen/'+${topstory.sID}}"
+                                                            <a th:href="@{'/truyen/'+${topstory.id}}"
                                                                th:title="${topstory.vnName}"
                                                                th:text="${topstory.vnName}"></a>
                                                         </h2>
@@ -104,7 +104,7 @@
                                                                 class="text-red fz-16" th:text="${topstory.cnt}"></span>
                                                             người truy cập
                                                         </div>
-                                                        <p class="description" th:text="${topstory.SInfo}"></p>
+                                                        <p class="description" th:text="${topstory.infomation}"></p>
                                                     </div>
                                                 </div>
                                             </th:block>
@@ -126,7 +126,7 @@
                                                     <div class="index index-1 index-star"> 1</div>
                                                     <div class="info">
                                                         <h2 class="title">
-                                                            <a th:href="@{'/truyen/'+${topmonthstory.sID}}"
+                                                            <a th:href="@{'/truyen/'+${topmonthstory.id}}"
                                                                th:title="${topmonthstory.vnName}"
                                                                th:text="${topmonthstory.vnName}"></a>
                                                         </h2>
@@ -136,19 +136,19 @@
                                                         </div>
                                                         <div class="extra-info">
                                                             <p>Thể Loại:
-                                                                <a th:href="@{'/the-loai/'+${topmonthstory.cID}}"
-                                                                   th:text="${topmonthstory.CName}"></a>
+                                                                <a th:href="@{'/the-loai/'+${topmonthstory.categoryId}}"
+                                                                   th:text="${topmonthstory.categoryName}"></a>
                                                             </p>
-                                                            <p>Tác giả: <span th:text="${topmonthstory.sAuthor}"></span>
+                                                            <p>Tác giả: <span th:text="${topmonthstory.author}"></span>
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div class="thumb">
                                                         <div class="book-cover">
                                                             <a class="book-cover-link"
-                                                               th:href="@{'/truyen/'+${topmonthstory.sID} }"
+                                                               th:href="@{'/truyen/'+${topmonthstory.id} }"
                                                                th:title="${topmonthstory.vnName}">
-                                                                <img th:src="@{${topmonthstory.sImages}}"
+                                                                <img th:src="@{${topmonthstory.images}}"
                                                                      th:alt="${topmonthstory.vnName}">
                                                             </a> <span class="book-cover-shadow"></span>
                                                         </div>
@@ -162,7 +162,7 @@
                                                          th:text="${iterStats.index+1}"></div>
                                                     <div class="info">
                                                         <h2 class="title">
-                                                            <a th:href="@{'/truyen/'+${topmonthstory.sID} }"
+                                                            <a th:href="@{'/truyen/'+${topmonthstory.id} }"
                                                                th:title="${topmonthstory.vnName}"
                                                                th:text="${topmonthstory.vnName}"></a>
                                                         </h2>
@@ -195,37 +195,37 @@
                                             th:each="story : ${listStory}">
                                             <div class="content">
                                                 <a class="thumb"
-                                                   th:href="@{'/truyen/'+${story.sID}}">
+                                                   th:href="@{'/truyen/'+${story.id}}">
                                                     <img class="img-fluid lazyload"
-                                                         th:data-src="${story.sImages}"
+                                                         th:data-src="${story.images}"
                                                          th:alt="${story.vnName}">
                                                 </a>
                                                 <div class="info">
                                                     <h2 class="title">
-                                                        <a th:href="@{'/truyen/'+${story.sID}}"
+                                                        <a th:href="@{'/truyen/'+${story.id}}"
                                                            th:title="${story.vnName}">
                                                             <img class="img-fluid"
-                                                                 th:if="${story.SDealStatus == 1}"
+                                                                 th:if="${story.dealStatus == 1}"
                                                                  th:src="@{/images/vip-vip.gif}">
-                                                            <span th:class="${story.SDealStatus == 1}?'shadow-2' : ''"
+                                                            <span th:class="${story.dealStatus == 1}?'shadow-2' : ''"
                                                                   th:text="${story.vnName}"></span>
                                                         </a>
                                                     </h2>
-                                                    <div class="chap" th:text="${story.sAuthor}"></div>
+                                                    <div class="chap" th:text="${story.author}"></div>
                                                     <div class="author">
-                                                        <a th:if="${story.chID != null}"
-                                                           th:href="@{'/truyen/'+${story.sID}+'/chuong-'+${story.chID}}"
-                                                           th:title="'Chương ' + ${story.chNumber}"
-                                                           th:text="'Chương '+ ${story.chNumber}"></a>
-                                                        <a th:unless="${story.chID != null}">&nbsp;</a>
+                                                        <a th:if="${story.chapterId != null}"
+                                                           th:href="@{'/truyen/'+${story.id}+'/chuong-'+${story.chapterId}}"
+                                                           th:title="'Chương ' + ${story.chapterNumber}"
+                                                           th:text="'Chương '+ ${story.chapterNumber}"></a>
+                                                        <a th:unless="${story.chapterId != null}">&nbsp;</a>
                                                         <small class="d-none d-sm-inline-block"
-                                                               th:if="${story.chID != null}"
+                                                               th:if="${story.chapterId != null}"
                                                                th:text="' - ' + ${story.timeUpdate}"></small>
                                                     </div>
                                                     <div class="time">
                                                         <span class="d-none d-sm-block"
-                                                              th:if="${story.chID != null}"
-                                                              th:text="${story.UDname}"></span>
+                                                              th:if="${story.chapterId != null}"
+                                                              th:text="${story.displayName!=null?story.displayName:story.username}"></span>
                                                         <span class="d-block d-sm-none"
                                                               th:text="${story.timeUpdate}"></span>
                                                     </div>

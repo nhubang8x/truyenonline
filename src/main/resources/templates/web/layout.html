@@ -90,7 +90,7 @@
 <th:block th:fragment="navbar">
     <header class="truyen-header">
         <nav class="navbar navbar-truyen">
-            <sbootstrapection class="container" style="display: block;">
+            <section class="container">
                 <section class="navbar-header">
                     <th:block th:if="${information.logo !=null}">
                         <a th:href="@{/}" class="navbar-logo hidden-sm hidden-xs"> <img
@@ -142,9 +142,9 @@
                             th:if="${categorylist != null && not #lists.isEmpty(categorylist)}">
                             <li class="col-4 float-left"
                                 th:each="category,iterStat : ${categorylist}">
-                                <a th:href="@{'/the-loai/'+${category.cID}+'/'+${category.cMetatitle}}"
-                                   th:title="'Truyện'+${category.cName}"
-                                   th:text="${iterStat.index+1}+' - '+${category.cName}"></a>
+                                <a th:href="@{'/the-loai/'+${category.id}+'/'+${category.metatitle}}"
+                                   th:title="'Truyện'+${category.name}"
+                                   th:text="${iterStat.index+1}+' - '+${category.name}"></a>
                             </li>
                         </ul>
                     </section>
@@ -204,7 +204,7 @@
                         </li>
                     </ul>
                 </section>
-            </sbootstrapection>
+            </section>
         </nav>
     </header>
     <aside class="truyen-sidebar">

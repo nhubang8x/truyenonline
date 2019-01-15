@@ -2,6 +2,7 @@ package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Chapter;
 import online.hthang.truyenonline.entity.Pay;
+import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.repository.PayRepository;
 import online.hthang.truyenonline.service.PayService;
@@ -36,36 +37,25 @@ public class PayServiceImpl implements PayService {
     @Override
     public boolean checkDealStoryVip(Long chID, Long uID, Date startDate, Date endDate) {
         return payRepository
-                .existsByChapter_ChIDAndPayer_uIDAndCreateDateBetweenAndPayStatus(chID, uID,
-                        startDate, endDate, ConstantsUtils.PAY_STATUS);
+                .existsByChapter_IdAndUserSendAndCreateDateBetweenAndTypeAndStatus(chID, uID,
+                        startDate, endDate, ConstantsUtils.PAY_CHAPTER_VIP_TYPE, ConstantsUtils.PAY_STATUS);
     }
 
     @Override
-    public boolean saveDealChapter(Chapter chapter, User user) {
+    public boolean savePay(Story story, Chapter chapter, User userSend, User userReceived, Double money, Integer payType) {
+        Long chapterID = null;
+        Long storyID = null;
+        if (chapter != null)
+            chapterID = chapter.getId();
+        if (story != null)
+            storyID = story.getId();
         return payRepository
-                .transferPayChapter(user.getUID(),
-                        chapter.getUser().getUID(),
-                        chapter.getChID(),
-                        chapter.getPrice(),
-                        ConstantsUtils.PAY_STATUS);
+                .transferPayChapter(userSend.getId(),
+                        userReceived.getId(),
+                        chapterID,
+                        storyID,
+                        money,
+                        payType);
     }
 
-    /**
-     * Lưu Giao Dịch Với Trạng Thái
-     *
-     * @param uID
-     * @param price
-     * @param status
-     * @return true/false
-     */
-    @Override
-    public void savePay(Long uID, Double price, Integer status) {
-        User user = new User();
-        user.setUID(uID);
-        Pay pay = new Pay();
-        pay.setPayer(user);
-        pay.setPrice(price);
-        pay.setPayStatus(status);
-        payRepository.save(pay);
-    }
 }
