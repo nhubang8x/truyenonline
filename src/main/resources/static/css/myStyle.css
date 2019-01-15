@@ -738,14 +738,16 @@ button {
 @media only screen and (max-width: 991px) {
     .navbar-truyen .navbar-header {
         text-align: center;
-        position: relative
+        position: relative;
+        width: 100%;
     }
 }
 
 @media only screen and (min-width: 992px) {
     .navbar-truyen .navbar-header {
         padding-left: 100px;
-        position: relative
+        position: relative;
+        width: 100%;
     }
 }
 
@@ -3930,12 +3932,13 @@ section .section-title {
 .truyen-slider .swiper-button-prev {
     left: 10px
 }
+
 .truyen-slider .slider-thumb .swiper-slide {
     width: 160px;
     height: 240px;
-    -webkit-box-shadow: 0 3px 10px 0 rgba(0,0,0,.25);
-    -moz-box-shadow: 0 3px 10px 0 rgba(0,0,0,.25);
-    box-shadow: 0 3px 10px 0 rgba(0,0,0,.25);
+    -webkit-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .25);
+    -moz-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .25);
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .25);
     background-color: #eee;
     opacity: .5;
     -webkit-transition: all .2s ease-in-out;
@@ -3954,9 +3957,11 @@ section .section-title {
     display: block;
     height: 100%;
 }
+
 .truyen-slider .slider-thumb .item img {
     height: 100%;
 }
+
 .truyen-slider .slider-info {
     padding: 30px
 }
@@ -3989,6 +3994,7 @@ section .section-title {
     word-wrap: break-word;
     max-height: 96px;
 }
+
 .block.block-default .cnt-view {
     padding-top: 10px;
     padding-right: 10px;

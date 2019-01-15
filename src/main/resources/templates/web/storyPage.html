@@ -21,7 +21,7 @@
     <!--Rating-->
     <script th:src="@{/js/jRating.js}"></script>
 </head>
-<body ng-app="ngApp" ng-controller="storyCtrl" th:ng-init="|init(${story.sID}, ${story.uID})|">
+<body ng-app="ngApp" ng-controller="storyCtrl" th:ng-init="|init(${story.id}, ${story.userId})|">
 <th:block th:include="web/layout :: loading"></th:block>
 <section class="page-wrapper">
     <th:block th:include="web/layout :: navbar"></th:block>
@@ -37,7 +37,7 @@
                                 </a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page"
-                                th:text="${story.getvnName()}">
+                                th:text="${story.vnName}">
                             </li>
                         </ol>
                     </section>
@@ -47,28 +47,28 @@
                         <div class="row">
                             <div class="col-thumb col-3">
                                 <div class="thumb hidden-xs">
-                                    <img class="img-fluid lazyload" th:data-src="${story.sImages}">
+                                    <img class="img-fluid lazyload" th:data-src="${story.images}">
                                 </div>
                             </div>
                             <div class="col-info col-6">
                                 <div class="info">
                                     <h1 class="title">
-                                        <a href="" th:title="${story.getvnName()}" th:text="${story.getvnName()}"></a>
+                                        <a href="" th:title="${story.vnName}" th:text="${story.vnName}"></a>
                                     </h1>
                                     <div class="list">
                                         <div class="item">
                                             <div class="item-label"> Tác giả:</div>
                                             <div class="item-value"><span
-                                                    class="author" th:text="${story.sAuthor}"></span></div>
+                                                    class="author" th:text="${story.author}"></span></div>
                                         </div>
                                         <div class="item">
                                             <div class="item-label"> Thể loại:</div>
                                             <div class="item-value">
                                                 <ul class="list-unstyled categories">
                                                     <li th:each="category : ${story.categoryList}">
-                                                        <a th:href="@{'/the-loai/'+${category.cID}+'/'+${category.cMetatitle}}"
-                                                           th:title="'Truyện'+${category.cName}"
-                                                           th:text="${category.cName}"></a>
+                                                        <a th:href="@{'/the-loai/'+${category.id}+'/'+${category.metatitle}}"
+                                                           th:title="'Truyện'+${category.name}"
+                                                           th:text="${category.name}"></a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -76,10 +76,10 @@
                                         <div class="item">
                                             <div class="item-label"> Tình trạng:</div>
                                             <div class="item-value">
-                                                <span class="story-go text-center" th:if="${story.sStatus==1}">
+                                                <span class="story-go text-center" th:if="${story.status==1}">
                                                     Đang ra
                                                 </span>
-                                                <span class="story-com text-center" th:if="${story.sStatus==2}">
+                                                <span class="story-com text-center" th:if="${story.status==2}">
                                                     Hoàn Thành
                                                 </span>
                                             </div>
@@ -87,29 +87,29 @@
                                         <div class="item d-block d-sm-none" th:if="${readChapter ne null}">
                                             <div class="item-label"> Đã đọc:</div>
                                             <div class="item-value">
-                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${readChapter.chID}}"
-                                                   th:text="'Chương ' + ${readChapter.chNumber} + ': ' + ${readChapter.chName}">
+                                                <a th:href="@{'/truyen/' + ${story.id} + '/chuong-' + ${readChapter.id}}"
+                                                   th:text="'Chương ' + ${readChapter.chapterNumber} + ': ' + ${readChapter.name}">
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="item d-block d-sm-none">
                                             <div class="item-label"> Mới nhất:</div>
-                                            <div class="item-value" th:if="${story.getchNew() ne null}">
-                                                <a th:href="@{'/truyen/' + ${story.sID} + '/chuong-'+${story.getchNew().chID}}">
+                                            <div class="item-value" th:if="${story.chapterNew ne null}">
+                                                <a th:href="@{'/truyen/' + ${story.id} + '/chuong-'+${story.chapterNew.id}}">
                                                     <span class="text-info"
-                                                          th:text="'Chương ' + ${story.getchNew().chNumber} + ': ' + ${story.getchNew().chName}"></span>
+                                                          th:text="'Chương ' + ${story.chapterNew.chapterNumber} + ': ' + ${story.chapterNew.name}"></span>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="buttons">
                                         <a th:if="${readChapter ne null}" class="btn btn-truyen"
-                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${readChapter.chID}}">
+                                           th:href="@{'/truyen/' + ${story.id} + '/chuong-' + ${readChapter.id}}">
                                             Đọc tiếp
                                         </a>
-                                        <a th:if="${(readChapter eq null) && (story.getchHead() ne null)}"
+                                        <a th:if="${(readChapter eq null) && (story.chapterHead ne null)}"
                                            class="btn btn-truyen"
-                                           th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${story.getchHead().getChID()}}">
+                                           th:href="@{'/truyen/' + ${story.id} + '/chuong-' + ${story.chapterHead.id}}">
                                             Đọc Từ Đầu
                                         </a>
                                         <a onclick="registRecentReadingStory(20569,1)" class="btn btn-truyen-white">
@@ -132,10 +132,10 @@
                                         </div>
                                         <div class="star-total hidden-xs">
                                             <span id="myrate" itemprop="ratingValue"
-                                                  th:text="${#numbers.formatDecimal(story.sRating, 0, T(Math).round(story.sRating) == story.sRating ? 0 : 1,'POINT')}"></span>
+                                                  th:text="${#numbers.formatDecimal(story.rating, 0, T(Math).round(story.rating) == story.rating ? 0 : 1,'POINT')}"></span>
                                         </div>
                                         <div th:class="${rating?'basic jDisabled':'basic'}"
-                                             th:data-average="${story.sRating}" th:data-id="${story.sID}">
+                                             th:data-average="${story.rating}" th:data-id="${story.id}">
                                         </div>
                                     </div>
                                 </div>
@@ -173,19 +173,19 @@
                                      name="truyen-detail-info" role="tabpanel">
                                 <section class="row">
                                     <section class="col-sm-12 col-md-8 col-lg-9">
-                                        <div class="brief" th:text="${story.sInfo}" th:if="${story.sInfo ne null}">
+                                        <div class="brief" th:text="${story.infomation}" th:if="${story.infomation ne null}">
                                         </div>
-                                        <div class="list-overview" th:if="${story.getchNew() ne null}">
+                                        <div class="list-overview" th:if="${story.chapterNew ne null}">
                                             <div class="item">
                                                 <div class="item-title">
                                                     <i class="truyen-icon icon-list"></i> Mới nhất
                                                 </div>
                                                 <div class="item-value">
-                                                    <a th:href="@{'/truyen/' + ${story.sID} + '/chuong-' + ${story.getchNew().chID}}"
-                                                       th:text="'Chương ' + ${story.getchNew().chNumber}+': ' + ${story.getchNew().chName}"></a>
+                                                    <a th:href="@{'/truyen/' + ${story.id} + '/chuong-' + ${story.chapterNew.id}}"
+                                                       th:text="'Chương ' + ${story.chapterNew.chapterNumber}+': ' + ${story.chapterNew.name}"></a>
                                                 </div>
                                                 <div class="item-time"
-                                                     th:text="${story.getchNew().getTimeUpdate()}"></div>
+                                                     th:text="${story.chapterNew.timeUpdate}"></div>
                                             </div>
                                         </div>
                                     </section>
@@ -199,10 +199,10 @@
                                                                 <div class="info">
                                                                     <a href="#" class="avatar">
                                                                         <img class="img-fluid lazyload"
-                                                                             data-src="{{user.uavatar? user.uavatar : noImage}}">
+                                                                             data-src="{{user.avatar? user.avatar : noImage}}">
                                                                     </a>
-                                                                    <h2 class="name">{{user.udname? user.udname :
-                                                                        user.uname}}</h2>
+                                                                    <h2 class="name">{{user.displayName? user.displayName :
+                                                                        user.username}}</h2>
                                                                 </div>
                                                                 <ul class="list-unstyled truyen-author-badge"></ul>
                                                                 <div class="overview">
@@ -250,21 +250,21 @@
                                                                                 <div class="swiper-slide"
                                                                                      ng-repeat="lStory in listStory">
                                                                                     <div class="item text-center">
-                                                                                        <a ng-href="/truyen/{{lStory.sID}}"
+                                                                                        <a ng-href="/truyen/{{lStory.id}}"
                                                                                            ng-attr-title="{{lStory.vnName}}"
                                                                                            class="thumb">
                                                                                             <img class="img-fluid"
-                                                                                                 src="{{lStory.sImages}}"
+                                                                                                 src="{{lStory.images}}"
                                                                                                  ng-alt="{{lStory.vnName}}">
                                                                                         </a>
                                                                                         <div class="info">
                                                                                             <h2 class="title"><a
-                                                                                                    ng-href="/truyen/{{lStory.sID}}"
+                                                                                                    ng-href="/truyen/{{lStory.id}}"
                                                                                                     ng-attr-title="{{lStory.vnName}}">{{lStory.vnName}}</a>
                                                                                             </h2>
                                                                                             <p class="description">
-                                                                                                {{lStory.sInfo}}</p>
-                                                                                            <a ng-href="/truyen/{{lStory.sID}}"
+                                                                                                {{lStory.infomation}}</p>
+                                                                                            <a ng-href="/truyen/{{lStory.id}}"
                                                                                                class="btn btn-truyen"
                                                                                                title="">
                                                                                                 Xem chi tiết

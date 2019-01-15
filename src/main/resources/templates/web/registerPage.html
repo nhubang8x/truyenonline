@@ -27,10 +27,10 @@
                                     <section class="form-group">
                                         <label class="text-uppercase">Tài khoản: </label>
                                         <input type="text" autofocus="autofocus" id="uName"
-                                               th:class="${#fields.hasErrors('uName')}? 'form-control is-invalid' : 'form-control'"
-                                               th:field="*{uName}"/>
-                                        <span th:if="${#fields.hasErrors('uName')}"
-                                              th:errors="*{uName}" class="invalid-feedback"></span>
+                                               th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'"
+                                               th:field="*{username}"/>
+                                        <span th:if="${#fields.hasErrors('username')}"
+                                              th:errors="*{username}" class="invalid-feedback"></span>
                                     </section>
                                     <section class="form-group">
                                         <label class="text-uppercase">Mật Khẩu: </label>
@@ -53,9 +53,9 @@
                                     <section class="form-group">
                                         <label class="text-uppercase">Email: </label>
                                         <input type="text" autofocus="autofocus" id="uEmail"
-                                               th:class="${#fields.hasErrors('uEmail')}? 'form-control is-invalid' : 'form-control'"
-                                               th:field="*{uEmail}"/>
-                                        <span th:if="${#fields.hasErrors('uEmail')}" th:errors="*{uEmail}"
+                                               th:class="${#fields.hasErrors('email')}? 'form-control is-invalid' : 'form-control'"
+                                               th:field="*{email}"/>
+                                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
                                               class="error invalid-feedback"></span>
                                     </section>
                                     <section class="form-group form-check">
@@ -132,7 +132,7 @@
         $(document).ready(function () {
             $("#registerForm").validate({
                 rules: {
-                    uName: "required",
+                    username: "required",
                     passwordRegister: {
                         required: true,
                         rangelength: [6, 13]
@@ -142,13 +142,13 @@
                         rangelength: [6, 13],
                         equalTo: "#passwordRegister"
                     },
-                    uEmail: {
+                    email: {
                         required: true,
                         email: true
                     },
                 },
                 messages: {
-                    uName: "Tài khoản không được để trống",
+                    username: "Tài khoản không được để trống",
                     passwordRegister: {
                         required: "Password không được để trống",
                         rangelength: "Password có độ dài từ 6-13. Phân biệt hoa thường",
@@ -158,7 +158,7 @@
                         rangelength: "Password Confirm có độ dài từ 6-13. Phân biệt hoa thường",
                         equalTo: "Password Confirm không chính xác"
                     },
-                    uEmail: "Email không đúng định dạng"
+                    email: "Email không đúng định dạng"
                 },
                 errorElement: "em",
                 errorPlacement: function (error, element) {
