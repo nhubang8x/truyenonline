@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
  * @project truyenmvc
  */
 
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator< UniqueEmail, String > {
 
     @Autowired
     private UserService userService;

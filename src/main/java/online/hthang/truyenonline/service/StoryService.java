@@ -198,4 +198,11 @@ public interface StoryService {
      * @return List<NewStory>
      */
     List< SearchStory > getTop3StoryOfConverter(Long uID, List< Integer > listStatus);
+
+    /*
+     * Lưu Truyện Mới
+     * @param story
+     * @return True- Nếu lưu Thành công / Flase - Nếu lưu thất bại
+     */
+    boolean saveNewStory(Story story);
 }

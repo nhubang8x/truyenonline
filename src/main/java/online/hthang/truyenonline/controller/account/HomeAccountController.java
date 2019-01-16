@@ -100,4 +100,5 @@ public class HomeAccountController {
         model.addAttribute("countChapter", chapterService
                 .countChapterByUser(uID, ConstantsListUtils.LIST_CHAPTER_DISPLAY));
     }
+
 }

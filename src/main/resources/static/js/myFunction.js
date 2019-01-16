@@ -11,6 +11,8 @@ encryptText = function (myText) {
     return btoa(aesSearch);
 };
 
+
+
 callWarningSweetalert = function (messager) {
     swal({
         text: messager,

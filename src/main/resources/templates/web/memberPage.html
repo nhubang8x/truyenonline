@@ -27,7 +27,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#truyen-detail-story" role="tab"
-                                           th:onclick="|storypostby(${user.uID},1)|">
+                                           th:onclick="|storypostby(${user.id},1)|">
                                             Truyện đã đăng
                                         </a>
                                     </li>
@@ -46,7 +46,7 @@
                                                                     <div class="block-detail-sidebar-author text-center">
                                                                         <div class="info"><a href="#" class="avatar">
                                                                             <img class="img-fluid lazyload"
-                                                                                 th:data-src="${user.UAvatar}"> </a>
+                                                                                 th:data-src="${user.avatar}"> </a>
                                                                             <h2 class="name" th:text="${title}"></h2>
                                                                         </div>
                                                                         <ul class="list-unstyled truyen-author-badge"></ul>

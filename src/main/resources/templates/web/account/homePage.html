@@ -31,19 +31,19 @@
                                             <a>
                                                 <img class="img-thumbnail lazyload"
                                                      width="210px"
-                                                     th:data-src="${user.UAvatar}"
+                                                     th:data-src="${user.avatar}"
                                                      alt="Avatar" id="imgavatar">
                                             </a>
                                             <button id="upload" style="position: absolute;top:0px">Đổi</button>
                                         </div>
                                         <div class="media-body">
-                                            <p class="text-muted">ID: <strong th:text="${user.uID}"></strong>
+                                            <p class="text-muted">ID: <strong th:text="${user.id}"></strong>
                                             </p>
                                             <p class="text-muted">Ngoại hiệu:
-                                                <strong th:if="${user.uDname== null || #strings.isEmpty(user.uDname)}">Bạn
+                                                <strong th:if="${user.displayName == null || #strings.isEmpty(user.displayName)}">Bạn
                                                     chưa có Ngoại hiêuj</strong>
-                                                <strong th:unless="${user.uDname== null || #strings.isEmpty(user.uDname)}"
-                                                        th:text="${user.uDname}"></strong>
+                                                <strong th:unless="${user.displayName== null || #strings.isEmpty(user.displayName)}"
+                                                        th:text="${user.displayName}"></strong>
                                             </p>
                                             <p class="text-muted">Đã đăng <strong class="text-primary"
                                                                                   th:text="${countStory}"></strong>
@@ -77,10 +77,10 @@
                                         <h4><span class="fas fa-user" aria-hidden="true"></span> Đổi ngoại hiệu</h4>
                                     </div>
                                     <p class="text-muted mb-2">Ngoại hiệu hiện tại:
-                                        <strong th:if="${user.uDname== null || #strings.isEmpty(user.uDname)}">Bạn chưa
+                                        <strong th:if="${user.displayName== null || #strings.isEmpty(user.displayName)}">Bạn chưa
                                             có Ngoại hiệu</strong>
-                                        <strong th:unless="${user.uDname== null || #strings.isEmpty(user.uDname)}"
-                                                th:text="${user.uDname}"></strong>
+                                        <strong th:unless="${user.displayName== null || #strings.isEmpty(user.displayName)}"
+                                                th:text="${user.displayName}"></strong>
                                     </p>
                                     <p class="text-muted mb-2">Việc đổi tên sẽ mất 2000 đậu, bạn đang
                                         có <strong th:text="${user.gold}"></strong> đậu</p>

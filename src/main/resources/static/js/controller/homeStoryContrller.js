@@ -22,6 +22,7 @@ function storyCtrl(HomeService, $scope,) {
     $scope.totalComment = 0;
     $scope.noImage = 'https://res.cloudinary.com/thang1988/image/upload/v1544258290/truyenmvc/noImages.png';
     $scope.coupon = null;
+
     //Lấy danh sách Chapter Theo sID, pagenumber, size
     $scope.getListChapter = function (pagenumber, size) {
         var url = window.location.origin + '/api/chapterOfStory';

@@ -19,8 +19,8 @@ public interface ChapterOfStory {
     @Value("#{target.story.id}")
     Long getStoryId();
 
-    @Value("#{target.user.name}")
-    String getUserName();
+    @Value("#{target.user.username}")
+    String getUsername();
 
     @Value("#{target.user.displayName}")
     String getUserDisplayName();

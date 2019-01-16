@@ -21,34 +21,34 @@
                             th:each="story : ${listStory}">
                             <section class="content">
                                 <a class="thumb"
-                                   th:href="@{'/truyen/'+${story.sID}}">
+                                   th:href="@{'/truyen/'+${story.id}}">
                                     <img class="img-fluid lazyload"
-                                         th:src="${story.sImages}"
+                                         th:src="${story.images}"
                                          th:alt="${story.vnName}">
                                 </a>
                                 <section class="info">
                                     <h2 class="title">
-                                        <a th:href="@{'/truyen/'+${story.sID}}"
+                                        <a th:href="@{'/truyen/'+${story.id}}"
                                            th:title="${story.vnName}">
                                             <img class="img-fluid"
-                                                 th:if="${story.SDealStatus == 1}"
+                                                 th:if="${story.dealStatus == 1}"
                                                  th:src="@{/images/vip-vip.gif}">
-                                            <span th:class="${story.SDealStatus == 1}?'shadow-2' : ''"
+                                            <span th:class="${story.dealStatus == 1}?'shadow-2' : ''"
                                                   th:text="${story.vnName}"></span>
                                         </a>
                                     </h2>
-                                    <section class="chap" th:text="${story.sAuthor}"></section>
+                                    <section class="chap" th:text="${story.author}"></section>
                                     <section class="author">
                                         <span class="d-block">
                                             <i class="fas fa-eye"></i>
-                                            <span th:text="${story.sView}"></span> lượt xem
+                                            <span th:text="${story.countView}"></span> lượt xem
                                         </span>
                                     </section>
                                     <section class="time">
                                         <a th:if="${story.newChapter != null}"
-                                           th:href="@{'/truyen/'+${story.sID}+'/chuong-'+${story.newChapter.chID}}"
-                                           th:title="'Chương ' + ${story.newChapter.chNumber}"
-                                           th:text="'Chương '+ ${story.newChapter.chNumber}"></a>
+                                           th:href="@{'/truyen/'+${story.id}+'/chuong-'+${story.newChapter.id}}"
+                                           th:title="'Chương ' + ${story.newChapter.chapterNumber}"
+                                           th:text="'Chương '+ ${story.newChapter.chapterNumber}"></a>
                                         <a class="d-block d-sm-none" th:unless="${story.newChapter != null}">&nbsp;</a>
                                         <small class="d-none d-sm-inline-block"
                                                th:if="${story.newChapter != null}"
@@ -101,11 +101,11 @@
                 <section class="row">
                     <section class="col-sm-6 col-md-4 chapter-item" ng-repeat="item in listChapter">
                         <section class="item">
-                            <a ng-href="/truyen/{{item.sID}}/chuong-{{item.chID}}" class="align-items-center d-flex"
-                               ng-attr-title="Đăng bởi {{item.udname!=null? item.udname : item.uname}} lúc {{item.createDate| date: 'HH:mm dd-MM-yyyy' }}">
+                            <a ng-href="/truyen/{{item.storyId}}/chuong-{{item.id}}" class="align-items-center d-flex"
+                               ng-attr-title="Đăng bởi {{item.userDisplayName!=null? item.userDisplayName : item.username}} lúc {{item.createDate| date: 'HH:mm dd-MM-yyyy' }}">
                                 <span class="chapter-name">
-                                    <img ng-show="item.chStatus === 2" src="/images/vip-vip.gif" class="img-fluid"
-                                         height="12px"> Chương {{item.chNumber}} : {{item.chName}}</span>&nbsp;
+                                    <img ng-show="item.status === 2" src="/images/vip-vip.gif" class="img-fluid"
+                                         height="12px"> Chương {{item.chapterNumber}} : {{item.name}}</span>&nbsp;
                                 <span class="chapter-time text-muted">{{item.timeUpdate}}</span>
                             </a>
                         </section>
@@ -170,16 +170,16 @@
                 <ul class="comments" id="comment_list" ng-show="listComment.length !== 0">
                     <li class="clearfix" ng-repeat="comment in listComment" id="comment_{{comment.comID}}">
                         <div style="float:left;width:40px;height:80px;"><a
-                                ng-href="/member/{{comment.user.uid}}"><img
+                                ng-href="/member/{{comment.user.id}}"><img
                                 class="avatar"
-                                alt="{{comment.user.udname != null ? comment.user.udname : comment.user.uname}}"
-                                ng-src="{{comment.user.uavatar? comment.user.uavatar : noImage}}"></a><br
+                                alt="{{comment.user.displayName != null ? comment.user.displayName : comment.user.username}}"
+                                ng-src="{{comment.user.avatar? comment.user.avatar : noImage}}"></a><br
                                 style="clear:both"></div>
                         <div class="post-comments">
                             <p ng-bind-html="comment.content"></p>
                             <p class="meta-2">
-                                <a ng-href="/member/{{comment.user.uid}}"><abbr title="Thành viên">{{comment.user.udname?comment.user.udname:comment.user.uname}}</abbr></a>
-                                <small> ·
+                                <a ng-href="/member/{{comment.user.id}}"><abbr title="Thành viên">{{comment.user.displayName?comment.user.displayName:comment.user.username}}</abbr></a>
+                                <small>
                                     <small><a>Báo xấu</a></small>
                                 </small>
                                 <small class="float-right">{{comment.timeUpdate}}

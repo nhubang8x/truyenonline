@@ -747,7 +747,6 @@ button {
     .navbar-truyen .navbar-header {
         padding-left: 100px;
         position: relative;
-        width: 100%;
     }
 }
 
@@ -3136,7 +3135,8 @@ section .section-title {
 }
 
 .block-detail-sidebar-author .info .avatar img {
-    width: 100%
+    width: 100%;
+    height: 100%;
 }
 
 .block-detail-sidebar-author .info .name {

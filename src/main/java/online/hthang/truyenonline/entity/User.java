@@ -2,11 +2,11 @@ package online.hthang.truyenonline.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import online.hthang.truyenonline.utils.ConstantsUtils;
-import online.hthang.truyenonline.utils.DateUtils;
 import online.hthang.truyenonline.annotations.EqualFields;
 import online.hthang.truyenonline.annotations.UniqueEmail;
 import online.hthang.truyenonline.annotations.UniqueUserName;
+import online.hthang.truyenonline.utils.ConstantsUtils;
+import online.hthang.truyenonline.utils.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,14 +16,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Huy Thang
  */
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = "displayName"),
-        @UniqueConstraint(columnNames = "email"), @UniqueConstraint(columnNames = "username") })
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "displayName"),
+        @UniqueConstraint(columnNames = "email"), @UniqueConstraint(columnNames = "username")})
 @Data
 @NoArgsConstructor
 @EqualFields(baseField = "passwordRegister", matchField = "passwordRegisterConfirm")
@@ -65,9 +64,9 @@ public class User implements Serializable {
     private Integer status;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", catalog = "truyendb", joinColumns = {
-            @JoinColumn(name = "userId", nullable = false, updatable = false) }, inverseJoinColumns = {
-            @JoinColumn(name = "roleId", nullable = false, updatable = false) })
-    private Collection<Role> roleList;
+            @JoinColumn(name = "userId", nullable = false, updatable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "roleId", nullable = false, updatable = false)})
+    private Collection< Role > roleList;
     @Transient
     @Size(min = 6, max = 13, message = "{hthang.truyenmvc.user.passwordRegister.size.message}")
     private String passwordRegister;

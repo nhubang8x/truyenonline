@@ -17,7 +17,7 @@
     <!--Home AngularJS Service-->
     <script th:src="@{/js/service/WebService.js}"></script>
 </head>
-<body class="page-read" ng-app="ngApp" ng-controller="chapterCtrl" th:ng-init="|init(${chapter.story.sID})|">
+<body class="page-read" ng-app="ngApp" ng-controller="chapterCtrl" th:ng-init="|init(${chapter.story.id})|">
 <th:block th:include="web/layout :: loading"></th:block>
 <section class="page-wrapper">
     <th:block th:include="web/layout :: navbar"></th:block>
@@ -31,11 +31,11 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.id}}"
                            th:text="${chapter.story.vnName}"></a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page"
-                        th:text=" 'Chương ' + ${chapter.chNumber} + ': ' + ${chapter.chName}">
+                        th:text=" 'Chương ' + ${chapter.chapterNumber} + ': ' + ${chapter.name}">
                     </li>
                 </ol>
             </div>
@@ -44,7 +44,7 @@
             <div class="container">
                 <div class="read-info-block text-center">
                     <h1 class="title">
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.id}}"
                            th:title="${chapter.story.vnName}"
                            th:text="${chapter.story.vnName}"></a>
                     </h1>
@@ -54,21 +54,21 @@
                                data-target="#js-popover-read-author" data-placement="bottom" data-original-title="">
                                 <div class="avatar">
                                     <img class="img-fluid lazyload"
-                                         th:data-src="${chapter.user.uAvatar}">
+                                         th:data-src="${chapter.user.avatar}">
                                 </div>
-                                <span th:text="${chapter.user.uDname}"></span>
+                                <span th:text="${chapter.user.displayName}"></span>
                             </a>
                         </li>
                         <li>
                             <span class="item-icon">
                                 <i class="truyen-icon icon-eye-grey"></i>
-                            </span> <span th:text="${chapter.chView}"></span> lượt xem
+                            </span> <span th:text="${chapter.countView}"></span> lượt xem
                         </li>
                         <li>
                             <span class="item-icon">
                                 <i class="truyen-icon icon-list-grey"></i>
                             </span>
-                            <span th:text="${chapter.wordNumber} + ' Chữ'"></span>
+                            <span th:text="${chapter.wordCount} + ' Chữ'"></span>
                         </li>
                         <li>
                             <span class="item-icon">
@@ -84,7 +84,7 @@
             <div class="container">
                 <div class="truyen-read-block">
                     <div class="truyen-read-navigation text-center">
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${preChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.id} + '/chuong-' + ${preChapter}}"
                            class="btn btn-primary" th:classappend="${preChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương trước">
                             <span class="btn-icon"> <i class="truyen-icon icon-prev-bold"></i> </span>
@@ -93,7 +93,7 @@
                            onclick="showChapter(16214,2,2,'cuc pham manh nhat cao thu')"> <span
                                 class="btn-icon js-tooltip" data-toggle="tooltip" data-placement="bottom"
                                 title="Danh sách chương"> <i class="truyen-icon icon-list"></i> </span> </a>
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${nextChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.id} + '/chuong-' + ${nextChapter}}"
                            class="btn btn-primary" th:classappend="${nextChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương sau">
                             <span class="btn-icon"> <i class="truyen-icon icon-next-bold"></i> </span>
@@ -102,7 +102,7 @@
                     <div class="truyen-read-content" data-font-family="'Palatino Linotype', sans-serif"
                          style="width: 100%">
                         <div class="header">
-                            <h2 class="title" th:text="'Chương ' + ${chapter.chNumber} + ': ' + ${chapter.chName}"></h2>
+                            <h2 class="title" th:text="'Chương ' + ${chapter.chapterNumber} + ': ' + ${chapter.name}"></h2>
                         </div>
                         <div class="content" id="js-truyen-content"
                              style="font-size: 26px; line-height: 140%; font-family: 'Palatino Linotype', sans-serif; word-wrap: break-word;">
@@ -112,7 +112,7 @@
                                     xem, nếu đồng ý hãy ấn vào nút <strong>MUA</strong> bên dưới. </h3>
                                 <p class="text-center">
                                     <button class="btn btn-primary"
-                                            th:ng-click="|chapterVip('${chapter.chID}')|">
+                                            th:ng-click="|chapterVip('${chapter.id}')|">
                                         MUA
                                     </button>
                                 </p>
@@ -121,7 +121,7 @@
                                         sau 24 tiếng nếu muốn đọc lại
                                         bạn phải mua lại.</p>
                                     <p class="text-justify small">- Chương truyện này sẽ cho đọc miễn phí sau <strong
-                                            th:text="${chapter.story.STimeDeal}"></strong> ngày kể từ lúc được đăng.</p>
+                                            th:text="${chapter.story.timeDeal}"></strong> ngày kể từ lúc được đăng.</p>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="truyen-read-navigation text-center">
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${preChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.id} + '/chuong-' + ${preChapter}}"
                            class="btn btn-primary" th:classappend="${preChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương trước">
                             <span class="btn-icon"> <i class="truyen-icon icon-prev-bold"></i> </span>
@@ -138,7 +138,7 @@
                            onclick="showChapter(16214,2,2,'cuc pham manh nhat cao thu')"> <span
                                 class="btn-icon js-tooltip" data-toggle="tooltip" data-placement="bottom"
                                 title="Danh sách chương"> <i class="truyen-icon icon-list"></i> </span> </a>
-                        <a th:href="@{'/truyen/' + ${chapter.story.sID} + '/chuong-' + ${nextChapter}}"
+                        <a th:href="@{'/truyen/' + ${chapter.story.id} + '/chuong-' + ${nextChapter}}"
                            class="btn btn-primary" th:classappend="${nextChapter!=0} ? '': 'disabled'"
                            data-toggle="tooltip" data-placement="bottom" title="Chương sau">
                             <span class="btn-icon"> <i class="truyen-icon icon-next-bold"></i> </span>
@@ -161,7 +161,7 @@
     $(document).keydown(function (e) {
         if (!$(e.target).is(':input, [contenteditable]')) {
             if (e.keyCode == '37') {
-                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.sID}]] + "/chuong-" + [[${preChapter}]];
+                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.id}]] + "/chuong-" + [[${preChapter}]];
             }
         }
     })
@@ -170,7 +170,7 @@
     $(document).keydown(function (e) {
         if (!$(e.target).is(':input, [contenteditable]')) {
             if (e.keyCode == '39') {
-                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.sID}]] + "/chuong-" + [[${nextChapter}]];
+                window.location = "[[@{/}]]" + "truyen/" + [[${chapter.story.id}]] + "/chuong-" + [[${nextChapter}]];
             }
         }
     });

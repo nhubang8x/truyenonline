@@ -141,7 +141,6 @@ public class AccountRestfulController {
         if (uploadfile.getSize() > (20 * 1024 * 1024)) {
             throw new HttpSizeException("Kích thước ảnh upload tối đa là 20 Megabybtes!");
         }
-        ;
         String url = cloudinaryUploadService.upload(uploadfile, user.getUsername() + "-" + System.nanoTime());
         userService.updateAvatarOfUser(user.getId(), url, ConstantsUtils.PRICE_AVATAR_DNAME);
         return new ResponseEntity<>(url, HttpStatus.OK);

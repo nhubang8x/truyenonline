@@ -156,7 +156,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#truyen-chapter" role="tab"
                                    ng-click="getListChapter(1, 1)">
-                                    <!--th:ng-click="|getListChapter(${story.sID},1,1)|">-->
                                     Danh Sách Chương
                                 </a>
                             </li>
@@ -173,7 +172,8 @@
                                      name="truyen-detail-info" role="tabpanel">
                                 <section class="row">
                                     <section class="col-sm-12 col-md-8 col-lg-9">
-                                        <div class="brief" th:text="${story.infomation}" th:if="${story.infomation ne null}">
+                                        <div class="brief" th:text="${story.infomation}"
+                                             th:if="${story.infomation ne null}">
                                         </div>
                                         <div class="list-overview" th:if="${story.chapterNew ne null}">
                                             <div class="item">
@@ -201,7 +201,8 @@
                                                                         <img class="img-fluid lazyload"
                                                                              data-src="{{user.avatar? user.avatar : noImage}}">
                                                                     </a>
-                                                                    <h2 class="name">{{user.displayName? user.displayName :
+                                                                    <h2 class="name">{{user.displayName?
+                                                                        user.displayName :
                                                                         user.username}}</h2>
                                                                 </div>
                                                                 <ul class="list-unstyled truyen-author-badge"></ul>
@@ -314,7 +315,8 @@
     <th:block th:include="web/layout :: footer"></th:block>
 
     <!-- Modal -->
-    <div class="modal fade bd-example-modal-sm" id="appointModal" tabindex="-1" role="dialog" aria-labelledby="appointModalLabel"
+    <div class="modal fade bd-example-modal-sm" id="appointModal" tabindex="-1" role="dialog"
+         aria-labelledby="appointModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">

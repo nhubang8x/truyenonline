@@ -36,6 +36,10 @@ public class ConstantsUtils {
     public static Integer STORY_STATUS_GOING_ON = 1;
     //Trang thái truyện hoàn thành
     public static Integer STORY_STATUS_COMPLETED = 2;
+    //Trang thái truyện không Vip
+    public static Integer STORY_NOT_VIP = 0;
+    //Trang thái truyện Vip
+    public static Integer STORY_VIP = 1;
     // Size Swapper
     public static Integer PAGE_SIZE_SWAPPER = 5;
     //Số Story Trong Home Page
