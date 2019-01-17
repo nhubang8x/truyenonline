@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:include="web/layout :: head"></th:block>
+    <script th:src="@{/bower/angular/angular.min.js}"></script>
+    <!--Angular Sanitize JS-->
+    <script th:src="@{/bower/angular-sanitize/angular-sanitize.min.js}"></script>
+    <!--My AngularJS Controller-->
+    <script th:src="@{/js/controller/accountStoryController.js}"></script>
+    <!--Home AngularJS Service-->
+    <script th:src="@{/js/service/WebService.js}"></script>
+</head>
+<body ng-app="ngApp" ng-controller="accountStoryController" ng-init="init()">
+<th:block th:include="web/layout :: loading"></th:block>
+<section class="page-wrapper">
+    <th:block th:include="web/layout :: navbar"></th:block>
+    <section class="truyen-main">
+        <section class="truyen-section section-featured">
+            <section class="container-fluid">
+                <section class="featured-content" id="content">
+                    <section class="row">
+                        <th:block th:include="web/account/navbar_left :: navbar-left"></th:block>
+                        <section class="col-lg-10 col-md-9">
+                            <section class="row">
+                                <section class="col-12">
+                                    <section id="navbar-custom">
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-custom" role="tablist">
+                                            <li class="nav-item active">
+                                                <a class="nav-link active" data-toggle="tab"
+                                                   href="#truyen-detail-introduction"
+                                                   role="tab" ng-click="getListStoryOnGoing(1)">
+                                                    Đang làm
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab"
+                                                   href="#truyen-detail-introduction2"
+                                                   role="tab" ng-click="getListStoryStop(1)">
+                                                    Tạm dừng
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab"
+                                                   href="#truyen-detail-introduction3"
+                                                   role="tab" ng-click="getListStoryHidden(1)">
+                                                    Bị Ẩn
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#truyen-detail-story"
+                                                   role="tab" ng-click="getListStoryComplte(1)">
+                                                    Đã Xong
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Tab panes {Fade}  -->
+                                        <section class="tab-content">
+                                            <section class="tab-pane fade show active" id="truyen-detail-introduction"
+                                                     name="truyen-detail-introduction" role="tabpanel">
+                                                <section class="row">
+                                                    <section class="col-sm-12 pt-2 pb-2"
+                                                             style="border-bottom: 1px dashed #989090;">
+                                                        <h4>Danh Sách Truyện</h4>
+                                                    </section>
+                                                    <th:block th:include="web/account/listLayout :: storyOfOnGoing"></th:block>
+                                                </section>
+                                            </section>
+                                            <section class="tab-pane fade" id="truyen-detail-story"
+                                                     name="truyen-detail-story" role="tabpanel">
+                                                <section class="row">
+                                                    <section class="col-sm-12">
+                                                    </section>
+                                                </section>
+                                            </section>
+                                            <section class="tab-pane fade" id="truyen-detail-introduction2"
+                                                     name="truyen-detail-introduction2" role="tabpanel">
+                                                <section class="row">
+                                                    <section class="col-sm-12">
+                                                    </section>
+                                                </section>
+                                            </section>
+                                            <section class="tab-pane fade" id="truyen-detail-introduction3"
+                                                     name="truyen-detail-introduction3" role="tabpanel">
+                                                <section class="row">
+                                                    <section class="col-sm-12">
+                                                    </section>
+                                                </section>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <th:block th:include="web/layout :: footer"></th:block>
+</section>
+</body>
+</html>

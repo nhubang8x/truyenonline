@@ -64,46 +64,46 @@ public class ChapterAccountController {
         model.addAttribute("information", informationService.getWebInfomation());
     }
 
-    @RequestMapping("/danh-sach-truyen")
-    public String listStoryPage(Model model, Principal principal) {
-        // Lấy Danh sách truyện đang đọc của người dùng
-        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-
-        model.addAttribute("userId", loginedUser.getUser().getId());
-
-        getMenuAndInfo(model, "Danh sách truyện đã đăng");
-
-        return "web/account/listStoryPage";
-    }
-
-    @GetMapping("/them_truyen")
-    public String addStoryPage(Model model) {
-
-        getMenuAndInfo(model, titleHome);
-
-        model.addAttribute("story", new Story());
-
-        return "web/account/addStoryPage";
-    }
-
-    @PostMapping("/them_truyen")
-    public String saveStoryPage(@Valid Story story, BindingResult result, Model model,
-                                HttpServletRequest request, Principal principal, RedirectAttributes redirectAttrs) {
-        boolean hasError = result.hasErrors();
-        if (hasError) {
-            getMenuAndInfo(model, titleHome);
-            model.addAttribute("story", story);
-            return "web/account/addStoryPage";
-        }
-        //Lấy Thông Tin người dùng đăng nhập
-        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-
-        story.setUser(loginedUser.getUser());
-        String url = cloudinaryUploadService
-                .upload(story.getUploadfile(), loginedUser.getUser().getUsername() + "-" + System.nanoTime());
-        story.setImages(url);
-        boolean check = storyService.saveNewStory(story);
-        redirectAttrs.addFlashAttribute("checkAddStory", check);
-        return "redirect:/account/danh-sach-truyen";
-    }
+//    @RequestMapping("/danh-sach-truyen")
+//    public String listStoryPage(Model model, Principal principal) {
+//        // Lấy Danh sách truyện đang đọc của người dùng
+//        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+//
+//        model.addAttribute("userId", loginedUser.getUser().getId());
+//
+//        getMenuAndInfo(model, "Danh sách truyện đã đăng");
+//
+//        return "web/account/listStoryPage";
+//    }
+//
+//    @GetMapping("/them_truyen")
+//    public String addStoryPage(Model model) {
+//
+//        getMenuAndInfo(model, titleHome);
+//
+//        model.addAttribute("story", new Story());
+//
+//        return "web/account/addStoryPage";
+//    }
+//
+//    @PostMapping("/them_truyen")
+//    public String saveStoryPage(@Valid Story story, BindingResult result, Model model,
+//                                HttpServletRequest request, Principal principal, RedirectAttributes redirectAttrs) {
+//        boolean hasError = result.hasErrors();
+//        if (hasError) {
+//            getMenuAndInfo(model, titleHome);
+//            model.addAttribute("story", story);
+//            return "web/account/addStoryPage";
+//        }
+//        //Lấy Thông Tin người dùng đăng nhập
+//        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+//
+//        story.setUser(loginedUser.getUser());
+//        String url = cloudinaryUploadService
+//                .upload(story.getUploadfile(), loginedUser.getUser().getUsername() + "-" + System.nanoTime());
+//        story.setImages(url);
+//        boolean check = storyService.saveNewStory(story);
+//        redirectAttrs.addFlashAttribute("checkAddStory", check);
+//        return "redirect:/account/danh-sach-truyen";
+//    }
 }

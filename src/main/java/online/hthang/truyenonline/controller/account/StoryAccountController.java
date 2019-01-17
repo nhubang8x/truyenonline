@@ -65,7 +65,7 @@ public class StoryAccountController {
         model.addAttribute("information", informationService.getWebInfomation());
     }
 
-    @RequestMapping("/danh-sach-truyen")
+    @RequestMapping("/quan_ly_truyen")
     public String listStoryPage(Model model, Principal principal) {
         // Lấy Danh sách truyện đang đọc của người dùng
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
@@ -109,7 +109,7 @@ public class StoryAccountController {
         } else {
             redirectAttrs.addFlashAttribute("checkAddStory", "Có lỗi xảy ra, Đăng truyện thất bại!");
         }
-        return "redirect:/account/danh-sach-truyen";
+        return "redirect:/account/quan_ly_truyen";
     }
 
     @GetMapping("/sua_truyen/{id}")
@@ -119,13 +119,13 @@ public class StoryAccountController {
         Story story = storyService.getStoryById(id);
         if (story == null) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Truyện không tồn tại");
-            return "redirect:/account/danh-sach-truyen";
+            return "redirect:/account/quan_ly_truyen";
         }
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         if (!story.getUser().getId().equals(loginedUser.getUser().getId())) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền sửa truyện không do bạn đăng!");
-            return "redirect:/account/danh-sach-truyen";
+            return "redirect:/account/quan_ly_truyen";
         }
 
         getMenuAndInfo(model, titleHome);
@@ -135,7 +135,7 @@ public class StoryAccountController {
         return "web/account/editStoryPage";
     }
 
-    @PostMapping("/them_truyen")
+    @PostMapping("/sua_truyen/{id}")
     public String saveStoryEditPage(@Valid Story story, BindingResult result, Model model,
                                     HttpServletRequest request, Principal principal, RedirectAttributes redirectAttrs) {
         boolean hasError = result.hasErrors();
@@ -153,6 +153,6 @@ public class StoryAccountController {
         story.setImages(url);
         boolean check = storyService.saveNewStory(story);
         redirectAttrs.addFlashAttribute("checkAddStory", check);
-        return "redirect:/account/danh-sach-truyen";
+        return "redirect:/account/quan_ly_truyen";
     }
 }

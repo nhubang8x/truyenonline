@@ -205,4 +205,13 @@ public interface StoryService {
      * @return True- Nếu lưu Thành công / Flase - Nếu lưu thất bại
      */
     boolean saveNewStory(Story story);
+
+    /**
+     * Lấy Danh Sách Truyện Bởi Converter
+     *
+     * @param uID
+     * @param status
+     * @return Page<MemberStorySummary>
+     */
+    Page< StoryConverterSummary > getStoryConverter(Integer status, Long uID, int page, int size);
 }

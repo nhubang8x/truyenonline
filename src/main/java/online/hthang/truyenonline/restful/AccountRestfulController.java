@@ -5,6 +5,7 @@ import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.exception.*;
 import online.hthang.truyenonline.service.CloudinaryUploadService;
 import online.hthang.truyenonline.service.PayService;
+import online.hthang.truyenonline.service.StoryService;
 import online.hthang.truyenonline.service.UserService;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import online.hthang.truyenonline.utils.WebUtils;
@@ -38,12 +39,14 @@ public class AccountRestfulController {
     private final PayService payService;
     private final UserService userService;
     private final CloudinaryUploadService cloudinaryUploadService;
+    private final StoryService storyService;
 
     @Autowired
-    public AccountRestfulController(PayService payService, UserService userService, CloudinaryUploadService cloudinaryUploadService) {
+    public AccountRestfulController(PayService payService, UserService userService, CloudinaryUploadService cloudinaryUploadService, StoryService storyService) {
         this.payService = payService;
         this.userService = userService;
         this.cloudinaryUploadService = cloudinaryUploadService;
+        this.storyService = storyService;
     }
 
     @PostMapping(value = "/saveDName")
@@ -145,5 +148,4 @@ public class AccountRestfulController {
         userService.updateAvatarOfUser(user.getId(), url, ConstantsUtils.PRICE_AVATAR_DNAME);
         return new ResponseEntity<>(url, HttpStatus.OK);
     }
-
 }

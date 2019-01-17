@@ -1,5 +1,6 @@
 package online.hthang.truyenonline.annotations;
 
+import online.hthang.truyenonline.validator.ExtensionUploadValidator;
 import online.hthang.truyenonline.validator.UniqueEmailValidator;
 
 import javax.validation.Constraint;
@@ -13,7 +14,7 @@ import java.lang.annotation.*;
 
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueEmailValidator.class)
+@Constraint(validatedBy = ExtensionUploadValidator.class)
 @Documented
 public @interface ExtensionUpload {
 

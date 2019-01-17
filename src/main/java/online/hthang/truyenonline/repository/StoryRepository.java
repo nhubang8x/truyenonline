@@ -223,6 +223,17 @@ public interface StoryRepository extends JpaRepository< Story, Long > {
                                                                              Pageable pageable);
 
     /**
+     * Lấy Danh Sách Truyện Theo Converter
+     *
+     * @param uID
+     * @param status
+     * @return Page<StoryConverterSummary>
+     */
+    Page< StoryConverterSummary > findByUser_IdAndStatusOrderByCreateDateDesc(Long uID,
+                                                                              Integer status,
+                                                                              Pageable pageable);
+
+    /**
      * Đếm số truyện đăng bởi uID
      *
      * @param uID

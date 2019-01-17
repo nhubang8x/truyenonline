@@ -242,14 +242,14 @@ public class WebRestfulController {
         }
     }
 
-    //Lấy Top 3 Truyện Mới Của Converter
+    //Lấy Thông Tin Converter
     @PostMapping(value = "/converterInfo")
     public ResponseEntity< ? > loadConverter(@RequestParam("uID") Long uID) {
         ConveterSummary conveterSummary = userService.getConverterByID(uID);
         return new ResponseEntity<>(conveterSummary, HttpStatus.OK);
     }
 
-    //Lấy Top 3 Truyện Mới Của Converter
+    //Lấy Top 3 Truyện đã đăng của Converter
     @PostMapping(value = "/storyOfConverter")
     public ResponseEntity< ? > loadStoryOfConverter(@RequestParam("uID") Long uID) {
         List< SearchStory > listNewStory = storyService

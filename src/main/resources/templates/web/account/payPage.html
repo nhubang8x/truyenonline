@@ -14,7 +14,7 @@
     <th:block th:include="web/layout :: navbar"></th:block>
     <section class="truyen-main">
         <section class="truyen-section section-featured">
-            <section class="container">
+            <section class="container-fluid">
                 <section class="featured-content" id="content">
                     <section class="row">
                         <th:block th:include="web/account/navbar_left :: navbar-left"></th:block>
@@ -108,25 +108,5 @@
     </section>
     <th:block th:include="web/layout :: footer"></th:block>
 </section>
-<script>
-    $('document').ready(function () {
-        $("#frmChangeNick").submit(function (event) {
-
-            // Prevent the form from submitting via the browser.
-            event.preventDefault();
-
-            changeNick();
-
-        });
-        $("#frmupdateabout").submit(function (event) {
-
-            // Prevent the form from submitting via the browser.
-            event.preventDefault();
-
-            updateNotification();
-
-        });
-    });
-</script>
 </body>
 </html>

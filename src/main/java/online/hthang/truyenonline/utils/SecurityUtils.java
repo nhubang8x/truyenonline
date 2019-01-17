@@ -13,6 +13,7 @@ public class SecurityUtils {
             "/api/load1",
             "/api/load2",
             "/api/load3",
+            "api/accountStoryMy",
             "/danh-muc/**"};
 
     public static final String[] ROLE_USER_LINK = {"/tai-khoan/**"

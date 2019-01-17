@@ -66,14 +66,8 @@ public class HomeRestfulController {
         return new ResponseEntity<>(listNewStory, HttpStatus.OK);
     }
 
-    //Lấy Top 3 Truyện Mới Của Converter
     @PostMapping(value = "/storyVipNew")
     public ResponseEntity< ? > loadStoryVipNew() {
-        //Lấy ngày bắt đầu của tuần
-        Date firstDayOfWeek = DateUtils.getFirstDayOfWeek();
-
-        //Lấy ngày kết thúc của tuần
-        Date lastDayOfWeek = DateUtils.getLastDayOfWeek();
 
         // Lấy Danh Sách Truyện Vip Top trong tuần
         List<NewStory> topvipstory = storyService
@@ -82,7 +76,6 @@ public class HomeRestfulController {
         return new ResponseEntity<>(topvipstory, HttpStatus.OK);
     }
 
-    //Lấy Top 3 Truyện Mới Của Converter
     @PostMapping(value = "/topConveter")
     public ResponseEntity< ? > loadStoryOfConverter() {
         // Lấy Danh Sách Top Converter

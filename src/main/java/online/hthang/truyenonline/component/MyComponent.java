@@ -3,7 +3,6 @@ package online.hthang.truyenonline.component;
 import online.hthang.truyenonline.projections.ChapterSummary;
 import online.hthang.truyenonline.service.ChapterService;
 import online.hthang.truyenonline.service.StoryService;
-import online.hthang.truyenonline.service.UserService;
 import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,13 +44,13 @@ public class MyComponent {
                 .getChapterIDNew(sID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
     }
 
-    public Long countStoryOfUser(Long uID){
-        return  storyService.
+    public Long countStoryOfUser(Long uID) {
+        return storyService.
                 countStoryByUser(uID, ConstantsListUtils.LIST_STORY_DISPLAY);
     }
 
-    public Long countChapterOfUser(Long uID){
-        return  chapterService.
+    public Long countChapterOfUser(Long uID) {
+        return chapterService.
                 countChapterByUser(uID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
     }
 }

@@ -299,4 +299,25 @@ public class StoryServiceImpl implements StoryService {
     public List< SearchStory > getTop3StoryOfConverter(Long uID, List< Integer > listStatus) {
         return storyRepository.findTop3ByUser_IdAndStatusInOrderByCreateDateDesc(uID, listStatus);
     }
+
+    @Override
+    public boolean saveNewStory(Story story) {
+        return false;
+    }
+
+    /**
+     * Lấy Danh Sách Truyện Bởi Converter
+     *
+     * @param status
+     * @param uID
+     * @param page
+     * @param size
+     * @return Page<MemberStorySummary>
+     */
+    @Override
+    public Page< StoryConverterSummary > getStoryConverter( Integer status, Long uID, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return storyRepository
+                .findByUser_IdAndStatusOrderByCreateDateDesc(uID, status, pageable);
+    }
 }

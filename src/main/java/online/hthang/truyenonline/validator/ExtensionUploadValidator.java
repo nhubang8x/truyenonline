@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
  * @project truyenmvc
  */
 
-public class CheckUploadValidator implements ConstraintValidator< ExtensionUpload, MultipartFile > {
+public class ExtensionUploadValidator implements ConstraintValidator< ExtensionUpload, MultipartFile > {
 
     private String message;
 
