@@ -24,4 +24,6 @@ public interface PayService {
 
     boolean savePay(Story story, Chapter chapter, User userSend, User userReceived, Double money, Integer payType);
 
+
+    Long countPay(Long id);
 }

@@ -115,4 +115,13 @@ public interface ChapterService {
      * @return List<ChapterOfStory>
      */
     List< ChapterOfStory > getAllChapterOfStory(Long sID, List< Integer > listStatus);
+
+    /*
+     *Đếm số chapter của truyện
+     * @param id
+     * return Long
+     */
+    Long countChapterByStory(Long id);
+
+    boolean saveNewChapter(Chapter chapter);
 }

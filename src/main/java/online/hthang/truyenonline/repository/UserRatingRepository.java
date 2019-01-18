@@ -62,4 +62,5 @@ public interface UserRatingRepository extends JpaRepository< UserRating, UserRat
                        @Param("storyID") Long storyID,
                        @Param("myLocationIP") String myLocationIP,
                        @Param("myRating") Integer myRating);
+
 }

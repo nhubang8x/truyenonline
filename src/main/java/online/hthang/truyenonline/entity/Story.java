@@ -1,6 +1,7 @@
 package online.hthang.truyenonline.entity;
 
 import lombok.Data;
+import online.hthang.truyenonline.annotations.CheckUpload;
 import online.hthang.truyenonline.annotations.ExtensionUpload;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import online.hthang.truyenonline.utils.DateUtils;
@@ -53,10 +54,6 @@ public class Story implements Serializable {
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "createDate", length = 19)
     private Date createDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "modifiedBy", length = 19)
-    private Date modifiedBy;
     @Column(name = "price", precision = 22, scale = 0)
     private Double price;
     @Column(name = "timeDeal")
@@ -79,9 +76,13 @@ public class Story implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "categoryId", nullable = false)})
     private List< Category > categoryList;
 
-    @ExtensionUpload
+    @CheckUpload
     @Transient
     private MultipartFile uploadfile;
+
+    @ExtensionUpload
+    @Transient
+    private MultipartFile editfile;
 
     @PrePersist
     public void prePersist() {

@@ -62,7 +62,7 @@ public class MemberController {
 
     @RequestMapping("/{uID}")
     public String defaultMemberController(@PathVariable("uID") String uid, Model model) throws NotFoundException {
-        if (uid == null || !WebUtils.checkLongNumber(uid)) {
+        if (uid == null || WebUtils.checkLongNumber(uid)) {
             throw new NotFoundException();
         }
         Long uID = Long.valueOf(uid);
@@ -108,7 +108,7 @@ public class MemberController {
         } else {
             pageNumber = Integer.valueOf(pagenumber);
         }
-        if(!WebUtils.checkLongNumber(uid) || uid.isEmpty() || uid == null){
+        if (WebUtils.checkLongNumber(uid) || uid.isEmpty() || uid == null) {
             return "redirect: /error";
         }
         Long uID = Long.valueOf(uid);

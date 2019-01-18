@@ -2,7 +2,10 @@ package online.hthang.truyenonline.restful;
 
 import online.hthang.truyenonline.entity.*;
 import online.hthang.truyenonline.exception.*;
-import online.hthang.truyenonline.projections.*;
+import online.hthang.truyenonline.projections.ChapterOfStory;
+import online.hthang.truyenonline.projections.CommentSummary;
+import online.hthang.truyenonline.projections.ConveterSummary;
+import online.hthang.truyenonline.projections.SearchStory;
 import online.hthang.truyenonline.service.*;
 import online.hthang.truyenonline.utils.*;
 import org.slf4j.Logger;
@@ -70,7 +73,7 @@ public class WebRestfulController {
         if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
             throw new HttpUserLockedException();
         }
-        if (chID == null || !WebUtils.checkLongNumber(chID)) {
+        if (chID == null || WebUtils.checkLongNumber(chID)) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         Chapter chapter = chapterService.getChapterByID(Long.valueOf(chID));
@@ -141,7 +144,6 @@ public class WebRestfulController {
         if (result != -1) {
             exceptionResponse.setMyrating(userRatingService.getSumRaitingOfStory(idBox));
             DecimalFormat df = new DecimalFormat("#.0");
-            ;
             exceptionResponse.setMyrate(df.format(result));
         }
         return new ResponseEntity<>(exceptionResponse, HttpStatus.OK);

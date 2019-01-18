@@ -7,6 +7,8 @@ import online.hthang.truyenonline.utils.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,13 +28,16 @@ public class Chapter implements Serializable {
     private Long id;
     @Column(name = "chapterNumber", nullable = false)
     private Integer chapterNumber;
+    @NotNull
     @Column(name = "serial", nullable = false, precision = 12, scale = 0)
     private Float serial;
+    @NotEmpty(message = "{hthang.truyenmvc.story.cnName.empty.message}")
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "countView")
     private Integer countView;
-    @Column(name = "content", columnDefinition = "TEXT",nullable = false)
+    @NotEmpty(message = "{hthang.truyenmvc.story.cnName.empty.message}")
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createDate", length = 19)
@@ -66,6 +71,9 @@ public class Chapter implements Serializable {
         }
         if (status == null) {
             status = ConstantsUtils.CHAPTER_ACTIVED;
+        }
+        if (wordCount == null) {
+            wordCount = 0;
         }
     }
 

@@ -14,13 +14,13 @@ function homeCtrl(HomeService, $scope) {
     $scope.init = function () {
         $scope.getTopViewMonth();
         $scope.getStoryNewUpdate();
-         $scope.getTopConveter();
+        $scope.getTopConveter();
     };
 
     $scope.getTopViewMonth = function () {
         var data = new FormData();
         //Lấy Top View 10 Truyện Trong Tháng
-        var url = window.location.origin + '/api/home/topViewMonth';
+        var url = window.location.origin + '/api/home/topAppoidMonth';
         HomeService.getData(url, data).then(function (response) {
             $scope.topViewMonth = response.data;
         }, function errorCallback(errResponse) {

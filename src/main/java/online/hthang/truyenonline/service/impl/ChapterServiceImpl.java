@@ -187,4 +187,15 @@ public class ChapterServiceImpl implements ChapterService {
         return chapterRepository
                 .findByStory_IdAndStatusInOrderBySerialDesc(sID, listStatus);
     }
+
+    @Override
+    public Long countChapterByStory(Long id) {
+        return chapterRepository.countChapterByStory_Id(id);
+    }
+
+    @Override
+    public boolean saveNewChapter(Chapter chapter) {
+        Chapter newChapter = chapterRepository.save(chapter);
+        return newChapter.getId() != null;
+    }
 }

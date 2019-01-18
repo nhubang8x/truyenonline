@@ -6,11 +6,12 @@ import online.hthang.truyenonline.repository.StoryRepository;
 import online.hthang.truyenonline.service.StoryService;
 import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.ConstantsUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 @Transactional
 public class StoryServiceImpl implements StoryService {
 
+    private final static Logger logger = LoggerFactory.getLogger(StoryServiceImpl.class);
     private final StoryRepository storyRepository;
 
     @Autowired
@@ -302,7 +304,8 @@ public class StoryServiceImpl implements StoryService {
 
     @Override
     public boolean saveNewStory(Story story) {
-        return false;
+        Story storyRes = storyRepository.save(story);
+        return storyRes.getId() == null;
     }
 
     /**
@@ -315,9 +318,56 @@ public class StoryServiceImpl implements StoryService {
      * @return Page<MemberStorySummary>
      */
     @Override
-    public Page< StoryConverterSummary > getStoryConverter( Integer status, Long uID, int page, int size) {
+    public Page< StoryConverterSummary > getStoryConverter(Integer status, Long uID, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
                 .findByUser_IdAndStatusOrderByCreateDateDesc(uID, status, pageable);
+    }
+
+    @Override
+    public boolean saveEditStory(Story story) {
+        Optional< Story > storyOptional = storyRepository.findById(story.getId());
+        Story storyEdit = storyOptional.get();
+        if (storyEdit.getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN))
+            return false;
+        storyEdit.setAuthor(story.getAuthor());
+        storyEdit.setVnName(story.getVnName());
+        storyEdit.setCnName(story.getCnName());
+        storyEdit.setCnLink(story.getCnLink());
+        storyEdit.setInfomation(story.getInfomation());
+        storyEdit.setCategoryList(story.getCategoryList());
+        storyEdit.setStatus(story.getStatus());
+        if (story.getImages() != null && !story.getImages().isEmpty()) {
+            storyEdit.setImages(story.getImages());
+        }
+        logger.info(storyEdit.getStatus().toString());
+        logger.info(storyEdit.getCategoryList().toString());
+        storyRepository.save(storyEdit);
+        return true;
+    }
+
+    /**
+     * Lấy List Truyện Top Đề cử Trong Khoảng
+     *
+     * @param page
+     * @param size
+     * @return Page<TopStory>
+     */
+    @Override
+    public Page< TopStory > getTopStoryAppoind(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return storyRepository
+                .getTopStoryAppoind(ConstantsListUtils.LIST_STORY_DISPLAY, pageable);
+    }
+
+    @Override
+    public void updateAppoindStory() {
+        storyRepository.updateAppoindStory(ConstantsListUtils.LIST_STORY_DISPLAY);
+    }
+
+    @Transactional
+    @Override
+    public void deleteStoryById(Long id) {
+        storyRepository.deleteById(id);
     }
 }

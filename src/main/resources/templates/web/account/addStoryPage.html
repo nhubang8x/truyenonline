@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:include="web/layout :: head"></th:block>
+    <!--TinyMCE plugins-->
+    <script type="text/javascript" th:src="@{/bower/tinymce/tinymce.js}"></script>
+</head>
+<body>
+<th:block th:include="web/layout :: loading"></th:block>
+<section class="page-wrapper">
+    <th:block th:include="web/layout :: navbar"></th:block>
+    <section class="truyen-main">
+        <section class="truyen-section section-featured">
+            <section class="container-fluid">
+                <section class="featured-content" id="content">
+                    <section class="row">
+                        <th:block th:include="web/account/navbar_left :: navbar-left"></th:block>
+                        <section class="col-lg-10 col-md-9">
+                            <section class="row">
+                                <section class="col-12">
+                                    <div class="pb-2 pt-2 mb-4 border-bottom">
+                                        <h3>
+                                            <span class="oi oi-book"></span> Đăng Truyện
+                                        </h3>
+                                    </div>
+                                    <form method="POST" class="form-horizontal"
+                                          th:object="${story}"
+                                          th:action="@{/tai-khoan/them_truyen}" enctype="multipart/form-data">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Tên Tiếng Việt:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{vnName}"/> <span
+                                                    th:if="${#fields.hasErrors('vnName')}" th:errors="*{vnName}"
+                                                    class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Tên Tiếng Trung:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{cnName}"/> <span
+                                                    th:if="${#fields.hasErrors('cnName')}" th:errors="*{cnName}"
+                                                    class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Link Tiếng Trung:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{cnLink}"/> <span
+                                                    th:if="${#fields.hasErrors('cnLink')}" th:errors="*{cnLink}"
+                                                    class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Tác giả:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{author}"/> <span
+                                                    th:if="${#fields.hasErrors('author')}" th:errors="*{author}"
+                                                    class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Giới Thiệu:</label>
+                                            <div class="col-sm-8">
+                                                <textarea id="mytextarea" class="form-control"
+                                                          th:field="*{infomation}"></textarea>
+                                                <span th:if="${#fields.hasErrors('infomation')}"
+                                                      th:errors="*{infomation}"
+                                                      class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Thể Loại:</label>
+                                            <div class="col-sm-8">
+                                                <div class="form-check form-check-inline col-12"
+                                                     th:each="category : ${categorylist}">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           th:field="*{categoryList}"
+                                                           th:id="'inlineCheckbox'+ ${category.id}"
+                                                           th:value="${category.id}">
+                                                    <label class="form-check-label"
+                                                           th:for="'inlineCheckbox'+ ${category.id}"
+                                                           th:text="${category.name}"></label>
+                                                </div>
+                                                <section class="col-12" th:if="${#fields.hasErrors('categoryList')}"
+                                                         th:errors="*{categoryList}"
+                                                         class="help-error"></section>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Hình Ảnh:</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control mb-2" type="file" id="inputFile"
+                                                       th:field="*{uploadfile}"
+                                                       accept="image/png, image/jpeg, image/jpg"/>
+                                                <section class="col-12 col-sm-3">
+                                                    <img id="imgLogo" class="img-fluid">
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <div class="col-sm-10">
+                                                <a class="btn btn-truyen pr-2" th:href="@{/tai-khoan/quan_ly_truyen}">Quay
+                                                    Lại</a>
+                                                <input type="reset" class="btn btn-truyen" value="Khôi Phục"/>
+                                                <input type="submit" class="btn btn-truyen" value="Đăng Truyện"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <th:block th:include="web/layout :: footer"></th:block>
+</section>
+<script>
+    tinymce.init({
+        selector: '#mytextarea',
+        plugins: ' emoticons image link lists textcolor ',
+        menubar: false,
+        skin: 'lightgray',
+        theme: 'modern',
+        relative_urls: false,
+        toolbar1: ' formatselect fontselect fontsizeselect | numlist bullist outdent indent | removeformat',
+        toolbar2: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | forecolor  emoticons | link image',
+        automatic_uploads: true,
+        image_description: false,
+        file_picker_types: 'image',
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.onchange = function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function () {
+                    var id = 'blobid' + (new Date()).getTime();
+                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    var base64 = reader.result.split(',')[1];
+                    var blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+                    cb(blobInfo.blobUri(), {title: file.name});
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
+        }
+    });
+</script>
+<script>
+    $(function () {
+        $("#inputFile").change(function () {
+            readURL(this);
+        });
+    });
+
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                //alert(e.target.result);
+                $('#imgLogo').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+</body>
+</html>

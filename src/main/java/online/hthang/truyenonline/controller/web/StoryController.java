@@ -94,7 +94,7 @@ public class StoryController {
 
         // Kiểm tra sID != null
         // Kiểm tra sID có phải kiểu long
-        if (sID == null || !WebUtils.checkLongNumber(sID)) {
+        if (sID == null || WebUtils.checkLongNumber(sID)) {
             throw new NotFoundException();
         }
 

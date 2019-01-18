@@ -138,7 +138,7 @@ public class AccountRestfulController {
         }
         String fileExtension = FilenameUtils.getExtension(uploadfile.getOriginalFilename());
         assert fileExtension != null;
-        if (!WebUtils.checkExtension(fileExtension)) {
+        if (WebUtils.checkExtension(fileExtension)) {
             throw new HttpMyException("Chỉ upload ảnh có định dạng JPG | JPEG | PNG!");
         }
         if (uploadfile.getSize() > (20 * 1024 * 1024)) {

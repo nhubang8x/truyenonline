@@ -98,7 +98,7 @@
                         </section>
                         <section class="col-12 col-md-12 col-lg-4">
                             <section class="block block-default block-readers-choice">
-                                <section class="block-header"><h2 class="title"> Top Tháng </h2></section>
+                                <section class="block-header"><h2 class="title"> Top Đề Cử </h2></section>
                                 <section class="block-content">
                                     <ul class="list-group">
                                         <li ng-repeat="storyVM in topViewMonth"
@@ -113,7 +113,7 @@
                                                            ng-attr-title="{{storyVM.vnName}}">{{storyVM.vnName}}</a>
                                                     </h2>
                                                     <section class="view text-secondary" ng-if="$index == 0">
-                                                        <span class="text-red fz-16">{{storyVM.cnt}}</span> lượt
+                                                        <span class="text-red fz-16">{{storyVM.cnt}}</span> phiếu
                                                     </section>
                                                     <section class="view text-secondary" ng-if="$index != 0">
                                                         {{storyVM.cnt}}
@@ -149,25 +149,7 @@
             <section class="truyen-section">
                 <section class="container">
                     <section class="row">
-                        <section class="col-12 col-md-12 col-lg-4">
-                            <section class="block block-default block-list-new">
-                                <section class="block-header">
-                                    <h3 class="title">
-                                        Bạn đang đọc
-                                        <span class="float-right">
-                                        <a th:href="@{/tai-khoan/tu-truyen}">
-                                            <small class="text-muted" style="font-size: 65%">Tủ truyện</small>
-                                        </a>
-                                    </span>
-                                    </h3>
-                                </section>
-                                <section class="block-content">
-
-                                </section>
-                            </section>
-                        </section>
-
-                        <section class="col-12 col-md-12 col-lg-8">
+                        <section class="col-12 col-md-12 col-lg-12">
                             <section class="block block-default block-list-new">
                                 <section class="block-header">
                                     <h2 class="title text-uppercase">Mới Cập Nhật</h2>

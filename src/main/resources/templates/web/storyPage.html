@@ -79,7 +79,10 @@
                                                 <span class="story-go text-center" th:if="${story.status==1}">
                                                     Đang ra
                                                 </span>
-                                                <span class="story-com text-center" th:if="${story.status==2}">
+                                                <span class="story-go text-center" th:if="${story.status==2}">
+                                                    Tạm dừng
+                                                </span>
+                                                <span class="story-com text-center" th:if="${story.status==3}">
                                                     Hoàn Thành
                                                 </span>
                                             </div>
@@ -132,7 +135,7 @@
                                         </div>
                                         <div class="star-total hidden-xs">
                                             <span id="myrate" itemprop="ratingValue"
-                                                  th:text="${#numbers.formatDecimal(story.rating, 0, T(Math).round(story.rating) == story.rating ? 0 : 1,'POINT')}"></span>
+                                                  th:text="${#numbers.formatDecimal(story.rating, 0, T(Math).round(story.rating) == story.rating?0:1 , 'POINT')}"></span>
                                         </div>
                                         <div th:class="${rating?'basic jDisabled':'basic'}"
                                              th:data-average="${story.rating}" th:data-id="${story.id}">
@@ -172,7 +175,7 @@
                                      name="truyen-detail-info" role="tabpanel">
                                 <section class="row">
                                     <section class="col-sm-12 col-md-8 col-lg-9">
-                                        <div class="brief" th:text="${story.infomation}"
+                                        <div class="brief" th:utext="${story.infomation}"
                                              th:if="${story.infomation ne null}">
                                         </div>
                                         <div class="list-overview" th:if="${story.chapterNew ne null}">

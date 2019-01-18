@@ -6,9 +6,11 @@ import online.hthang.truyenonline.utils.ConstantsQueryUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -73,6 +75,19 @@ public interface StoryRepository extends JpaRepository< Story, Long > {
                                  @Param("endDate") Date endDate,
                                  @Param("favoritesStatus") Integer favoritesStatus,
                                  Pageable pageable);
+
+    /**
+     * Lấy Danh sách Truyện Top Đề Cử
+     *
+     * @param listStatus
+     * @param pageable
+     * @return Page<TopStory>
+     */
+    @Query(value = ConstantsQueryUtils.STORY_TOP_APPOIND,
+            countQuery = ConstantsQueryUtils.COUNT_STORY_TOP_APPOIND,
+            nativeQuery = true)
+    Page< TopStory > getTopStoryAppoind(@Param("storyStatus") List< Integer > listStatus,
+                                        Pageable pageable);
 
     /**
      * Lấy Danh sách Truyện Top Theo Category
@@ -252,5 +267,9 @@ public interface StoryRepository extends JpaRepository< Story, Long > {
     List< SearchStory > findTop3ByUser_IdAndStatusInOrderByCreateDateDesc(Long uID,
                                                                           List< Integer > listStatus);
 
+    @Transactional
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query(value = "UPDATE story s SET s.countAppoint = 0 WHERE s.status IN :listStatus", nativeQuery = true)
+    void updateAppoindStory(@Param("listStatus") List< Integer > listStatus);
 
 }

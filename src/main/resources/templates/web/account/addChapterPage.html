@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:include="web/layout :: head"></th:block>
+    <!--TinyMCE plugins-->
+    <script type="text/javascript" th:src="@{/bower/tinymce/tinymce.js}"></script>
+</head>
+<body>
+<th:block th:include="web/layout :: loading"></th:block>
+<section class="page-wrapper">
+    <th:block th:include="web/layout :: navbar"></th:block>
+    <section class="truyen-main">
+        <section class="truyen-section section-featured">
+            <section class="container-fluid">
+                <section class="featured-content" id="content">
+                    <section class="row">
+                        <th:block th:include="web/account/navbar_left :: navbar-left"></th:block>
+                        <section class="col-lg-10 col-md-9">
+                            <section class="row">
+                                <section class="col-12">
+                                    <div class="pb-2 pt-2 mb-4 border-bottom">
+                                        <h3>
+                                            <span class="oi oi-book"></span> Đăng Chương
+                                        </h3>
+                                    </div>
+                                    <form method="POST" class="form-horizontal"
+                                          th:object="${chapter}"
+                                          th:action="@{/tai-khoan/them_chuong/save}">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Thứ tự:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{serial}"/> <span
+                                                    th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}"
+                                                    class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Số Chương:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{chapterNumber}"/>
+                                                <span
+                                                        th:if="${#fields.hasErrors('chapterNumber')}"
+                                                        th:errors="*{chapterNumber}"
+                                                        class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Tên Chương:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" th:field="*{name}"/> <span
+                                                    th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                    class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 font-weight-bold">Nội dung:</label>
+                                            <div class="col-sm-8">
+                                                <textarea id="mytextarea" class="form-control"
+                                                          th:field="*{content}"></textarea>
+                                                <span th:if="${#fields.hasErrors('content')}"
+                                                      th:errors="*{content}"
+                                                      class="help-error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <div class="col-sm-10">
+                                                <a class="btn btn-truyen pr-2"
+                                                   th:href="@{'/tai-khoan/list_chuong/'+ ${chapter.story.id}}">Quay
+                                                    Lại</a>
+                                                <input type="reset" class="btn btn-truyen" value="Khôi Phục"/>
+                                                <input type="submit" class="btn btn-truyen" value="Đăng Chương"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <th:block th:include="web/layout :: footer"></th:block>
+</section>
+<script>
+    tinymce.init({
+        selector: '#mytextarea',
+        plugins: ' emoticons image link lists textcolor ',
+        menubar: false,
+        skin: 'lightgray',
+        theme: 'modern',
+        relative_urls: false,
+        toolbar1: ' formatselect fontselect fontsizeselect | numlist bullist outdent indent | removeformat',
+        toolbar2: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | forecolor  emoticons | link image',
+        automatic_uploads: true,
+        image_description: false,
+        file_picker_types: 'image',
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.onchange = function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function () {
+                    var id = 'blobid' + (new Date()).getTime();
+                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    var base64 = reader.result.split(',')[1];
+                    var blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+                    cb(blobInfo.blobUri(), {title: file.name});
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
+        }
+    });
+</script>
+</body>
+</html>

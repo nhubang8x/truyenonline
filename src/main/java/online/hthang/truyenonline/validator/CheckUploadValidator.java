@@ -1,6 +1,6 @@
 package online.hthang.truyenonline.validator;
 
-import online.hthang.truyenonline.annotations.ExtensionUpload;
+import online.hthang.truyenonline.annotations.CheckUpload;
 import online.hthang.truyenonline.utils.WebUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,12 +13,12 @@ import javax.validation.ConstraintValidatorContext;
  * @project truyenmvc
  */
 
-public class ExtensionUploadValidator implements ConstraintValidator< ExtensionUpload, MultipartFile > {
+public class CheckUploadValidator implements ConstraintValidator< CheckUpload, MultipartFile > {
 
     private String message;
 
     @Override
-    public void initialize(ExtensionUpload constraintAnnotation) {
+    public void initialize(CheckUpload constraintAnnotation) {
         message = constraintAnnotation.message();
     }
 
@@ -27,7 +27,10 @@ public class ExtensionUploadValidator implements ConstraintValidator< ExtensionU
         boolean valid = true;
         try {
             String fileExtension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-            if (!multipartFile.isEmpty() && fileExtension != null) {
+            if (multipartFile.isEmpty() || fileExtension == null) {
+                valid = false;
+                message = "Bạn chưa chọn hình ảnh nào";
+            } else {
                 if (WebUtils.checkExtension(fileExtension)) {
                     valid = false;
                     message = "Chỉ upload ảnh có định dạng JPG | JPEG | PNG!";

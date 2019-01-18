@@ -7,59 +7,96 @@
 </head>
 <body>
 <th:block th:fragment="storyOfOnGoing">
-    <section class="col-sm-12 pt-2 pb-2" ng-repeat="story in listOngoing"
-             style="border-bottom: 1px dashed #989090;" ng-show="listOngoing.length !== 0">
+    <section class="col-sm-12 pt-2 pb-2" ng-repeat="story in listOnGoing"
+             style="border-bottom: 1px dashed #989090;">
         <section class="row">
             <div class="col-12 col-md-8 col-sm-8">
                 <h5 style="font-size: 16px"><a
-                        title="Hồng Hoang Tầm Đạo Giả"
+                        ng-attr-title="{{story.vnName}}"
                         ng-href="/truyen/{{story.id}}"
-                        target="_blank">{{story.vnName}}</a>  - ID: {{story.id}}
+                        target="_blank">{{story.vnName}}</a> - ID: {{story.id}}
                 </h5>
             </div>
             <div class="col-md-4 col-sm-4 col-12">
-                <a ng-href="/tai-khoan/them_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">Thêm chương</a>
-                <a class="btn btn-xs btn-read"
-                   href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
-                <a href="/tai-khoan/list_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">DSC</a>
-                <a hg-href="{{story.cnLink}}"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Kiểm Tra</a>
-                <a href="/tai-khoan/xoa_truyen/{{story.id}}/"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Xóa</a>
+                <section class="float-md-right">
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_CONVERTER')"
+                       ng-href="/tai-khoan/them_chuong/{{story.id}}/" class="btn btn-xs btn-read">Thêm chương</a>
+                    <a class="btn btn-xs btn-read" ng-href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
+                    <a ng-href="/tai-khoan/list_chuong/{{story.id}}/" class="btn btn-xs btn-read">DSC</a>
+                    <a ng-href="{{story.cnLink}}" target="_blank" class="btn btn-xs btn-read">Kiểm Tra</a>
+                    <button ng-click="deleteStory(story.id)" class="btn btn-xs btn-read">Xóa</button>
+                </section>
             </div>
         </section>
     </section>
+    <section ng-show="totalOnGoingPages>1" class="col-12">
+        <ul class="pagination justify-content-end mb-3 mt-3 float-right">
+            <li ng-show="currentOnGoingPage != 1" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryOnGoing(currentOnGoingPage - 1)">
+                    <i class="fas fa-step-backward fa-sm"></i>
+                </a>
+            </li>
+            <li ng-repeat="i in pageOnGoing"
+                ng-class="i===currentOnGoingPage?'page-item active': 'page-item'">
+                <a ng-class="i===currentOnGoingPage?'page-link disabled': 'page-link'"
+                   ng-click="getListStoryOnGoing(i)">{{i}}</a>
+            </li>
+            <li ng-show="currentOnGoingPage != totalOnGoingPages" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryOnGoing(currentOnGoingPage + 1)">
+                    <i class="fas fa-step-forward fa-sm"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
 </th:block>
 <th:block th:fragment="storyOfComplte">
-    <section class="col-sm-12 pt-2 pb-2" ng-repeat="story in listComplte"
-             style="border-bottom: 1px dashed #989090;" ng-show="listComplte.length !== 0">
+    <section class="col-sm-12 pt-2 pb-2" ng-repeat="story in listComplte" style="border-bottom: 1px dashed #989090;">
         <section class="row">
             <div class="col-12 col-md-8 col-sm-8">
                 <h5 style="font-size: 16px"><a
-                        title="Hồng Hoang Tầm Đạo Giả"
+                        ng-attr-title="{{story.vnName}}"
                         ng-href="/truyen/{{story.id}}"
-                        target="_blank">{{story.vnName}}</a>  - ID: {{story.id}}
+                        target="_blank">{{story.vnName}}</a> - ID: {{story.id}}
                 </h5>
             </div>
             <div class="col-md-4 col-sm-4 col-12">
-                <a ng-href="/tai-khoan/them_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">Thêm chương</a>
-                <a class="btn btn-xs btn-read"
-                   href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
-                <a href="/tai-khoan/list_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">DSC</a>
-                <a hg-href="{{story.cnLink}}"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Kiểm Tra</a>
-                <a href="/tai-khoan/xoa_truyen/{{story.id}}/"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Xóa</a>
+                <section class="float-md-right">
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_CONVERTER')"
+                       ng-href="/tai-khoan/them_chuong/{{story.id}}/"
+                       class="btn btn-xs btn-read">Thêm chương</a>
+                    <a class="btn btn-xs btn-read"
+                       href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
+                    <a href="/tai-khoan/list_chuong/{{story.id}}/"
+                       class="btn btn-xs btn-read">DSC</a>
+                    <a ng-href="{{story.cnLink}}"
+                       target="_blank"
+                       class="btn btn-xs btn-read">Kiểm Tra</a>
+                </section>
             </div>
         </section>
+    </section>
+    <section ng-show="totalCompltePages>1" class="col-12">
+        <ul class="pagination justify-content-end mb-3 mt-3 float-right">
+            <li ng-show="currentCompltePage != 1" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryComplte(currentCompltePage - 1)">
+                    <i class="fas fa-step-backward fa-sm"></i>
+                </a>
+            </li>
+            <li ng-repeat="i in pageComplte"
+                ng-class="i===currentCompltePage?'page-item active': 'page-item'">
+                <a ng-class="i===currentCompltePage?'page-link disabled': 'page-link'"
+                   ng-click="getListStoryComplte(i)">{{i}}</a>
+            </li>
+            <li ng-show="currentCompltePage != totalCompltePages" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryComplte(currentCompltePage + 1)">
+                    <i class="fas fa-step-forward fa-sm"></i>
+                </a>
+            </li>
+        </ul>
     </section>
 </th:block>
 <th:block th:fragment="storyOfHidden">
@@ -68,26 +105,48 @@
         <section class="row">
             <div class="col-12 col-md-8 col-sm-8">
                 <h5 style="font-size: 16px"><a
-                        title="Hồng Hoang Tầm Đạo Giả"
+                        ng-attr-title="{{story.vnName}}"
                         ng-href="/truyen/{{story.id}}"
-                        target="_blank">{{story.vnName}}</a>  - ID: {{story.id}}
+                        target="_blank">{{story.vnName}}</a> - ID: {{story.id}}
                 </h5>
             </div>
             <div class="col-md-4 col-sm-4 col-12">
-                <a ng-href="/tai-khoan/them_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">Thêm chương</a>
-                <a class="btn btn-xs btn-read"
-                   href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
-                <a href="/tai-khoan/list_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">DSC</a>
-                <a hg-href="{{story.cnLink}}"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Kiểm Tra</a>
-                <a href="/tai-khoan/xoa_truyen/{{story.id}}/"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Xóa</a>
+                <section class="float-md-right">
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_CONVERTER')"
+                       ng-href="/tai-khoan/them_chuong/{{story.id}}/"
+                       class="btn btn-xs btn-read">Thêm chương</a>
+                    <a class="btn btn-xs btn-read"
+                       href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
+                    <a href="/tai-khoan/list_chuong/{{story.id}}/"
+                       class="btn btn-xs btn-read">DSC</a>
+                    <a ng-href="{{story.cnLink}}"
+                       target="_blank"
+                       class="btn btn-xs btn-read">Kiểm Tra</a>
+                    <button ng-click="deleteStory(story.id)" class="btn btn-xs btn-read">Xóa</button>
+                </section>
             </div>
         </section>
+    </section>
+    <section ng-show="totalHiddenPages>1" class="col-12">
+        <ul class="pagination justify-content-end mb-3 mt-3 float-right">
+            <li ng-show="currentHiddenPage != 1" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryComplte(currentHiddenPage - 1)">
+                    <i class="fas fa-step-backward fa-sm"></i>
+                </a>
+            </li>
+            <li ng-repeat="i in pageHidden"
+                ng-class="i===currentHiddenPage?'page-item active': 'page-item'">
+                <a ng-class="i===currentHiddenPage?'page-link disabled': 'page-link'"
+                   ng-click="getListStoryComplte(i)">{{i}}</a>
+            </li>
+            <li ng-show="currentHiddenPage != totalHiddenPages" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryComplte(currentHiddenPage + 1)">
+                    <i class="fas fa-step-forward fa-sm"></i>
+                </a>
+            </li>
+        </ul>
     </section>
 </th:block>
 <th:block th:fragment="storyOfStop">
@@ -96,24 +155,45 @@
         <section class="row">
             <div class="col-12 col-md-8 col-sm-8">
                 <h5 style="font-size: 16px"><a
-                        title="Hồng Hoang Tầm Đạo Giả"
+                        ng-attr-title="{{story.vnName}}"
                         ng-href="/truyen/{{story.id}}"
-                        target="_blank">{{story.vnName}}</a>  - ID: {{story.id}}
+                        target="_blank">{{story.vnName}}</a> - ID: {{story.id}}
                 </h5>
             </div>
             <div class="col-md-4 col-sm-4 col-12">
-                <a class="btn btn-xs btn-read"
-                   href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
-                <a href="/tai-khoan/list_chuong/{{story.id}}/"
-                   class="btn btn-xs btn-read">DSC</a>
-                <a hg-href="{{story.cnLink}}"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Kiểm Tra</a>
-                <a href="/tai-khoan/xoa_truyen/{{story.id}}/"
-                   target="_blank"
-                   class="btn btn-xs btn-read">Xóa</a>
+                <section class="float-md-right">
+                    <a class="btn btn-xs btn-read"
+                       href="/tai-khoan/sua_truyen/{{story.id}}/">Sửa</a>
+                    <a href="/tai-khoan/list_chuong/{{story.id}}/"
+                       class="btn btn-xs btn-read">DSC</a>
+                    <a ng-href="{{story.cnLink}}"
+                       target="_blank"
+                       class="btn btn-xs btn-read">Kiểm Tra</a>
+                    <button ng-click="deleteStory(story.id)" class="btn btn-xs btn-read">Xóa</button>
+                </section>
             </div>
         </section>
+    </section>
+    <section ng-show="totalStopPages>1" class="col-12">
+        <ul class="pagination justify-content-end mb-3 mt-3 float-right">
+            <li ng-show="currentStopPage != 1" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryComplte(currentStopPage - 1)">
+                    <i class="fas fa-step-backward fa-sm"></i>
+                </a>
+            </li>
+            <li ng-repeat="i in pageStop"
+                ng-class="i===currentStopPage?'page-item active': 'page-item'">
+                <a ng-class="i===currentStopPage?'page-link disabled': 'page-link'"
+                   ng-click="getListStoryComplte(i)">{{i}}</a>
+            </li>
+            <li ng-show="currentStopPage != totalStopPages" class="page-item">
+                <a class="page-link"
+                   ng-click="getListStoryComplte(currentStopPage + 1)">
+                    <i class="fas fa-step-forward fa-sm"></i>
+                </a>
+            </li>
+        </ul>
     </section>
 </th:block>
 </body>

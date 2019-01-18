@@ -1,23 +1,18 @@
 package online.hthang.truyenonline.restful;
 
 import online.hthang.truyenonline.projections.NewStory;
-import online.hthang.truyenonline.projections.SearchStory;
 import online.hthang.truyenonline.projections.TopConverter;
 import online.hthang.truyenonline.projections.TopStory;
 import online.hthang.truyenonline.service.StoryService;
 import online.hthang.truyenonline.service.UserService;
-import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.ConstantsUtils;
-import online.hthang.truyenonline.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,18 +35,12 @@ public class HomeRestfulController {
     }
 
     //Lấy Top 3 Truyện Mới Của Converter
-    @PostMapping(value = "/topViewMonth")
+    @PostMapping(value = "/topAppoidMonth")
     public ResponseEntity< ? > loadStoryTopViewMonth() {
-        //Lấy ngày bắt đầu của tháng
-        Date firstDayOfMonth = DateUtils.getFirstDayOfMonth();
-
-        //Lấy ngày kết thúc của tháng
-        Date lastDayOfMonth = DateUtils.getLastDayOfMonth();
 
         // Lấy Danh Sách Truyện Top View trong tháng
         List< TopStory > topstory = storyService
-                .getTopStory(firstDayOfMonth, lastDayOfMonth,
-                        ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
+                .getTopStoryAppoind(ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
                 .getContent();
         return new ResponseEntity<>(topstory, HttpStatus.OK);
     }
@@ -70,7 +59,7 @@ public class HomeRestfulController {
     public ResponseEntity< ? > loadStoryVipNew() {
 
         // Lấy Danh Sách Truyện Vip Top trong tuần
-        List<NewStory> topvipstory = storyService
+        List< NewStory > topvipstory = storyService
                 .getVipStoryNew(ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
                 .getContent();
         return new ResponseEntity<>(topvipstory, HttpStatus.OK);

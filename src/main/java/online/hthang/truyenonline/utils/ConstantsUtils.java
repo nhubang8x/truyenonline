@@ -1,10 +1,6 @@
 package online.hthang.truyenonline.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static java.lang.Double.*;
+import static java.lang.Double.valueOf;
 
 /**
  * @author Huy Thang
@@ -35,7 +31,9 @@ public class ConstantsUtils {
     //Trạng thái truyện đang ra
     public static Integer STORY_STATUS_GOING_ON = 1;
     //Trang thái truyện hoàn thành
-    public static Integer STORY_STATUS_COMPLETED = 2;
+    public static Integer STORY_STATUS_STOP = 2;
+    //Trang thái truyện hoàn thành
+    public static Integer STORY_STATUS_COMPLETED = 3;
     //Trang thái truyện không Vip
     public static Integer STORY_NOT_VIP = 0;
     //Trang thái truyện Vip
@@ -48,9 +46,6 @@ public class ConstantsUtils {
     public static Integer PAGE_SIZE_DEFAULT = 20;
     // Page Default
     public static Integer PAGE_DEFAULT = 1;
-
-    // Trạng Thái Nạp Tiền
-    public static Integer RECHARGE_STATUS = 0;
 
     // Trạng Thái Thanh Toán Hoàn Thành
     public static Integer PAY_STATUS = 1;
@@ -69,15 +64,6 @@ public class ConstantsUtils {
 
     //Loại Thanh Toán Ủng Hộ Converter
     public static Integer PAY_STORY_SUPPORT_TYPE = 5;
-
-    //Loại Thanh Toán Chuyển Tiền
-    public static Integer PAY_TRANSFERS_TYPE = 6;
-
-    //Trạng Thái Thanh Toán Đổi Ngoại Hiệu
-    public static Integer PAY_DNAME_STATUS = 2;
-
-    //Trạng Thái Thanh Toán Đổi Avatar
-    public static Integer PAY_AVATAR_STATUS = 3;
 
     // Trạng Thái Đề Cử
     public static Integer APPOINT_STATUS = 4;

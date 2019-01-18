@@ -88,4 +88,11 @@ public class DateUtils {
         LocalDateTime result = localDateTime.minusMinutes(ConstantsUtils.CHAPTER_FAVORITES_TIME);
         return java.sql.Timestamp.valueOf(result);
     }
+
+    public static Date getDateDeal(Integer count) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(getCurrentDate().toInstant(), ZoneId.systemDefault());
+        LocalDateTime result = localDateTime.plusDays(count);
+        return java.sql.Timestamp.valueOf(result);
+    }
+
 }

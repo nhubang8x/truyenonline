@@ -71,8 +71,8 @@ public class ChapterController {
 
         //Kiểm Tra Type sID và chID
         //Nếu Không Chuyển Trang Lỗi
-        if (sid == null || !WebUtils.checkLongNumber(sid)
-                || chid == null || !WebUtils.checkLongNumber(chid)) {
+        if (sid == null || WebUtils.checkLongNumber(sid)
+                || chid == null || WebUtils.checkLongNumber(chid)) {
             throw new NotFoundException();
         }
         Long sID = Long.parseLong(sid);

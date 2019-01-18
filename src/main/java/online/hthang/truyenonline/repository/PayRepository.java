@@ -49,4 +49,6 @@ public interface PayRepository extends JpaRepository<Pay, Long> {
                                @Param("storyID") Long storyID,
                                @Param("price") Double price,
                                @Param("payType") Integer payType);
+
+    Long countByStory_IdOrChapter_Story_Id(Long id, Long storyId);
 }

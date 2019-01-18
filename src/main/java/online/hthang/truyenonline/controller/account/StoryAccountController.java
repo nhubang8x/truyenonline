@@ -6,6 +6,7 @@ import online.hthang.truyenonline.service.CategoryService;
 import online.hthang.truyenonline.service.CloudinaryUploadService;
 import online.hthang.truyenonline.service.InformationService;
 import online.hthang.truyenonline.service.StoryService;
+import online.hthang.truyenonline.utils.ConstantsListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +68,6 @@ public class StoryAccountController {
 
     @RequestMapping("/quan_ly_truyen")
     public String listStoryPage(Model model, Principal principal) {
-        // Lấy Danh sách truyện đang đọc của người dùng
-        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-
-        model.addAttribute("userId", loginedUser.getUser().getId());
 
         getMenuAndInfo(model, "Danh sách truyện đã đăng");
 
@@ -89,7 +86,7 @@ public class StoryAccountController {
 
     @PostMapping("/them_truyen")
     public String saveStoryPage(@Valid Story story, BindingResult result, Model model,
-                                HttpServletRequest request, Principal principal, RedirectAttributes redirectAttrs) {
+                                Principal principal, RedirectAttributes redirectAttrs) {
         boolean hasError = result.hasErrors();
         if (hasError) {
             getMenuAndInfo(model, titleHome);
@@ -105,11 +102,11 @@ public class StoryAccountController {
         story.setImages(url);
         boolean check = storyService.saveNewStory(story);
         if (check) {
-            redirectAttrs.addFlashAttribute("checkAddStory", "Đăng truyện mới thành công!");
+            redirectAttrs.addFlashAttribute("checkAddStoryTrue", "Đăng truyện mới thành công!");
         } else {
-            redirectAttrs.addFlashAttribute("checkAddStory", "Có lỗi xảy ra, Đăng truyện thất bại!");
+            redirectAttrs.addFlashAttribute("checkAddStoryFalse", "Có lỗi xảy ra, Đăng truyện thất bại!");
         }
-        return "redirect:/account/quan_ly_truyen";
+        return "redirect:/tai-khoan/quan_ly_truyen";
     }
 
     @GetMapping("/sua_truyen/{id}")
@@ -119,40 +116,41 @@ public class StoryAccountController {
         Story story = storyService.getStoryById(id);
         if (story == null) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Truyện không tồn tại");
-            return "redirect:/account/quan_ly_truyen";
+            return "redirect:/tai-khoan/quan_ly_truyen";
         }
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         if (!story.getUser().getId().equals(loginedUser.getUser().getId())) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền sửa truyện không do bạn đăng!");
-            return "redirect:/account/quan_ly_truyen";
+            return "redirect:/tai-khoan/quan_ly_truyen";
         }
 
         getMenuAndInfo(model, titleHome);
 
         model.addAttribute("story", story);
 
+        model.addAttribute("statusList", ConstantsListUtils.LIST_STORY_STATUS_CONVERTER);
         return "web/account/editStoryPage";
     }
 
-    @PostMapping("/sua_truyen/{id}")
-    public String saveStoryEditPage(@Valid Story story, BindingResult result, Model model,
+    @PostMapping("/sua_truyen/save")
+    public String saveStoryEditPage(@Valid Story storyEdit, BindingResult result, Model model,
                                     HttpServletRequest request, Principal principal, RedirectAttributes redirectAttrs) {
         boolean hasError = result.hasErrors();
         if (hasError) {
             getMenuAndInfo(model, titleHome);
-            model.addAttribute("story", story);
-            return "web/account/addStoryPage";
+            model.addAttribute("story", storyEdit);
+            return "web/account/editStoryPage";
         }
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-
-        story.setUser(loginedUser.getUser());
-        String url = cloudinaryUploadService
-                .upload(story.getUploadfile(), loginedUser.getUser().getUsername() + "-" + System.nanoTime());
-        story.setImages(url);
-        boolean check = storyService.saveNewStory(story);
-        redirectAttrs.addFlashAttribute("checkAddStory", check);
-        return "redirect:/account/quan_ly_truyen";
+        if (!storyEdit.getEditfile().isEmpty() && storyEdit.getEditfile() != null) {
+            String url = cloudinaryUploadService
+                    .upload(storyEdit.getEditfile(), loginedUser.getUser().getUsername() + "-" + System.nanoTime());
+            storyEdit.setImages(url);
+        }
+        boolean check = storyService.saveEditStory(storyEdit);
+        redirectAttrs.addFlashAttribute("checkEditStory", check);
+        return "redirect:/tai-khoan/quan_ly_truyen";
     }
 }

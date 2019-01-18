@@ -1,8 +1,5 @@
 package online.hthang.truyenonline.utils;
 
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Random;
 
 public class WebUtils {
@@ -11,9 +8,9 @@ public class WebUtils {
         try {
             Long.parseLong(number);
         } catch (Exception e) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public static boolean checkIntNumber(String number) {
@@ -59,10 +56,7 @@ public class WebUtils {
     }
 
     public static boolean checkExtension(String  fileExtension) {
-        if (fileExtension.equalsIgnoreCase("jpg") || fileExtension.equalsIgnoreCase("jpeg")
-                || fileExtension.equalsIgnoreCase("png")) {
-            return true;
-        }
-        return false;
+        return !fileExtension.equalsIgnoreCase("jpg") && !fileExtension.equalsIgnoreCase("jpeg")
+                && !fileExtension.equalsIgnoreCase("png");
     }
 }

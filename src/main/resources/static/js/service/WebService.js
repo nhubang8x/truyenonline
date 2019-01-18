@@ -58,4 +58,17 @@ app.service('HomeService', ['$http', function ($http) {
         };
         return $http.post(url, data, config);
     };
+
+    this.deleteData = function getData(url) {
+        var config = {
+            headers: {
+                'Content-Type': undefined
+            },
+            transformResponse: function (data, headers, status) {
+                var ret = {messageError: data, status: status};
+                return ret;
+            }
+        };
+        return $http.delete(url, config);
+    };
 }]);

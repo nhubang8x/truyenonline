@@ -140,4 +140,11 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
      */
     List< ChapterOfStory > findByStory_IdAndStatusInOrderBySerialDesc(Long sID,
                                                                       List< Integer > listStatus);
+
+    /*
+     *Đếm số chapter của truyện
+     * @param id
+     * return Long
+     */
+    Long countChapterByStory_Id(Long id);
 }

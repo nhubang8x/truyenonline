@@ -1,7 +1,6 @@
 package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Chapter;
-import online.hthang.truyenonline.entity.Pay;
 import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.repository.PayRepository;
@@ -58,4 +57,8 @@ public class PayServiceImpl implements PayService {
                         payType);
     }
 
+    @Override
+    public Long countPay(Long id) {
+        return payRepository.countByStory_IdOrChapter_Story_Id(id, id);
+    }
 }

@@ -206,6 +206,13 @@ public interface StoryService {
      */
     boolean saveNewStory(Story story);
 
+    /*
+     * Lưu Truyện Mới
+     * @param story
+     * @return True- Nếu lưu Thành công / Flase - Nếu lưu thất bại
+     */
+    boolean saveEditStory(Story story);
+
     /**
      * Lấy Danh Sách Truyện Bởi Converter
      *
@@ -214,4 +221,18 @@ public interface StoryService {
      * @return Page<MemberStorySummary>
      */
     Page< StoryConverterSummary > getStoryConverter(Integer status, Long uID, int page, int size);
+
+
+    /**
+     * Lấy List Truyện Top Đề cử Trong Khoảng
+     *
+     * @param page
+     * @param size
+     * @return Page<TopStory>
+     */
+    Page< TopStory > getTopStoryAppoind(int page, int size);
+
+    void updateAppoindStory();
+
+    void deleteStoryById(Long id);
 }

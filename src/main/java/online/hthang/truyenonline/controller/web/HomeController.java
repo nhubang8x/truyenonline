@@ -1,11 +1,6 @@
 package online.hthang.truyenonline.controller.web;
 
-import online.hthang.truyenonline.entity.Chapter;
-import online.hthang.truyenonline.entity.MyUserDetails;
-import online.hthang.truyenonline.entity.Story;
-import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.projections.NewStory;
-import online.hthang.truyenonline.projections.TopConverter;
 import online.hthang.truyenonline.projections.TopStory;
 import online.hthang.truyenonline.service.*;
 import online.hthang.truyenonline.utils.ConstantsUtils;
@@ -15,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,16 +69,6 @@ public class HomeController {
 
     @RequestMapping(value = "/")
     public String homePage(Model model, Principal principal, HttpServletRequest request, HttpServletResponse response) {
-        // Kiểm tra người dùng đã đăng nhập chưa
-        if (principal != null) {
-            // Lấy Danh sách truyện đang đọc của người dùng
-            MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-            User user = loginedUser.getUser();
-//            List< Chapter > chapterListFavorites = chapterService.getAllChapterFavoritesByUser(user.getId());
-//            model.addAttribute("listFavorites", chapterListFavorites);
-        } else {
-            model.addAttribute("listFavorites", null);
-        }
         //Lấy ngày bắt đầu của tuần
         Date firstDayOfWeek = DateUtils.getFirstDayOfWeek();
 
@@ -97,11 +81,6 @@ public class HomeController {
                         ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE)
                 .getContent();
         model.addAttribute("topStoryWeek", topStoryWeek);
-
-        // Lấy Danh Sách Truyện Mới Hoàn Thành
-        List< Story > topCompleted = storyService.getNewStoryCompleted();
-
-        model.addAttribute("storyCompleted", topCompleted);
 
         // Lấy Danh Sách Truyện Vip Mới Cập Nhật
         List<NewStory> topvipstory = storyService
