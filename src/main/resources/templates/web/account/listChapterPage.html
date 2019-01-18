@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:include="web/layout :: head"></th:block>
+    <script th:src="@{/bower/angular/angular.min.js}"></script>
+    <!--My AngularJS Controller-->
+    <script th:src="@{/js/controller/accountStoryController.js}"></script>
+    <!--Home AngularJS Service-->
+    <script th:src="@{/js/service/WebService.js}"></script>
+</head>
+<body ng-app="ngApp">
+<th:block th:include="web/layout :: loading"></th:block>
+<section class="page-wrapper" ng-controller="accountStoryController" ng-init="init()">
+    <th:block th:include="web/layout :: navbar"></th:block>
+    <section class="truyen-main">
+        <section class="truyen-section section-featured">
+            <section class="container-fluid">
+                <section class="featured-content" id="content">
+                    <section class="row">
+                        <th:block th:include="web/account/navbar_left :: navbar-left"></th:block>
+                        <section class="col-lg-10 col-md-9">
+                            <section class="row">
+                                <section class="col-12">
+                                    <section class="alert alert-primary"
+                                             th:if="${checkAddChapter!= null && checkAddChapter == true}">
+                                        <strong>Success!</strong> Sửa Chapter thành công!
+                                    </section>
+                                    <section class="alert alert-danger"
+                                             th:if="${checkAddChapter!= null && checkAddChapter == false}">
+                                        <strong>Thông báo!</strong> Có lỗi xảy ra sửa Chapter thất bại!
+                                    </section>
+                                    <section class="alert alert-danger"
+                                             th:if="${checkEditChapter!= null}">
+                                        <strong>Thông báo!</strong> <span th:text="${checkEditChapter}"></span>
+                                    </section>
+                                    <section class="alert alert-primary"
+                                             th:if="${checkEditChapterTrue!= null}">
+                                        <strong>Thông báo!</strong> <span th:text="${checkEditChapterTrue}"></span>
+                                    </section>
+                                    <section class="alert alert-danger"
+                                             th:if="${checkEditChapterFalse!= null}">
+                                        <strong>Thông báo!</strong> <span th:text="${checkEditChapterFalse}"></span>
+                                    </section>
+                                    <div class="col-12">
+                                        <div class="mb-3 border-bottom">
+                                            <h4><span class="fas fa-user" style="" aria-hidden="true"></span> DSC: <span th:text="${story.vnName}"></span></h4>
+                                        </div>
+                                        <div class="media">
+                                            <div class="mr-2" style=" position: relative">
+                                                <a>
+                                                    <img class="img-thumbnail lazyload"
+                                                         width="210px"
+                                                         th:data-src="${user.avatar}"
+                                                         alt="Avatar" id="imgavatar">
+                                                </a>
+                                                <button id="upload" style="position: absolute;top:0px">Đổi</button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <th:block th:include="web/layout :: footer"></th:block>
+</section>
+</body>
+</html>

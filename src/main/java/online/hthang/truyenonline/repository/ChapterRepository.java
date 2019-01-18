@@ -149,4 +149,6 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
     Long countChapterByStory_Id(Long id);
 
     boolean existsByStory_IdAndSerial(Long id, Float serial);
+
+    Chapter findChapterById(Long id);
 }

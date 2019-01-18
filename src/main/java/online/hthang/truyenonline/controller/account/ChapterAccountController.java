@@ -80,10 +80,12 @@ public class ChapterAccountController {
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         if (!story.getUser().getId().equals(loginedUser.getUser().getId())) {
-            redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền thêm Chapter truyện không do bạn đăng!");
+            redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền quản lý truyện không do bạn đăng!");
             return "redirect:/tai-khoan/quan_ly_truyen";
         }
         getMenuAndInfo(model, "Danh sách Chapter đã đăng");
+
+        model.addAttribute("story", story);
 
         return "web/account/listChapterPage";
     }
@@ -100,7 +102,7 @@ public class ChapterAccountController {
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         if (!story.getUser().getId().equals(loginedUser.getUser().getId())) {
-            redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền thêm Chapter truyện không do bạn đăng!");
+            redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền thêm Chapter thuộc Truyện không do bạn đăng!");
             return "redirect:/tai-khoan/quan_ly_truyen";
         }
 
@@ -120,7 +122,7 @@ public class ChapterAccountController {
     }
 
     @GetMapping("/them_chuong/{id}")
-    public String saveStoryEditPage(@PathVariable("id") Long id,@Valid Chapter chapter, BindingResult result, Model model,
+    public String saveStoryAddPage(@PathVariable("id") Long id,@Valid Chapter chapter, BindingResult result, Model model,
                                     Principal principal, RedirectAttributes redirectAttrs) {
         boolean hasError = result.hasErrors();
         if (hasError) {
@@ -143,6 +145,65 @@ public class ChapterAccountController {
             boolean check = chapterService.saveNewChapter(chapter);
             redirectAttrs.addFlashAttribute("checkAddChapter", check);
         }
+        return "redirect:/tai-khoan/list_chuong/" + chapter.getStory().getId();
+    }
+
+    @GetMapping("/sua_chuong/{id}")
+    public String editStoryPage(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttrs,
+                               Principal principal) {
+
+        Chapter chapter = chapterService.getChapterByID(id);
+        if (chapter == null) {
+            redirectAttrs.addFlashAttribute("checkEditStory", "Chương không tồn tại");
+            return "redirect:/tai-khoan/quan_ly_truyen";
+        }
+
+        //Lấy Thông Tin người dùng đăng nhập
+        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+        if (!chapter.getStory().getUser().getId().equals(loginedUser.getUser().getId())) {
+            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter thuộc Truyện không do bạn đăng!");
+            return "redirect:/tai-khoan/quan_ly_truyen";
+        }
+        if (!chapter.getUser().getId().equals(loginedUser.getUser().getId())) {
+            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter không do bạn đăng!");
+            return "redirect:/tai-khoan/list_chuong/" + chapter.getStory().getId();
+        }
+        if (!chapter.getStory().getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
+            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter thuộc Truyện bị khóa!");
+            return "redirect:/tai-khoan/quan_ly_truyen";
+        }
+        getMenuAndInfo(model, titleHome);
+
+        model.addAttribute("chapter", chapter);
+
+        return "web/account/addChapterPage";
+    }
+
+    @GetMapping("/sua_chuong/{id}")
+    public String saveStoryEditPage(@PathVariable("id") Long id,@Valid Chapter chapter, BindingResult result, Model model,
+                                    Principal principal, RedirectAttributes redirectAttrs) {
+        boolean hasError = result.hasErrors();
+        if (hasError) {
+            getMenuAndInfo(model, titleHome);
+            model.addAttribute("chapter", chapter);
+            return "web/account/addChapterPage";
+        }
+        //Lấy Thông Tin người dùng đăng nhập
+        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+        Story story = storyService.getStoryById(chapter.getStory().getId());
+        if(story.getStatus()equals(ConstantsUtils.STORY_STATUS_HIDDEN)){
+          redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter thuộc Truyện bị khóa!");
+          return "redirect:/tai-khoan/quan_ly_truyen";
+        }
+        if(chapter.getStatus()equals(ConstantsUtils.CHAPTER_DENIED)){
+          redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter bị khóa!");
+          return "redirect:/tai-khoan/quan_ly_truyen";
+        }
+        boolean check = chapterService.saveEditChapter(chapter);
+        if(check)
+        redirectAttrs.addFlashAttribute("checkEditChapterTrue", "Sửa chương Thành Công!");
+        else
+        redirectAttrs.addFlashAttribute("checkEditChapterFalse", "Sửa chương thất bại! Có lỗi xảy ra!");
         return "redirect:/tai-khoan/list_chuong/" + chapter.getStory().getId();
     }
 }
