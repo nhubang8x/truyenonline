@@ -13,6 +13,17 @@ public class WebUtils {
         return false;
     }
 
+    public static boolean checkFloatNumber(String number) {
+        try {
+            Float result = Float.parseFloat(number);
+            if(result<0){
+                return true;
+            }
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
+    }
     public static boolean checkIntNumber(String number) {
         try {
             Integer.parseInt(number);
@@ -58,5 +69,9 @@ public class WebUtils {
     public static boolean checkExtension(String  fileExtension) {
         return !fileExtension.equalsIgnoreCase("jpg") && !fileExtension.equalsIgnoreCase("jpeg")
                 && !fileExtension.equalsIgnoreCase("png");
+    }
+
+    public static void main(String[] args){
+        System.out.println(checkFloatNumber("1"));
     }
 }

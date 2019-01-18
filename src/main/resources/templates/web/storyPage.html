@@ -118,7 +118,7 @@
                                         <a onclick="registRecentReadingStory(20569,1)" class="btn btn-truyen-white">
                                             Theo dõi</a>
                                         <!-- Button trigger modal -->
-                                        <a class="btn btn-truyen" data-toggle="modal" data-target="#appointModal">
+                                        <a class="btn btn-xs btn-read" data-toggle="modal" data-target="#appointModal">
                                             Đề Cử
                                         </a>
                                     </div>
@@ -266,8 +266,9 @@
                                                                                                     ng-href="/truyen/{{lStory.id}}"
                                                                                                     ng-attr-title="{{lStory.vnName}}">{{lStory.vnName}}</a>
                                                                                             </h2>
-                                                                                            <p class="description">
-                                                                                                {{lStory.infomation}}</p>
+                                                                                            <p class="description"
+                                                                                               ng-bind-html="lStory.infomation">
+                                                                                            </p>
                                                                                             <a ng-href="/truyen/{{lStory.id}}"
                                                                                                class="btn btn-truyen"
                                                                                                title="">
@@ -330,7 +331,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>- Truyện đã được đề cử: <strong>1864</strong> nguyệt phiếu</p>
+                    <p>- Truyện đã được đề cử: <strong th:text="${story.countAppoint}"></strong> nguyệt phiếu</p>
                     <p>- Nếu bạn thấy truyện này hay bạn có thể sử dụng Đậu để đề cử truyện này, truyện càng có
                         nhiều phiếu đề cử càng có vị trí đẹp ngoài trang chủ, càng có nhiều người đọc truyện hơn.</p>
                     <p>- Mỗi Phiếu đề cử tốn 1000 đậu</p>

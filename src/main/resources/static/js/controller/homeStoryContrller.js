@@ -97,6 +97,7 @@ function storyCtrl(HomeService, $scope,) {
             callWarningSweetalert('Bạn Chưa nhập số phiếu đề cử');
         } else {
             var data = new FormData();
+            data.append('sID', $scope.sid);
             data.append('coupon', $scope.coupon);
             var url = window.location.origin + '/api/appoint';
 

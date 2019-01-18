@@ -28,21 +28,22 @@
                                     </div>
                                     <form method="POST" class="form-horizontal"
                                           th:object="${chapter}"
-                                          th:action="@{/tai-khoan/them_chuong/save}">
+                                          th:action="@{'/tai-khoan/them_chuong/' + ${chapter.story.id}}">
                                         <div class="form-group row">
                                             <label class="col-sm-2 font-weight-bold">Thứ tự:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" th:field="*{serial}"/> <span
-                                                    th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}"
-                                                    class="help-error"></span>
+                                                <input type="text" class="form-control" th:field="*{serial}"
+                                                       placeholder="Số thứ tự chương"/>
+                                                <span th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}"
+                                                      class="help-error"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-2 font-weight-bold">Số Chương:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" th:field="*{chapterNumber}"/>
-                                                <span
-                                                        th:if="${#fields.hasErrors('chapterNumber')}"
+                                                <input type="text" class="form-control" th:field="*{chapterNumber}"
+                                                       placeholder="Chương thứ (1,2,3)"/>
+                                                <span th:if="${#fields.hasErrors('chapterNumber')}"
                                                         th:errors="*{chapterNumber}"
                                                         class="help-error"></span>
                                             </div>
@@ -50,11 +51,12 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 font-weight-bold">Tên Chương:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" th:field="*{name}"/> <span
-                                                    th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                <input type="text" class="form-control" th:field="*{name}" placeholder="Tên chương"/>
+                                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
                                                     class="help-error"></span>
                                             </div>
                                         </div>
+                                        <input type="text" class="form-control" th:field="*{story.id}" hidden/>
                                         <div class="form-group row">
                                             <label class="col-sm-2 font-weight-bold">Nội dung:</label>
                                             <div class="col-sm-8">

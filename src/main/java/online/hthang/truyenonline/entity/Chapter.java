@@ -2,13 +2,13 @@ package online.hthang.truyenonline.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import online.hthang.truyenonline.annotations.FormatFloat;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import online.hthang.truyenonline.utils.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,6 +19,7 @@ import java.util.Date;
 @Table(name = "chapter")
 @Data
 @NoArgsConstructor
+@FormatFloat(baseField = "story", matchField = "serial")
 public class Chapter implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,17 +27,17 @@ public class Chapter implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+    @NotEmpty(message = "{hthang.truyenmvc.chapter.chapterNumber.empty.message}")
     @Column(name = "chapterNumber", nullable = false)
-    private Integer chapterNumber;
-    @NotNull
+    private String chapterNumber;
     @Column(name = "serial", nullable = false, precision = 12, scale = 0)
     private Float serial;
-    @NotEmpty(message = "{hthang.truyenmvc.story.cnName.empty.message}")
+    @NotEmpty(message = "{hthang.truyenmvc.chapter.name.empty.message}")
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "countView")
     private Integer countView;
-    @NotEmpty(message = "{hthang.truyenmvc.story.cnName.empty.message}")
+    @NotEmpty(message = "{hthang.truyenmvc.chapter.content.empty.message}")
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,7 +61,6 @@ public class Chapter implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-
     @PrePersist
     public void prePersist() {
         if (createDate == null) {
@@ -74,6 +74,9 @@ public class Chapter implements Serializable {
         }
         if (wordCount == null) {
             wordCount = 0;
+        }
+        if(countView == null){
+            countView = 0;
         }
     }
 

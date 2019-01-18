@@ -25,6 +25,9 @@ public interface StorySummary {
     //Lấy Thông Tin
     String getInfomation();
 
+    //Lấy điểm đề cử
+    Long getCountAppoint();
+
     //Lấy Điểm đánh giá
     Float getRating();
 

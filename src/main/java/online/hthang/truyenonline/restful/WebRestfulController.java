@@ -259,6 +259,44 @@ public class WebRestfulController {
         return new ResponseEntity<>(listNewStory, HttpStatus.OK);
     }
 
+
+    @PostMapping(value = "/appoint")
+    public ResponseEntity< ? > appoindStory(@RequestParam("sID") Long sID,
+                                            @RequestParam("coupon") Integer coupon,
+                                            Principal principal) throws Exception {
+        if (principal == null) {
+            throw new HttpNotLoginException();
+        }
+        MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+        User user = myUser.getUser();
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
+        if (!optionalUser.isPresent()) {
+            throw new HttpNotLoginException("Tài khoản không tồn tại");
+        }
+        user = optionalUser.get();
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+            throw new HttpUserLockedException();
+        }
+        Optional< Story > storyOptional = storyService.searchStoryBySID(sID);
+        if (!storyOptional.isPresent()) {
+            throw new HttpMyException("Truyện không tồn tại!");
+        }
+        Story story = storyOptional.get();
+        if (story.getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
+            throw new HttpMyException("Truyện đã bị xóa hoặc không tìm thấy!");
+        }
+        if (coupon <= 0) {
+            throw new HttpMyException("Số phiếu đề cử ít nhất là 1!");
+        }
+        if (user.getGold() < (coupon * 1000))
+            throw new HttpMyException("Số dư của bạn không đủ để đề cử");
+        boolean check = payService.savePay(story, null, user, null, (double) (coupon * 1000), ConstantsUtils.PAY_STORY_APPOINT_TYPE);
+        if (check)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            throw new HttpMyException("Có lỗi xảy ra mong bạn quay lại sau!");
+    }
+
     private String getLocationIP(HttpServletRequest request) {
         String remoteAddr = "";
 

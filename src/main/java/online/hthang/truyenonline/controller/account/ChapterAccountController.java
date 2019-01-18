@@ -109,9 +109,9 @@ public class ChapterAccountController {
         Chapter chapter = new Chapter();
         ChapterSummary newChapter = chapterService.getChapterIDNew(id, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
         if (newChapter != null) {
-            chapter.setChapterNumber(newChapter.getChapterNumber());
+            chapter.setSerial(newChapter.getSerial());
         } else {
-            chapter.setChapterNumber(1);
+            chapter.setSerial((float) 1);
         }
         chapter.setStory(story);
         model.addAttribute("chapter", chapter);
@@ -119,8 +119,8 @@ public class ChapterAccountController {
         return "web/account/addChapterPage";
     }
 
-    @PostMapping("/them_chuong/save")
-    public String saveStoryEditPage(@Valid Chapter chapter, BindingResult result, Model model,
+    @GetMapping("/them_chuong/{id}")
+    public String saveStoryEditPage(@PathVariable("id") Long id,@Valid Chapter chapter, BindingResult result, Model model,
                                     Principal principal, RedirectAttributes redirectAttrs) {
         boolean hasError = result.hasErrors();
         if (hasError) {
@@ -131,7 +131,7 @@ public class ChapterAccountController {
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         chapter.setUser(loginedUser.getUser());
-        Story story = storyService.getStoryById(chapter.getStory().getId());
+        Story story = storyService.getStoryById(id);
         if (story.getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
             redirectAttrs.addFlashAttribute("checkAddStoryHidden", "Truyện đã bị khóa không thể đăng thêm chương");
         } else {

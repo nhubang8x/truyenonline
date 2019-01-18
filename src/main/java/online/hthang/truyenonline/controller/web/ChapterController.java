@@ -219,6 +219,7 @@ public class ChapterController {
         updateChapter.setCountView(chapter.getCountView() + 1);
         chapterService.updateChapter(updateChapter);
         Story story = storyService.getStoryById(chapter.getStory().getId());
+        logger.info(story.toString());
         story.setCountView(story.getCountView() + 1);
         storyService.updateViewStory(story);
     }

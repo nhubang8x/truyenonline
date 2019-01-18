@@ -124,4 +124,6 @@ public interface ChapterService {
     Long countChapterByStory(Long id);
 
     boolean saveNewChapter(Chapter chapter);
+
+    boolean checkChapterBySerial(Long id, Float serial);
 }

@@ -198,4 +198,9 @@ public class ChapterServiceImpl implements ChapterService {
         Chapter newChapter = chapterRepository.save(chapter);
         return newChapter.getId() != null;
     }
+
+    @Override
+    public boolean checkChapterBySerial(Long id, Float serial) {
+        return chapterRepository.existsByStory_IdAndSerial(id, serial);
+    }
 }

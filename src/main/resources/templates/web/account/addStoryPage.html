@@ -74,19 +74,23 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 font-weight-bold">Thể Loại:</label>
                                             <div class="col-sm-8">
-                                                <div class="form-check form-check-inline col-12"
-                                                     th:each="category : ${categorylist}">
-                                                    <input class="form-check-input" type="checkbox"
-                                                           th:field="*{categoryList}"
-                                                           th:id="'inlineCheckbox'+ ${category.id}"
-                                                           th:value="${category.id}">
-                                                    <label class="form-check-label"
-                                                           th:for="'inlineCheckbox'+ ${category.id}"
-                                                           th:text="${category.name}"></label>
-                                                </div>
-                                                <section class="col-12" th:if="${#fields.hasErrors('categoryList')}"
+                                                <section class="col-12">
+                                                    <section class="row">
+                                                        <div class="form-check form-check-inline col-12 col-sm-6 col-md-4 mr-0"
+                                                             th:each="category : ${categorylist}">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   th:field="*{categoryList}"
+                                                                   th:id="'inlineCheckbox'+ ${category.id}"
+                                                                   th:value="${category.id}">
+                                                            <label class="form-check-label"
+                                                                   th:for="'inlineCheckbox'+ ${category.id}"
+                                                                   th:text="${category.name}"></label>
+                                                        </div>
+                                                    </section>
+                                                </section>
+                                                <section th:if="${#fields.hasErrors('categoryList')}"
                                                          th:errors="*{categoryList}"
-                                                         class="help-error"></section>
+                                                         class="col-12 help-error"></section>
                                             </div>
                                         </div>
                                         <div class="form-group row">

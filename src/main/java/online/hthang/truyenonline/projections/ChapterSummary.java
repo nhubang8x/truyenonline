@@ -12,7 +12,9 @@ public interface ChapterSummary {
 
     Long getId();
 
-    Integer getChapterNumber();
+    String getChapterNumber();
+
+    Float getSerial();
 
     String getName();
 
