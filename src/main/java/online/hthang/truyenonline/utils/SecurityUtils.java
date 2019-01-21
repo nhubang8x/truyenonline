@@ -6,7 +6,8 @@ package online.hthang.truyenonline.utils;
  */
 public class SecurityUtils {
 
-    public static final String[] PERMIT_ALL_LINK = {"/",
+    public static final String[] PERMIT_ALL_LINK = {
+            "/",
             "/dang-nhap",
             "/logout",
             "/api/load",
@@ -16,8 +17,24 @@ public class SecurityUtils {
             "api/accountStoryMy",
             "/danh-muc/**"};
 
-    public static final String[] ROLE_USER_LINK = {"/tai-khoan/**"
-//            ,            "/member/**"
+    public static final String[] ROLE_USER_LINK = {
+            "/tai-khoan/",
+            "/tai-khoan/mat-khau",
+            "/tai-khoan/nap-dau",
+            "/tai-khoan/quan_ly_truyen",
+            "/tai-khoan/list_chuong/**",
+            "/tai-khoan/log_xu"
+    };
+
+    public static final String[] ROLE_AD_CV_LINK = {
+            "/tai-khoan/them_chuong/**",
+            "/tai-khoan/sua_truyen/**",
+            "/tai-khoan/nap-dau",
+            "/tai-khoan/them_truyen/**"
+    };
+
+    public static final String[] ROLE_AD_MOD_LINK = {
+            "/tai-khoan/ad_mod/**"
     };
 
     public static final String[] ROLE_ADMIN_LINK = {"/admin"};

@@ -1,15 +1,20 @@
 package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Chapter;
+import online.hthang.truyenonline.entity.Pay;
 import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.repository.PayRepository;
 import online.hthang.truyenonline.service.PayService;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Huy Thang
@@ -60,5 +65,11 @@ public class PayServiceImpl implements PayService {
     @Override
     public Long countPay(Long id) {
         return payRepository.countByStory_IdOrChapter_Story_Id(id, id);
+    }
+
+    @Override
+    public Page< Pay > getPagePayByUser(User user, List< Integer > listType, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return payRepository.findByUserSendOrUserReceivedAndTypeInOrderByCreateDateDesc(user.getId(), user.getId(), listType, pageable);
     }
 }

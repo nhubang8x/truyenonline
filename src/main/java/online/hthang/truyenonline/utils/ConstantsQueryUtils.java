@@ -196,15 +196,6 @@ public class ConstantsQueryUtils {
             + " WHERE u.status = :userStatus"
             + " ORDER BY cnt DESC, scnt DESC";
 
-    public static final String LIST_ALL_FAVORITES_CHAPTER = "SELECT c.* FROM Chapter c"
-            + " INNER JOIN (SELECT MAX(f.ufID), uf.chID FROM `favorites` f"
-            + " LEFT JOIN Chapter c ON uf.chID = c.chID"
-            + " WHERE uf.uID= :uID AND uf.ufStatus = :ufStatus AND c.chStatus IN :chStatus"
-            + " AND uf.ufView = 1"
-            + " GROUP BY c.sID) d ON d.chID = c.chID"
-            + " INNER JOIN Story s on c.sID = s.sID"
-            + " WHERE S.sStatus != :sStatus"
-            + " ORDER BY s.updateDate DESC";
 
     public static final String STORY_COMPLETE = "SELECT s.id, s.vnName, s.images, s.author, s.updateDate, "
             + " c.id as chapterId, c.chapterNumber, "

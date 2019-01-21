@@ -62,6 +62,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityUtils.ROLE_USER_LINK)
                 .access("hasAnyRole('ROLE_USER')");
 
+        // Trang chỉ dành cho ADMIN và Converter
+        http.authorizeRequests()
+                .antMatchers(SecurityUtils.ROLE_AD_CV_LINK)
+                .access("hasAnyRole('ROLE_ADMIN') or hasRole('ROLE_CONVERTER')");
+
+        // Trang chỉ dành cho ADMIN và MOD
+        http.authorizeRequests()
+                .antMatchers(SecurityUtils.ROLE_AD_MOD_LINK)
+                .access("hasAnyRole('ROLE_ADMIN') or hasRole('ROLE_MOD')");
+
         // Trang chỉ dành cho ADMIN
         http.authorizeRequests()
                 .antMatchers(SecurityUtils.ROLE_ADMIN_LINK)

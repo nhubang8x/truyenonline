@@ -53,4 +53,5 @@ public class MyComponent {
         return chapterService.
                 countChapterByUser(uID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
     }
+
 }

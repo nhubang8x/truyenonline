@@ -1,18 +1,17 @@
 package online.hthang.truyenonline.restful;
 
+import online.hthang.truyenonline.entity.Category;
 import online.hthang.truyenonline.entity.MyUserDetails;
 import online.hthang.truyenonline.entity.User;
 import online.hthang.truyenonline.exception.*;
-import online.hthang.truyenonline.service.CloudinaryUploadService;
-import online.hthang.truyenonline.service.PayService;
-import online.hthang.truyenonline.service.StoryService;
-import online.hthang.truyenonline.service.UserService;
+import online.hthang.truyenonline.service.*;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import online.hthang.truyenonline.utils.WebUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -40,6 +39,8 @@ public class AccountRestfulController {
     private final UserService userService;
     private final CloudinaryUploadService cloudinaryUploadService;
     private final StoryService storyService;
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     public AccountRestfulController(PayService payService, UserService userService, CloudinaryUploadService cloudinaryUploadService, StoryService storyService) {
@@ -147,5 +148,28 @@ public class AccountRestfulController {
         String url = cloudinaryUploadService.upload(uploadfile, user.getUsername() + "-" + System.nanoTime());
         userService.updateAvatarOfUser(user.getId(), url, ConstantsUtils.PRICE_AVATAR_DNAME);
         return new ResponseEntity<>(url, HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = "/theloaiList")
+    public ResponseEntity< Object > getPageCategory(@RequestParam(value = "pagenumber") Integer pagenumber,
+                                                    Principal principal)
+            throws Exception {
+        if (principal == null) {
+            throw new HttpNotLoginException();
+        }
+        MyUserDetails myUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+        User user = myUser.getUser();
+        Optional< User > optionalUser = userService.getUserByID(user.getId());
+        if (!optionalUser.isPresent()) {
+            throw new HttpNotLoginException("Tài khoản không tồn tại");
+        }
+        user = optionalUser.get();
+        if (user.getStatus().equals(ConstantsUtils.STATUS_DENIED)) {
+            throw new HttpUserLockedException();
+        }
+        Page< Category > categories = categoryService.getAllCategory(pagenumber, ConstantsUtils.PAGE_SIZE_DEFAULT);
+        return new ResponseEntity<>(categories,HttpStatus.OK);
+
     }
 }

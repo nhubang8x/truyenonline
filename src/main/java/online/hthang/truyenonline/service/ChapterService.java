@@ -14,14 +14,6 @@ import java.util.Optional;
 public interface ChapterService {
 
     /**
-     * Lấy List Tất Cả Chapter Favorites Của Người Dùng
-     *
-     * @param uID
-     * @return List<Chapter>
-     */
-    List< Chapter > getAllChapterFavoritesByUser(Long uID);
-
-    /**
      * Lấy Chapter Theo
      *
      * @param sID
@@ -62,7 +54,7 @@ public interface ChapterService {
      * @param chID
      * @return Chapter
      */
-    Chapter getChapterByID(Long chID);
+    Chapter getChapterDisplayByID(Long chID);
 
     /**
      * Lấy Chapter ID Chương Đầu
@@ -126,4 +118,33 @@ public interface ChapterService {
     boolean saveNewChapter(Chapter chapter);
 
     boolean checkChapterBySerial(Long id, Float serial);
+
+    boolean saveEditChapter(Chapter chapter);
+
+    /**
+     * Lấy Chapter Theo Story
+     *
+     * @param sID
+     * @param page
+     * @param size
+     * @return Page<ChapterOfStory>
+     */
+    Page< ChapterOfStory > getChapterByStory(Long sID, int page, int size);
+
+    /**
+     * Lấy Chapter Theo Story
+     *
+     * @param sID
+     * @param page
+     * @param search
+     * @param size
+     * @return Page<ChapterOfStory>
+     */
+    Page< ChapterOfStory > getChapterByStoryAndSearch(Float search, Long sID, int page, int size);
+
+    boolean checkChapterBySerialAndId(Long chapterId, Long storyId, Float serial);
+
+    Chapter getChapterByID(Long id);
+
+    void deleteChapter(Long id);
 }

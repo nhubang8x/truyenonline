@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,10 +38,10 @@ import java.security.Principal;
 
 @Controller
 @PropertySource(value = "classpath:messages.properties", encoding = "UTF-8")
-@RequestMapping(value = "/tai-khoan/")
-public class ChapterAccountController {
+@RequestMapping(value = "/tai-khoan/ad_mod/")
+public class AdminChapterController {
 
-    private final static Logger logger = LoggerFactory.getLogger(ChapterAccountController.class);
+    private final static Logger logger = LoggerFactory.getLogger(AdminChapterController.class);
     private final InformationService informationService;
     private final CategoryService categoryService;
     private final StoryService storyService;
@@ -48,8 +50,8 @@ public class ChapterAccountController {
     private String titleHome;
 
     @Autowired
-    public ChapterAccountController(InformationService informationService, CategoryService categoryService,
-                                    StoryService storyService, ChapterService chapterService) {
+    public AdminChapterController(InformationService informationService, CategoryService categoryService,
+                                  StoryService storyService, ChapterService chapterService) {
         this.informationService = informationService;
         this.categoryService = categoryService;
         this.storyService = storyService;
@@ -70,24 +72,17 @@ public class ChapterAccountController {
     }
 
     @RequestMapping("/list_chuong/{id}")
-    public String listChapterPage(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttrs,
-                                  Principal principal) {
+    public String listChapterPage(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttrs) {
         Story story = storyService.getStoryById(id);
         if (story == null) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Truyện không tồn tại");
-            return "redirect:/tai-khoan/quan_ly_truyen";
-        }
-        //Lấy Thông Tin người dùng đăng nhập
-        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-        if (!story.getUser().getId().equals(loginedUser.getUser().getId())) {
-            redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền quản lý truyện không do bạn đăng!");
-            return "redirect:/tai-khoan/quan_ly_truyen";
+            return "redirect:/tai-khoan/ad_mod/quan_ly_truyen";
         }
         getMenuAndInfo(model, "Danh sách Chapter đã đăng");
 
         model.addAttribute("story", story);
 
-        return "web/account/listChapterPage";
+        return "web/account/listChapterAdPage";
     }
 
     @GetMapping("/them_chuong/{id}")
@@ -97,13 +92,13 @@ public class ChapterAccountController {
         Story story = storyService.getStoryById(id);
         if (story == null) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Truyện không tồn tại");
-            return "redirect:/tai-khoan/quan_ly_truyen";
+            return "redirect:/tai-khoan/ad_mod/quan_ly_truyen";
         }
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
         if (!story.getUser().getId().equals(loginedUser.getUser().getId())) {
             redirectAttrs.addFlashAttribute("checkEditStory", "Bạn không có quyền thêm Chapter thuộc Truyện không do bạn đăng!");
-            return "redirect:/tai-khoan/quan_ly_truyen";
+            return "redirect:/tai-khoan/ad_mod/quan_ly_truyen";
         }
 
         Chapter chapter = new Chapter();
@@ -118,7 +113,7 @@ public class ChapterAccountController {
 
         getMenuAndInfo(model, titleHome);
 
-        return "web/account/addChapterPage";
+        return "web/account/addChapterAdPage";
     }
 
     @PostMapping("/them_chuong/{id}")
@@ -145,7 +140,7 @@ public class ChapterAccountController {
             boolean check = chapterService.saveNewChapter(chapter);
             redirectAttrs.addFlashAttribute("checkAddChapter", check);
         }
-        return "redirect:/tai-khoan/list_chuong/" + chapter.getStory().getId();
+        return "redirect:/tai-khoan/ad_mod/list_chuong/" + chapter.getStory().getId();
     }
 
     @GetMapping("/sua_chuong/{id}")
@@ -154,27 +149,16 @@ public class ChapterAccountController {
 
         Chapter chapter = chapterService.getChapterByID(id);
         if (chapter == null) {
-            logger.info("Đã null");
             redirectAttrs.addFlashAttribute("checkEditStory", "Chương không tồn tại");
-            return "redirect:/tai-khoan/quan_ly_truyen";
+            return "redirect:/tai-khoan/ad_mod/quan_ly_truyen";
         }
-        //Lấy Thông Tin người dùng đăng nhập
-        MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
-        if (!chapter.getUser().getId().equals(loginedUser.getUser().getId())) {
-            logger.info("Không quyền");
-            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter không do bạn đăng!");
-            return "redirect:/tai-khoan/list_chuong/" + chapter.getStory().getId();
-        }
-        if (chapter.getStory().getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
-            logger.info("Story khóa");
-            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter thuộc Truyện bị khóa!");
-            return "redirect:/tai-khoan/quan_ly_truyen";
-        }
+
         getMenuAndInfo(model, titleHome);
 
         model.addAttribute("chapter", chapter);
 
-        return "web/account/editChapterPage";
+        model.addAttribute("listStatus", ConstantsListUtils.LIST_CHAPTER);
+        return "web/account/editChapterAdPage";
     }
 
     @PostMapping("/sua_chuong/{id}")
@@ -184,24 +168,27 @@ public class ChapterAccountController {
         if (hasError) {
             getMenuAndInfo(model, titleHome);
             model.addAttribute("chapter", chapter);
-            return "web/account/editChapterPage";
+            return "web/account/editChapterAdPage";
         }
         //Lấy Thông Tin người dùng đăng nhập
         MyUserDetails loginedUser = (MyUserDetails) ((Authentication) principal).getPrincipal();
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_MOD");
         Story story = storyService.getStoryById(chapter.getStory().getId());
-        if (story.getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
-            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter thuộc Truyện bị khóa!");
-            return "redirect:/tai-khoan/quan_ly_truyen";
-        }
-        if (chapter.getStatus().equals(ConstantsUtils.CHAPTER_DENIED)) {
-            redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter bị khóa!");
-            return "redirect:/tai-khoan/quan_ly_truyen";
+        if (loginedUser.getAuthorities().equals(authority)) {
+            if (story.getStatus().equals(ConstantsUtils.STORY_STATUS_HIDDEN)) {
+                redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter thuộc Truyện bị khóa!");
+                return "redirect:/tai-khoan/ad_mod/quan_ly_truyen";
+            }
+            if (chapter.getStatus().equals(ConstantsUtils.CHAPTER_DENIED)) {
+                redirectAttrs.addFlashAttribute("checkEditChapter", "Bạn không có quyền sửa Chapter bị khóa!");
+                return "redirect:/tai-khoan/ad_mod/quan_ly_truyen";
+            }
         }
         boolean check = chapterService.saveEditChapter(chapter);
         if (check)
             redirectAttrs.addFlashAttribute("checkEditChapterTrue", "Sửa chương Thành Công!");
         else
             redirectAttrs.addFlashAttribute("checkEditChapterFalse", "Sửa chương thất bại! Có lỗi xảy ra!");
-        return "redirect:/tai-khoan/list_chuong/" + chapter.getStory().getId();
+        return "redirect:/tai-khoan/ad_mod/list_chuong/" + chapter.getStory().getId();
     }
 }

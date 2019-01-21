@@ -1,10 +1,13 @@
 package online.hthang.truyenonline.service;
 
 import online.hthang.truyenonline.entity.Chapter;
+import online.hthang.truyenonline.entity.Pay;
 import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Huy Thang
@@ -24,6 +27,7 @@ public interface PayService {
 
     boolean savePay(Story story, Chapter chapter, User userSend, User userReceived, Double money, Integer payType);
 
-
     Long countPay(Long id);
+
+    Page< Pay > getPagePayByUser(User user, List<Integer> listType, int page, int size);
 }

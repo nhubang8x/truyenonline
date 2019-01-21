@@ -92,8 +92,6 @@ public class PayAccountController {
             throw new NotFoundException("Tài khoản của bạn đã bị khóa mời liên hệ admin để biết thêm thông tin");
         }
 
-        model.addAttribute("codePay", user.getId() + "-" + user.getDisplayName());
-
         getMenuAndInfo(model, title);
 
         return "web/account/logPayPage";

@@ -215,7 +215,7 @@ public class ChapterController {
 
     //Tăng Lượt Xem Của Chapter Và Story
     private void increaseView(Chapter chapter) {
-        Chapter updateChapter = chapterService.getChapterByID(chapter.getId());
+        Chapter updateChapter = chapterService.getChapterDisplayByID(chapter.getId());
         updateChapter.setCountView(chapter.getCountView() + 1);
         chapterService.updateChapter(updateChapter);
         Story story = storyService.getStoryById(chapter.getStory().getId());

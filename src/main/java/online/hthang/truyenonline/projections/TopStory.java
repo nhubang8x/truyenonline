@@ -1,5 +1,7 @@
 package online.hthang.truyenonline.projections;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * @author Huy Thang
  * @project truyenonline
@@ -24,4 +26,5 @@ public interface TopStory {
     String getInfomation();
 
     Integer getDealStatus();
+
 }

@@ -6,11 +6,15 @@
     <title th:text="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <th:block th:include="web/layout :: head"></th:block>
-    <script type="text/javascript" th:src="@{/js/ajaxupload.js}"></script>
+    <script th:src="@{/bower/angular/angular.min.js}"></script>
+    <!--My AngularJS Controller-->
+    <script th:src="@{/js/controller/adminController.js}"></script>
+    <!--Home AngularJS Service-->
+    <script th:src="@{/js/service/WebService.js}"></script>
 </head>
-<body>
+<body ng-app="ngApp">
 <th:block th:include="web/layout :: loading"></th:block>
-<section class="page-wrapper">
+<section class="page-wrapper" ng-controller="payController" ng-init="init()">
     <th:block th:include="web/layout :: navbar"></th:block>
     <section class="truyen-main">
         <section class="truyen-section section-featured">
@@ -21,82 +25,93 @@
                         <section class="col-lg-10 col-md-9">
                             <section class="row">
                                 <section class="col-12">
-                                    <section id="navbar-custom">
-                                        <!-- Nav tabs -->
-                                        <ul class="nav nav-tabs nav-custom" role="tablist">
-                                            <li class="nav-item active">
-                                                <a class="nav-link active" data-toggle="tab"
-                                                   href="#truyen-detail-introduction"
-                                                   role="tab">
-                                                    Nạp Bằng MoMo
+                                    <div class="mb-3 border-bottom">
+                                        <h4><span class="fas fa-user" style="" aria-hidden="true"></span> Lịch sử Giao Dịch <span
+                                            ></span></h4>
+                                    </div>
+                                    <table class="table mt-2">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Thời gian</th>
+                                            <th scope="col">Nội Dung</th>
+                                            <th scope="col">Trạng Thái</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-show="listChapter.length === 0">
+                                            <td colspan="4" class="text-center">Chưa có Truyện nào!</td>
+                                        </tr>
+                                        <tr ng-show="listChapter.length !== 0" ng-repeat="item in listStory">
+                                            <th scope="row">{{item.id}}</th>
+                                            <td>
+                                                <a ng-href="/truyen/{{item.id}}"
+                                                   class="align-items-center d-flex">
+                                                    {{item.vnName}}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{item.countView}}
+                                            </td>
+                                            <td>
+                                                <button ng-show="item.dealStatus === 0" type="button"
+                                                        class="btn btn-xs btn-primary">Free
+                                                </button>
+                                                <button ng-show="item.dealStatus === 1" type="button"
+                                                        class="btn btn-xs btn-success">Vip
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button ng-show="item.status === 0" type="button"
+                                                        class="btn btn-xs btn-secondary">Ẩn
+                                                </button>
+                                                <button ng-show="item.status === 1" type="button"
+                                                        class="btn btn-xs btn-primary">Đang Ra
+                                                </button>
+                                                <button ng-show="item.status === 2" type="button"
+                                                        class="btn btn-xs btn-primary">Tạm Dừng
+                                                </button>
+                                                <button ng-show="item.status === 3" type="button"
+                                                        class="btn btn-xs btn-success">Hoàn Thành
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                                                   ng-href="/tai-khoan/admin/them_chuong/{{item.id}}/"
+                                                   class="btn btn-xs btn-read">Thêm chương</a>
+                                                <a class="btn btn-xs btn-read"
+                                                   ng-href="/tai-khoan/ad_mod/sua_truyen/{{item.id}}/">Sửa</a>
+                                                <a ng-href="/tai-khoan/ad_mod/list_chuong/{{item.id}}/"
+                                                   class="btn btn-xs btn-read">DSC</a>
+                                                <a ng-href="{{item.cnLink}}" target="_blank"
+                                                   class="btn btn-xs btn-read">Kiểm Tra</a>
+                                                <button ng-click="deleteStoryAdmin(story.id)"
+                                                        class="btn btn-xs btn-read">Xóa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <section ng-show="totalPages>1" class="col-12">
+                                        <ul class="pagination justify-content-end mb-3 mt-3 float-right">
+                                            <li ng-show="currentPage != 1" class="page-item">
+                                                <a class="page-link"
+                                                   ng-click="getListChapter(currentPage - 1)">
+                                                    <i class="fas fa-step-backward fa-sm"></i>
                                                 </a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#truyen-detail-story"
-                                                   role="tab">
-                                                    Nạp Bằng ViettelPay
+                                            <li ng-repeat="i in page"
+                                                ng-class="i===currentPage?'page-item active': 'page-item'">
+                                                <a ng-class="i===currentPage?'page-link disabled': 'page-link'"
+                                                   ng-click="getListChapter(i)">{{i}}</a>
+                                            </li>
+                                            <li ng-show="currentPage != totalPages" class="page-item">
+                                                <a class="page-link"
+                                                   ng-click="getListChapter(currentPage + 1)">
+                                                    <i class="fas fa-step-forward fa-sm"></i>
                                                 </a>
                                             </li>
                                         </ul>
-                                        <!-- Tab panes {Fade}  -->
-                                        <section class="tab-content">
-                                            <section class="tab-pane fade show active" id="truyen-detail-introduction"
-                                                     name="truyen-detail-introduction" role="tabpanel">
-                                                <section class="row">
-                                                    <section class="col-sm-12">
-                                                        <div class="text-center">
-                                                            <div class="text-center" style="margin-top: 20px;">
-                                                                <p><strong>Bước 1:</strong> Dùng App MoMo quét mã QR bên
-                                                                    dưới</p>
-                                                                <p><img class="img-fluid lazyload"
-                                                                        data-src="https://res.cloudinary.com/thang1988/image/upload/v1543465570/truyenmvc/momo.png"
-                                                                        alt=""></p>
-                                                                <p><strong>Bước 2:</strong> Tại mục chuyển tiền trong
-                                                                    MoMo, nhập nội dung chuyển tiền là: <strong
-                                                                            th:text="${codePay}"></strong> (bắt buộc
-                                                                    phải ghi và chỉ ghi <strong
-                                                                            th:text="${codePay}"></strong>, không thêm
-                                                                    gì khác). Điền số tiền bằng số đậu bạn muốn nạp (1
-                                                                    đậu = 1 đồng)</p>
-                                                                <p><strong>Bước 3:</strong> Số đậu bạn nạp sẽ được cộng
-                                                                    trong 30 phút - 1 giờ</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="alert alert-primary" role="alert">
-                                                            Nếu có lỗi xảy ra xin mời liên hệ admin để giải quyết
-                                                        </div>
-                                                    </section>
-                                                </section>
-                                            </section>
-                                            <section class="tab-pane fade" id="truyen-detail-story"
-                                                     name="truyen-detail-story"
-                                                     role="tabpanel">
-                                                <section class="truyen-detail-chap" id="truyen-detail-chap">
-                                                    <div class="text-center">
-                                                        <div class="text-center" style="margin-top: 20px;">
-                                                            <p><strong>Bước 1:</strong> Dùng App ViettelPay quét mã QR
-                                                                bên dưới</p>
-                                                            <p><img class="img-fluid lazyload"
-                                                                    data-src="https://res.cloudinary.com/thang1988/image/upload/v1543465569/truyenmvc/viettelpay.png"
-                                                                    alt=""></p>
-                                                            <p>hoặc chọn chuyển tiền tới số điện thoại <strong>0366 235
-                                                                661</strong></p>
-                                                            <p><strong>Bước 2:</strong> Tại mục chuyển tiền trong
-                                                                ViettelPay, nhập nội dung chuyển tiền là: <strong
-                                                                        th:text="${codePay}"></strong> (bắt buộc phải
-                                                                ghi và chỉ ghi <strong th:text="${codePay}"></strong>,
-                                                                không thêm gì khác). Điền số tiền bằng số đậu bạn muốn
-                                                                nạp (1 đậu = 1 đồng)</p>
-                                                            <p><strong>Bước 3:</strong> Số đậu bạn nạp sẽ được cộng
-                                                                trong 30 phút - 1 giờ</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="alert alert-primary" role="alert">
-                                                        Nếu có lỗi xảy ra xin mời liên hệ admin để giải quyết
-                                                    </div>
-                                                </section>
-                                            </section>
-                                        </section>
                                     </section>
                                 </section>
                             </section>

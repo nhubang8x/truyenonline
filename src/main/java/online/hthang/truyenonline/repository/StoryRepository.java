@@ -272,4 +272,7 @@ public interface StoryRepository extends JpaRepository< Story, Long > {
     @Query(value = "UPDATE story s SET s.countAppoint = 0 WHERE s.status IN :listStatus", nativeQuery = true)
     void updateAppoindStory(@Param("listStatus") List< Integer > listStatus);
 
+    Page<StoryConverterSummary> findByStatusInOrderByIdDesc(List<Integer> listStatus, Pageable pageable);
+
+    Page<StoryConverterSummary> findByVnNameContainingAndStatusInOrderByIdDesc(String search,List<Integer> listStatus, Pageable pageable);
 }

@@ -62,12 +62,6 @@ public class ConstantsUtils {
     //Loại Thanh Toán Đề Cử Truyện
     public static Integer PAY_STORY_APPOINT_TYPE = 4;
 
-    //Loại Thanh Toán Ủng Hộ Converter
-    public static Integer PAY_STORY_SUPPORT_TYPE = 5;
-
-    // Trạng Thái Đề Cử
-    public static Integer APPOINT_STATUS = 4;
-
     public static Integer RANK_SIZE = 10;
 
     public static Integer PAGE_SIZE_CHAPTER_OF_STORY = 45;

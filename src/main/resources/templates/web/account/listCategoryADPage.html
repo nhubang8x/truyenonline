@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <th:block th:include="web/layout :: head"></th:block>
     <script th:src="@{/bower/angular/angular.min.js}"></script>
     <!--My AngularJS Controller-->
-    <script th:src="@{/js/controller/accountChapterController.js}"></script>
+    <script th:src="@{/js/controller/adminCategoryController.js}"></script>
     <!--Home AngularJS Service-->
     <script th:src="@{/js/service/WebService.js}"></script>
 </head>
 <body ng-app="ngApp">
 <th:block th:include="web/layout :: loading"></th:block>
-<section class="page-wrapper" ng-controller="accountChapterController" th:ng-init="|init(${story.id})|">
+<section class="page-wrapper" ng-controller="adminCategoryController" ng-init="init()">
     <th:block th:include="web/layout :: navbar"></th:block>
     <section class="truyen-main">
         <section class="truyen-section section-featured">
@@ -46,39 +46,35 @@
                                     </section>
                                     <div class="col-12">
                                         <div class="mb-3 border-bottom">
-                                            <h4><span class="fas fa-user" style="" aria-hidden="true"></span> DSC: <span
-                                                    th:text="${story.vnName}"></span></h4>
+                                            <h4><span class="fas fa-user" style="" aria-hidden="true"></span> Quản
+                                                Lý Thể Loại</h4>
                                         </div>
                                         <section>
                                             <a class="btn btn-truyen"
-                                               th:href="@{'/tai-khoan/them_chuong/'+ ${story.id}}"
-                                               sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_CONVERTER')">
-                                                Đăng Chương Mới
+                                               th:href="@{/tai-khoan/ad_mod/them_the_loai/}"
+                                               sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MOD')">
+                                                Thêm Thể Loại
                                             </a>
-                                        </section>
-                                        <section class="mt-2">
-                                            <input type="text" class="form-control" placeholder="Số thứ tự chương"
-                                                   ng-model="search" ng-change='getListChapter(1)'/>
                                         </section>
                                         <table class="table mt-2">
                                             <thead class="thead-light">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tên Chương</th>
+                                                <th scope="col">Tên Thể Loại</th>
                                                 <th scope="col">Trạng Thái</th>
                                                 <th scope="col">Thao Tác</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr ng-show="listChapter.length === 0">
-                                                <td colspan="4" class="text-center">Chưa có Chương nào được đăng!</td>
+                                                <td colspan="4" class="text-center">Chưa có Thể Loại nào!</td>
                                             </tr>
                                             <tr ng-show="listChapter.length !== 0" ng-repeat="item in listChapter">
-                                                <th scope="row">{{item.serial}}</th>
+                                                <th scope="row">{{item.id}}</th>
                                                 <td>
-                                                    <a ng-href="/truyen/{{item.storyId}}/chuong-{{item.id}}"
+                                                    <a ng-href="/the-loai/{{item.id}}"
                                                        class="align-items-center d-flex">
-                                                        Chương {{item.chapterNumber}} : {{item.name}}
+                                                        {{item.name}}
                                                     </a>
                                                 </td>
                                                 <td>
@@ -88,14 +84,11 @@
                                                     <button ng-show="item.status === 1" type="button"
                                                             class="btn btn-xs btn-primary">Mở
                                                     </button>
-                                                    <button ng-show="item.status === 2" type="button"
-                                                            class="btn btn-xs btn-success">Vip
-                                                    </button>
                                                 </td>
                                                 <td>
                                                     ,<a class="btn btn-xs btn-read"
-                                                        href="/tai-khoan/sua_chuong/{{item.id}}/">Sửa</a>
-                                                    <button ng-click="deleteChapter(item.id)"
+                                                        href="/tai-khoan/ad_mod/sua_the_loai/{{item.id}}/">Sửa</a>
+                                                    <button ng-click="deleteAdChapter(item.id)"
                                                             class="btn btn-xs btn-read">Xóa
                                                     </button>
                                                 </td>
@@ -106,18 +99,18 @@
                                             <ul class="pagination justify-content-end mb-3 mt-3 float-right">
                                                 <li ng-show="currentPage != 1" class="page-item">
                                                     <a class="page-link"
-                                                       ng-click="getListChapter(currentPage - 1)">
+                                                       ng-click="getAdListChapter(currentPage - 1)">
                                                         <i class="fas fa-step-backward fa-sm"></i>
                                                     </a>
                                                 </li>
                                                 <li ng-repeat="i in page"
                                                     ng-class="i===currentPage?'page-item active': 'page-item'">
                                                     <a ng-class="i===currentPage?'page-link disabled': 'page-link'"
-                                                       ng-click="getListChapter(i)">{{i}}</a>
+                                                       ng-click="getAdListChapter(i)">{{i}}</a>
                                                 </li>
                                                 <li ng-show="currentPage != totalPages" class="page-item">
                                                     <a class="page-link"
-                                                       ng-click="getListChapter(currentPage + 1)">
+                                                       ng-click="getAdListChapter(currentPage + 1)">
                                                         <i class="fas fa-step-forward fa-sm"></i>
                                                     </a>
                                                 </li>

@@ -2082,7 +2082,7 @@ section .section-title {
 
 .section-featured .block-editors-choice-slider .block-content .item .info {
     text-align: center;
-    color: #fff;
+    color: #fff !important;
     padding: 0 28px;
 }
 

@@ -48,9 +48,9 @@
                                                                    th:title="${topstory.vnName}"
                                                                    th:text="${topstory.vnName}"></a>
                                                             </h2>
-                                                            <p class="description text-center"
-                                                               style="-webkit-line-clamp: 3;"
-                                                               th:text="${topstory.infomation}"></p>
+                                                            <section class="description text-center"
+                                                                     style="-webkit-line-clamp: 3;"
+                                                                     th:text="${T(org.jsoup.Jsoup).parse(topstory.infomation).text()}"></section>
                                                         </section>
                                                     </section>
                                                 </section>
@@ -86,7 +86,8 @@
                                                                 class="text-red fz-16" th:text="${topstory.cnt}"></span>
                                                             người truy cập
                                                         </section>
-                                                        <p class="description" th:text="${topstory.infomation}"></p>
+                                                        <section class="description"
+                                                                 th:text="${T(org.jsoup.Jsoup).parse(topstory.infomation).text()}"></section>
                                                     </section>
                                                 </section>
                                             </th:block>
@@ -241,7 +242,8 @@
                                                                 <h2 class="title" th:text="${storyVip.vnName}"></h2>
                                                                 <section class="view text-secondary"
                                                                          th:text="${storyVip.author}"></section>
-                                                                <p class="description" th:text="${storyVip.infomation}"></p>
+                                                                <p class="description"
+                                                                   th:text="${T(org.jsoup.Jsoup).parse(storyVip.infomation).text()}"></p>
                                                                 <a th:href="@{'/truyen/'+${storyVip.id}}"
                                                                    class="btn btn-truyen" title="xem tiếp">
                                                                     Xem chi tiết
@@ -272,7 +274,7 @@
                                                                             th:text="${vStory.author}"></span>
                                                                     </section>
                                                                     <p class="description"
-                                                                       th:text="${vStory.infomation}"></p>
+                                                                       th:text="${T(org.jsoup.Jsoup).parse(vStory.infomation).text()}"></p>
                                                                 </section>
                                                             </section>
                                                         </th:block>

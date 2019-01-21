@@ -3,8 +3,10 @@ package online.hthang.truyenonline.restful;
 import online.hthang.truyenonline.projections.NewStory;
 import online.hthang.truyenonline.projections.TopConverter;
 import online.hthang.truyenonline.projections.TopStory;
+import online.hthang.truyenonline.service.CategoryService;
 import online.hthang.truyenonline.service.StoryService;
 import online.hthang.truyenonline.service.UserService;
+import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,10 +30,13 @@ public class HomeRestfulController {
 
     private final UserService userService;
 
+    private final CategoryService categoryService;
+
     @Autowired
-    public HomeRestfulController(StoryService storyService, UserService userService) {
+    public HomeRestfulController(StoryService storyService, UserService userService, CategoryService categoryService) {
         this.storyService = storyService;
         this.userService = userService;
+        this.categoryService = categoryService;
     }
 
     //Lấy Top 3 Truyện Mới Của Converter
@@ -72,5 +77,10 @@ public class HomeRestfulController {
                 .getTopConverter(ConstantsUtils.PAGE_DEFAULT, ConstantsUtils.RANK_SIZE);
 
         return new ResponseEntity<>(topConverters, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/getStatusStoryList")
+    public ResponseEntity< ? > loadStatusStory() {
+        return new ResponseEntity<>(ConstantsListUtils.LIST_STORY_STATUS_SELECTED, HttpStatus.OK);
     }
 }

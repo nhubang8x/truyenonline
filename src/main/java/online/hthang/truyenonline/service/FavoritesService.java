@@ -54,4 +54,6 @@ public interface FavoritesService {
      * @return Favorites
      */
     Chapter getChapterReadNewByUser(Long uID, Long sID);
+
+    boolean checkChapterId(Long chapterId);
 }

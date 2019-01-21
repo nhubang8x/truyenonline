@@ -1,10 +1,13 @@
 package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Chapter;
+import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.projections.ChapterOfStory;
 import online.hthang.truyenonline.projections.ChapterSummary;
 import online.hthang.truyenonline.repository.ChapterRepository;
+import online.hthang.truyenonline.repository.StoryRepository;
 import online.hthang.truyenonline.service.ChapterService;
+import online.hthang.truyenonline.utils.ConstantsListUtils;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,8 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Autowired
     private ChapterRepository chapterRepository;
+    @Autowired
+    private StoryRepository storyRepository;
 
     /**
      * Lấy Chapter Theo
@@ -34,23 +39,10 @@ public class ChapterServiceImpl implements ChapterService {
      * @return Chapter
      */
     @Override
-    public Chapter getChapterByID(Long chID) {
-        List< Integer > listStatus = new ArrayList<>();
-        listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
-        listStatus.add(ConstantsUtils.STORY_STATUS_GOING_ON);
+    public Chapter getChapterDisplayByID(Long chID) {
         Optional< Chapter > chapter = chapterRepository
-                .findChapterByIdAndStatusIn(chID, listStatus);
+                .findChapterByIdAndStatusIn(chID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
         return chapter.orElse(null);
-    }
-
-    @Override
-    public List< Chapter > getAllChapterFavoritesByUser(Long uID) {
-        List< Integer > listStatus = new ArrayList<>();
-        listStatus.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
-        listStatus.add(ConstantsUtils.CHAPTER_ACTIVED);
-        return chapterRepository
-                .getAllFavoritesByUser(uID, ConstantsUtils.STATUS_ACTIVED,
-                        listStatus, ConstantsUtils.STORY_STATUS_HIDDEN);
     }
 
     /**
@@ -62,11 +54,8 @@ public class ChapterServiceImpl implements ChapterService {
      */
     @Override
     public Optional< Chapter > getChapterBySIDAndChID(Long sID, Long chID) {
-        List< Integer > listStatus = new ArrayList<>();
-        listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
-        listStatus.add(ConstantsUtils.STORY_STATUS_GOING_ON);
         return chapterRepository.findChapterByIdAndStory_IdAndStatusIn(chID,
-                sID, listStatus);
+                sID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
     }
 
     /**
@@ -89,10 +78,7 @@ public class ChapterServiceImpl implements ChapterService {
      */
     @Override
     public Long getNextChapterID(float chSerial, Long sID) {
-        List< Integer > list = new ArrayList<>();
-        list.add(ConstantsUtils.CHAPTER_ACTIVED);
-        list.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
-        Optional< Long > nextID = chapterRepository.getNextChapter(chSerial, sID, list);
+        Optional< Long > nextID = chapterRepository.getNextChapter(chSerial, sID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
         return nextID.orElseGet(() -> Long.valueOf(0));
     }
 
@@ -105,10 +91,8 @@ public class ChapterServiceImpl implements ChapterService {
      */
     @Override
     public Long getPreviousChapterID(float chSerial, Long sID) {
-        List< Integer > list = new ArrayList<>();
-        list.add(ConstantsUtils.CHAPTER_ACTIVED);
-        list.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
-        Optional< Long > previousID = chapterRepository.getPreviousChapter(chSerial, sID, list);
+        Optional< Long > previousID = chapterRepository
+                .getPreviousChapter(chSerial, sID, ConstantsListUtils.LIST_CHAPTER_DISPLAY);
         return previousID.orElseGet(() -> Long.valueOf(0));
     }
 
@@ -160,6 +144,21 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     /**
+     * Lấy Chapter Theo Story
+     *
+     * @param sID
+     * @param page
+     * @param size
+     * @return Page<ChapterOfStory>
+     */
+    @Override
+    public Page< ChapterOfStory > getChapterByStory(Long sID, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return chapterRepository
+                .findByStory_IdOrderBySerialDesc(sID, pageable);
+    }
+
+    /**
      * Đếm số chương đăng bởi uID
      *
      * @param sID
@@ -196,11 +195,66 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public boolean saveNewChapter(Chapter chapter) {
         Chapter newChapter = chapterRepository.save(chapter);
-        return newChapter.getId() != null;
+        if(newChapter.getId()!=null){
+            Story story = storyRepository.findById(newChapter.getStory().getId()).get();
+            story.setUpdateDate(newChapter.getCreateDate());
+            storyRepository.save(story);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean checkChapterBySerial(Long id, Float serial) {
         return chapterRepository.existsByStory_IdAndSerial(id, serial);
+    }
+
+    @Override
+    public boolean saveEditChapter(Chapter chapter) {
+        try {
+            Chapter editChapter = chapterRepository.findChapterById(chapter.getId());
+            editChapter.setSerial(chapter.getSerial());
+            editChapter.setStatus(chapter.getStatus());
+            editChapter.setName(chapter.getName());
+            editChapter.setChapterNumber(chapter.getChapterNumber());
+            editChapter.setContent(chapter.getContent());
+            chapterRepository.save(editChapter);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Lấy Chapter Theo Story
+     *
+     * @param search
+     * @param sID
+     * @param page
+     * @param size
+     * @return Page<ChapterOfStory>
+     */
+    @Override
+    public Page< ChapterOfStory > getChapterByStoryAndSearch(Float search, Long sID, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return chapterRepository
+                .findByStory_IdAndSerialOrderBySerialDesc(sID, search, pageable);
+    }
+
+    @Override
+    public boolean checkChapterBySerialAndId(Long chapterId, Long storyId, Float serial) {
+        return chapterRepository.existsByIdNotAndStory_IdAndSerial(chapterId, storyId, serial);
+    }
+
+    @Override
+    public Chapter getChapterByID(Long id) {
+        Optional< Chapter > chapterOptional = chapterRepository.findById(id);
+        return chapterOptional.orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public void deleteChapter(Long id) {
+        chapterRepository.deleteById(id);
     }
 }

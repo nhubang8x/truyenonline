@@ -76,7 +76,7 @@ public class WebRestfulController {
         if (chID == null || WebUtils.checkLongNumber(chID)) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Chapter chapter = chapterService.getChapterByID(Long.valueOf(chID));
+        Chapter chapter = chapterService.getChapterDisplayByID(Long.valueOf(chID));
         if (chapter == null) {
             throw new HttpMyException("Không tồn tại chương truyện này!");
         }
@@ -296,6 +296,8 @@ public class WebRestfulController {
         else
             throw new HttpMyException("Có lỗi xảy ra mong bạn quay lại sau!");
     }
+
+
 
     private String getLocationIP(HttpServletRequest request) {
         String remoteAddr = "";

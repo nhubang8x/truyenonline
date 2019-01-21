@@ -1,10 +1,14 @@
 package online.hthang.truyenonline.service.impl;
 
 import online.hthang.truyenonline.entity.Category;
+import online.hthang.truyenonline.projections.CategorySummary;
 import online.hthang.truyenonline.repository.CategoryRepository;
 import online.hthang.truyenonline.service.CategoryService;
 import online.hthang.truyenonline.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,4 +37,19 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findByIdAndStatus(id, ConstantsUtils.STATUS_ACTIVED);
     }
 
+    @Override
+    public Page< Category > getAllCategory(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return categoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public boolean deleteCategory(Integer id) {
+        try {
+            categoryRepository.deleteById(id);
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 }

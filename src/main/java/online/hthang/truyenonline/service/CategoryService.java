@@ -1,6 +1,7 @@
 package online.hthang.truyenonline.service;
 
 import online.hthang.truyenonline.entity.Category;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,11 @@ import java.util.Optional;
  */
 public interface CategoryService {
 
-    public List<Category> getCategoryMenu();
+    List< Category > getCategoryMenu();
 
-    public Optional<Category> getCategoryByID(Integer id);
+    Optional< Category > getCategoryByID(Integer id);
+
+    Page<Category> getAllCategory(int page, int size);
+
+    boolean deleteCategory(Integer id);
 }

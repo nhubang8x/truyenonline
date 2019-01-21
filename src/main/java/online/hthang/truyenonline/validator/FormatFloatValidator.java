@@ -1,7 +1,6 @@
 package online.hthang.truyenonline.validator;
 
 import online.hthang.truyenonline.annotations.FormatFloat;
-import online.hthang.truyenonline.controller.web.ChapterController;
 import online.hthang.truyenonline.entity.Story;
 import online.hthang.truyenonline.service.ChapterService;
 import online.hthang.truyenonline.utils.WebUtils;
@@ -20,18 +19,19 @@ import java.lang.reflect.Field;
 
 public class FormatFloatValidator implements ConstraintValidator< FormatFloat, Object > {
 
+    Logger logger = LoggerFactory.getLogger(FormatFloatValidator.class);
     @Autowired
     private ChapterService chapterService;
-
-    Logger logger = LoggerFactory.getLogger(FormatFloatValidator.class);
     private String message;
     private String baseField;
     private String matchField;
+    private String idFielad;
 
     @Override
     public void initialize(FormatFloat constraint) {
         baseField = constraint.baseField();
         matchField = constraint.matchField();
+        idFielad = constraint.idField();
         message = constraint.message();
     }
 
@@ -41,24 +41,29 @@ public class FormatFloatValidator implements ConstraintValidator< FormatFloat, O
         try {
             Story baseFieldValue = (Story) getFieldValue(object, baseField);
             Object matchFieldValue = getFieldValue(object, matchField);
+            Object idFieldValue = getFieldValue(object, idFielad);
             if (matchFieldValue != null) {
-                logger.info("Vào rồi");
                 if (WebUtils.checkFloatNumber(matchFieldValue.toString())) {
                     valid = false;
                     message = "Số thứ tự phải là số và lớn hơn 0";
-                    logger.info("lỗi rồi");
                 } else {
                     Float number = Float.parseFloat(matchFieldValue.toString());
-                    if (chapterService.checkChapterBySerial(baseFieldValue.getId(), number)) {
-                        valid = false;
-                        message = "Đã tồn tại số thứ tự này!";
-                        logger.info("tồn tại rồi");
+                    if (idFieldValue != null) {
+                        Long chapterId = Long.parseLong(idFieldValue.toString());
+                        if (chapterService.checkChapterBySerialAndId(chapterId, baseFieldValue.getId(), number)) {
+                            valid = false;
+                            message = "Đã tồn tại số thứ tự này!";
+                        }
+                    } else {
+                        if (chapterService.checkChapterBySerial(baseFieldValue.getId(), number)) {
+                            valid = false;
+                            message = "Đã tồn tại số thứ tự này!";
+                        }
                     }
                 }
-            }else {
+            } else {
                 valid = false;
-                message ="Số thứ tự Chương không được để trống";
-                logger.info("null rồi");
+                message = "Số thứ tự Chương không được để trống";
             }
         } catch (Exception e) {
         }

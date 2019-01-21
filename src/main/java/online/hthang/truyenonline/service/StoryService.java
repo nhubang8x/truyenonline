@@ -235,4 +235,8 @@ public interface StoryService {
     void updateAppoindStory();
 
     void deleteStoryById(Long id);
+
+    Page< StoryConverterSummary > getStoryAdmin(String search, List< Integer > storyStatus, int page, int size);
+
+    boolean saveEditAdminStory(Story story);
 }

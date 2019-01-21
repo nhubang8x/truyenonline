@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,15 +49,9 @@ public class StoryServiceImpl implements StoryService {
      */
     @Override
     public Page< NewStory > getStoryNew(int page, int size) {
-        List< Integer > listStatus = new ArrayList<>();
-        listStatus.add(ConstantsUtils.STORY_STATUS_COMPLETED);
-        listStatus.add(ConstantsUtils.STORY_STATUS_GOING_ON);
-        List< Integer > listChStatus = new ArrayList<>();
-        listChStatus.add(ConstantsUtils.CHAPTER_VIP_ACTIVED);
-        listChStatus.add(ConstantsUtils.CHAPTER_ACTIVED);
         Pageable pageable = PageRequest.of(page - 1, size);
         return storyRepository
-                .getStoryNew(listChStatus, listStatus, pageable);
+                .getStoryNew(ConstantsListUtils.LIST_CHAPTER_DISPLAY, ConstantsListUtils.LIST_STORY_DISPLAY, pageable);
     }
 
     /**
@@ -305,7 +298,7 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public boolean saveNewStory(Story story) {
         Story storyRes = storyRepository.save(story);
-        return storyRes.getId() == null;
+        return storyRes.getId() != null;
     }
 
     /**
@@ -340,8 +333,6 @@ public class StoryServiceImpl implements StoryService {
         if (story.getImages() != null && !story.getImages().isEmpty()) {
             storyEdit.setImages(story.getImages());
         }
-        logger.info(storyEdit.getStatus().toString());
-        logger.info(storyEdit.getCategoryList().toString());
         storyRepository.save(storyEdit);
         return true;
     }
@@ -369,5 +360,38 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public void deleteStoryById(Long id) {
         storyRepository.deleteById(id);
+    }
+
+    @Override
+    public Page< StoryConverterSummary > getStoryAdmin(String search, List< Integer > storyStatus, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        if (search.isEmpty()) {
+            return storyRepository.findByStatusInOrderByIdDesc(storyStatus, pageable);
+        } else {
+            return storyRepository.findByVnNameContainingAndStatusInOrderByIdDesc(search, storyStatus, pageable);
+        }
+    }
+
+    @Override
+    public boolean saveEditAdminStory(Story story) {
+        Optional< Story > storyOptional = storyRepository.findById(story.getId());
+        Story storyEdit = storyOptional.get();
+        storyEdit.setAuthor(story.getAuthor());
+        storyEdit.setVnName(story.getVnName());
+        storyEdit.setCnName(story.getCnName());
+        storyEdit.setCnLink(story.getCnLink());
+        storyEdit.setInfomation(story.getInfomation());
+        storyEdit.setCategoryList(story.getCategoryList());
+        storyEdit.setStatus(story.getStatus());
+        storyEdit.setDealStatus(story.getDealStatus());
+        if (story.getImages() != null && !story.getImages().isEmpty()) {
+            storyEdit.setImages(story.getImages());
+        }
+        if(story.getDealStatus().equals(ConstantsUtils.STORY_VIP)){
+            storyEdit.setTimeDeal(story.getTimeDeal());
+            storyEdit.setPrice(story.getPrice());
+        }
+        storyRepository.save(storyEdit);
+        return true;
     }
 }

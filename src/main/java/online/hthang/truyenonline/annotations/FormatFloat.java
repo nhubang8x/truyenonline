@@ -1,8 +1,6 @@
 package online.hthang.truyenonline.annotations;
 
-import online.hthang.truyenonline.validator.EqualFieldsValidator;
 import online.hthang.truyenonline.validator.FormatFloatValidator;
-import online.hthang.truyenonline.validator.UniqueEmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -21,11 +19,13 @@ public @interface FormatFloat {
 
     String message() default "{hthang.truyenmvc.chapter.serial.numberFormat.message}";
 
-    Class<?>[] groups() default {};
+    Class< ? >[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+    Class< ? extends Payload >[] payload() default {};
 
     String baseField();
+
+    String idField();
 
     String matchField();
 }

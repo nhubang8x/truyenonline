@@ -22,11 +22,6 @@ import java.util.Optional;
 @Repository
 public interface ChapterRepository extends JpaRepository< Chapter, Long > {
 
-    @Query(value = ConstantsQueryUtils.LIST_ALL_FAVORITES_CHAPTER,
-            nativeQuery = true)
-    List< Chapter > getAllFavoritesByUser(@Param("uID") Long uID, @Param("ufStatus") Integer ufStatus
-            , @Param("chStatus") List< Integer > listChStatus, @Param("sStatus") Integer sStatus);
-
     /**
      * Lấy Chapter Theo
      *
@@ -133,6 +128,24 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
                                                                       Pageable pageable);
 
     /**
+     * Lấy CHương Theo Truyện
+     *
+     * @param sID
+     * @return Page
+     */
+
+    Page< ChapterOfStory > findByStory_IdOrderBySerialDesc(Long sID, Pageable pageable);
+
+    /**
+     * Lấy CHương Theo Truyện và Serial
+     *
+     * @param sID
+     * @return Page
+     */
+
+    Page< ChapterOfStory > findByStory_IdAndSerialOrderBySerialDesc(Long sID, Float serial, Pageable pageable);
+
+    /**
      * Lấy Tất Cả CHương Theo Truyện
      *
      * @param sID
@@ -149,6 +162,8 @@ public interface ChapterRepository extends JpaRepository< Chapter, Long > {
     Long countChapterByStory_Id(Long id);
 
     boolean existsByStory_IdAndSerial(Long id, Float serial);
+
+    boolean existsByIdNotAndStory_IdAndSerial(Long chapterId, Long storyId, Float serial);
 
     Chapter findChapterById(Long id);
 }

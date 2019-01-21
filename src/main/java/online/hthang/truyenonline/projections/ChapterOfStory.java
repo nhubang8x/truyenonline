@@ -14,6 +14,8 @@ public interface ChapterOfStory {
 
     Integer getChapterNumber();
 
+    Float getSerial();
+
     String getName();
 
     @Value("#{target.story.id}")

@@ -87,4 +87,9 @@ public class FavoritesServiceImpl implements FavoritesService {
                 .findTopByUser_IdAndChapter_Story_IdOrderByDateViewDesc(uID, sID);
         return ufavorites.map(Favorites::getChapter).orElse(null);
     }
+
+    @Override
+    public boolean checkChapterId(Long chapterId) {
+        return favoritesRepository.existsByChapter_Id(chapterId);
+    }
 }

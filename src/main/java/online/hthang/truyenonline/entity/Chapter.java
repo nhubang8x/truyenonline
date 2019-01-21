@@ -19,7 +19,7 @@ import java.util.Date;
 @Table(name = "chapter")
 @Data
 @NoArgsConstructor
-@FormatFloat(baseField = "story", matchField = "serial")
+@FormatFloat(baseField = "story", idField="id", matchField = "serial")
 public class Chapter implements Serializable {
 
     private static final long serialVersionUID = 1L;

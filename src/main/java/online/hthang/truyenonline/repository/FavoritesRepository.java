@@ -46,4 +46,6 @@ public interface FavoritesRepository extends JpaRepository< Favorites, Long> {
      * @return Optional<Favorites>
      */
     Optional< Favorites > findTopByUser_IdAndChapter_Story_IdOrderByDateViewDesc(Long uID, Long sID);
+
+    boolean existsByChapter_Id(Long chapterId);
 }
